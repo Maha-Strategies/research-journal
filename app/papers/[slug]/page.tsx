@@ -9,16 +9,19 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css'; 
 
 function getPaperContent(slug: string) {
-  const papersDirectory = path.join(process.cwd(), 'content/papers');
-  const fullPath = path.join(papersDirectory, `${slug}.md`);
-  
-  try {
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    return fileContents;
-  } catch (error) {
-    return null; 
+    const papersDirectory = path.join(process.cwd(), 'content/papers');
+    const fullPath = path.join(papersDirectory, `${slug}.md`);
+    
+    try {
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      return fileContents;
+    } catch (error) {
+      // THIS LINE WILL REVEAL THE ISSUE:
+      console.log("❌ FAILED TO FIND FILE AT: ", fullPath);
+      console.error(error); 
+      return null; 
+    }
   }
-}
 
 // 1. Make the component async and type params as a Promise
 export default async function PaperPage({ params }: { params: Promise<{ slug: string }> }) {
