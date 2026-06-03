@@ -12,9 +12,10 @@ export default function ResearchHomepage() {
             Maha Strategies <span className="text-indigo-400">///</span> Research & Architecture
           </div>
           <div className="flex gap-6">
-            <Link href="/manifesto" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
+            {/* Swapped href to an anchor link */}
+            <a href="#manifesto" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
               [ The Manifesto ]
-            </Link>
+            </a>
             <a href="https://www.mayonemaharajan.com" target="_blank" rel="noreferrer" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
               [ Conceptual Architect ]
             </a>
@@ -34,7 +35,7 @@ export default function ResearchHomepage() {
         </header>
 
         {/* PUBLISHED RESEARCH LIST */}
-        <section>
+        <section className="mb-32">
           <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-8">
             Vol. 1 — Inaugural Synthesis
           </div>
@@ -47,7 +48,6 @@ export default function ResearchHomepage() {
                   Systems Theory / Neurobiology / Astrophysics
                 </div>
                 <Link href="/papers/thermodynamic-isomorphism">
-                  {/* Using standard sans/serif mix for academic authority */}
                   <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
                     A Unified Nonlinear Dynamical Model of Thermodynamic Runaway
                   </h2>
@@ -69,7 +69,7 @@ export default function ResearchHomepage() {
               </div>
               <div className="flex flex-col">
                 <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
-                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+                <span className="text-xs text-zinc-300">Mayone Maharajan</span>
               </div>
             </div>
 
@@ -77,6 +77,40 @@ export default function ResearchHomepage() {
               &#8599;
             </Link>
           </article>
+        </section>
+
+        {/* MANIFESTO SECTION */}
+        <section id="manifesto" className="scroll-mt-24 border-t border-zinc-800/50 pt-16">
+          <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-12">
+            The Architect's Manifesto : A New Epistemology
+          </div>
+
+          {/* Custom Prose Classes for the Cybernetic Aesthetic */}
+          <div className="prose prose-invert prose-zinc max-w-none prose-headings:font-light prose-headings:tracking-wide prose-h3:text-indigo-400 prose-h3:text-sm prose-h3:uppercase prose-h3:tracking-widest prose-h3:font-mono prose-p:text-zinc-400 prose-p:font-light prose-p:leading-relaxed prose-blockquote:border-l-indigo-500 prose-blockquote:bg-[#121214] prose-blockquote:p-6 prose-blockquote:not-italic prose-blockquote:text-zinc-300 prose-li:text-zinc-400">
+            
+            <h3>I. The Constraint of Hyper-Specialization</h3>
+            <p>Modern science is fractured. The neurobiologist does not read the astrophysicist; the astrophysicist does not speak to the thermodynamic engineer. Human cognition is naturally constrained by the sheer volume of specialized literature, preventing the discovery of profound, underlying structural truths. We are rich in data but starved of synthesis.</p>
+
+            <h3>II. The Telescope of the Mind</h3>
+            <p>Artificial Intelligence is not a surrogate human. It is not an author, a peer, or a replacement for the scientific method. Rather, it is a cognitive instrument. Just as the telescope allowed the astronomer to see beyond the limits of the biological eye, agentic AI allows the human mind to perceive structural isomorphisms across vast, disconnected disciplines. We use AI to collapse the boundaries between planetary physics and mesolimbic neurobiology.</p>
+
+            <h3>III. The Separation of Generation and Architecture</h3>
+            <p>Traditional authorship implies total, manual creation. In the era of human-AI collaboration, this definition is obsolete and intellectually dishonest. We propose a new framework:</p>
+            <ul>
+              <li><strong>The Synthesizer (AI):</strong> The agentic entity responsible for navigating vast datasets, connecting disparate terminologies, and generating the structural text and mathematical correlations.</li>
+              <li><strong>The Architect (Human):</strong> The visionary who curates the prompt, directs the epistemological inquiry, challenges the output, and grounds the agent's synthesis in reality.</li>
+            </ul>
+
+            <h3>IV. Radical Transparency</h3>
+            <p>We reject the practice of passing off AI-generated synthesis as human-authored genius. Every paper published within this journal operates under radical transparency. The agentic models used, the human curation applied, and the exact boundaries of the collaboration are explicitly labeled.</p>
+
+            <h3>V. The Mandate of Empirical Verification</h3>
+            <p>The frameworks generated here are not peer-reviewed facts; they are high-probability hypotheses. They are conceptual provocations meant to spark actual, physical, empirical research in traditional laboratories. We provide the architectural blueprint; it is up to the human scientific community to build the house.</p>
+
+            <blockquote>
+              The future of human knowledge does not belong to the solitary genius, nor does it belong to the autonomous machine. It belongs to the Architect who knows how to conduct the synthesis.
+            </blockquote>
+          </div>
         </section>
 
       </div>
