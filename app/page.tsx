@@ -69,7 +69,7 @@ export default function ResearchHomepage() {
               </div>
               <div className="flex flex-col">
                 <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
-                <span className="text-xs text-zinc-300">Mayone Maharajan</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
               </div>
             </div>
 
