@@ -1,6 +1,11 @@
 # A Unified Nonlinear Dynamical Model of Thermodynamic Runaway: Structural Analogy Between Planetary Greenhouse Effects and Mesolimbic Dopaminergic Addiction
 
-**Authors:** *Antigravity, Lead Theoretical Systems Analyst* *Advanced Agentic Coding Group, Google DeepMind* ---
+**Architect & Curator:** Mayone Maha Rajan
+**AI Synthesis Instrument:** Google Antigravity (agentic coding model)
+
+*This paper was generated through human-directed AI synthesis. The human architect curated the inquiry, selected the source domains, and is responsible for all claims; the AI instrument produced the structural text and mathematical correlations under that direction.*
+
+---
 
 ## Abstract
 
@@ -21,6 +26,8 @@ Planetary atmospheres and mammalian reward networks are both **open dissipative 
 However, when these systems are subjected to an exogenous forcing that exceeds their intrinsic capacity for dissipation, their negative feedback loops saturate or collapse. When this occurs, the system's governing dynamics undergo a topological phase transition (a bifurcation) wherein the negative feedback loops are replaced by self-amplifying **positive feedback loops**. 
 
 We demonstrate that planetary thermal runaway and the descent into chronic addiction are dynamically analogous systems belonging to the same universality class, sharing the same topological bifurcations and thermodynamic limits.
+
+We emphasize at the outset that the saddle-node (fold) bifurcation is a generic feature of a broad universality class of forced dissipative systems, not a property unique to these two cases. Our pairing of a planetary atmosphere with a neural reward circuit is therefore chosen for its maximal conceptual distance: if two systems this physically unrelated are governed by the same normal-form dynamics, the pedagogical and heuristic value lies in making a universal principle vivid, rather than in claiming a privileged or causal link between climate and neurobiology.
 
 ---
 
@@ -223,6 +230,8 @@ The dissipative output flux $\Psi(x, y)$ is modeled with a saturable denominator
 
 $$\Psi(x, y) = \frac{x^2}{1 + y} \qquad (26)$$
 
+We stress that Eq. (26) is a phenomenological *normal form*, not a formal reduction of either domain model. The planetary outgoing-radiation law (Eq. 7) and the Michaelis-Menten dopamine-clearance law (Eq. 19) are not algebraically identical to one another, nor to Eq. (26); we adopt this minimal saturable form because it reproduces the qualitative topology common to both — a forced positive term checked by a saturating dissipative term — with the fewest free parameters. The claim is that the two systems share a bifurcation structure, not that they obey a single governing equation.
+
 Substituting Eq. (23) into Eq. (26) gives the steady-state equation for $x^*$:
 
 $$\Phi = \frac{(x^*)^2}{1 + \frac{1}{\gamma}\exp\left( - \frac{L}{R_v (x^* + \epsilon)} \right)} \qquad (27)$$
@@ -267,7 +276,7 @@ This is the exact mathematical definition of a **saddle-node (fold) bifurcation*
 
 ## V. Methods and Numerical Simulation
 
-To illustrate the structural analogy, we programmed and executed a high-fidelity numerical simulation of the unified, non-dimensionalized system (Eqs. 21, 22).
+To illustrate the structural analogy, we numerically integrated the unified, non-dimensionalized system (Eqs. 21, 22). The simulation is illustrative rather than quantitative: a forward-Euler scheme is adequate for showing the qualitative regime change, but near the runaway transition the explicit step can distort the blow-up rate, so the trajectories should be read as schematic, not as precise predictions.
 
 ### A. Numerical Scheme
 We utilize a forward Euler integration scheme to solve the coupled ODEs:
@@ -280,10 +289,10 @@ We set the parameters as: $\gamma = 0.1$, $L = 3.0$, $R_v = 1.0$, and step size 
 1.  **Sub-Critical Forcing ($\Phi = 0.4 < \Phi_c$)**: Modeling a stable planet (like modern Earth) or a healthy, recreational dopaminergic system.
 2.  **Super-Critical Forcing ($\Phi = 1.2 > \Phi_c$)**: Modeling early Venus exposed to elevated solar flux, or a neural network undergoing chronic drug exposure.
 
-### B. High-Fidelity Vector Output
-The generated high-fidelity simulation output showing both the time-series trajectories and the phase-space vector flows is embedded below:
+### B. Simulation Output
+The simulation output showing both the time-series trajectories and the phase-space vector flows is shown below:
 
-![Isomorphic Runaway Simulation Plot](/Users/mayonerajan/.gemini/antigravity/brain/6d3c4780-0a5f-4384-afbb-7e3704b0f777/runaway_simulation.svg)
+![Phase-space and time-series of the unified runaway model](/papers/figures/runaway_simulation.svg)
 
 ### C. Simulation Results Analysis
 1.  **Sub-Critical Case**: The time-series plot shows that $x(t)$ and $y(t)$ rapidly settle to a stable, homeostatic steady state ($x^* \approx 0.8$, $y^* \approx 0.2$). The phase portrait reveals a clear, stable focus where all surrounding trajectories spiral inward toward the homeostatic attractor.
@@ -311,7 +320,7 @@ The concept of "desiccation" (drying out) is deeply physical on Venus, where the
 
 ### C. Theoretical Parallels in Engineering and Therapeutics
 
-Understanding the shared universality class between these systems allows us to translate interventions from one field to the other.
+The shared universality class suggests loose conceptual parallels between interventions in the two domains. These are heuristic correspondences at the level of control strategy — reduce forcing, or restore dissipation — not transferable mechanisms; the underlying physics and biology remain entirely distinct.
 
 #### 1. Planetary Geoengineering (Cooling a Runaway Venus)
 To reverse a planetary runaway greenhouse effect, a planetary engineer must either:
