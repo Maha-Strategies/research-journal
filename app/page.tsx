@@ -1,5 +1,93 @@
+// app/page.tsx (research.mahastrategies.com)  — metadata + JSON-LD for the journal home.
+// Replace the default create-next-app metadata. Server component (no 'use client').
+//
+// NOTE ON CLAIMS: schema below uses "an AI-assisted research synthesis project"
+// rather than "peer-reviewed journal" — this matches the manifesto's own
+// honesty (hypotheses, not peer-reviewed facts) and avoids overclaiming that
+// would invite criticism. Adjust the wording to taste, but keeping the framing
+// modest is the credibility-protective choice.
+
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import React from 'react';
+
+const SITE_URL = 'https://research.mahastrategies.com';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: 'Maha Strategies Research & Architecture — Human-AI Collaborative Synthesis',
+  description:
+    'An open-access research project exploring cross-disciplinary structural analogies, using agentic AI as a synthesis instrument under human curation. Frameworks are presented as hypotheses for empirical testing, not peer-reviewed conclusions.',
+  keywords: [
+    'human-AI collaboration',
+    'cross-disciplinary synthesis',
+    'nonlinear dynamical systems',
+    'systems theory',
+    'computational neuroscience',
+    'astrophysics',
+    'AI-assisted research',
+  ],
+  authors: [{ name: 'Mayone Maha Rajan' }],
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    url: SITE_URL,
+    siteName: 'Maha Strategies Research',
+    title: 'Maha Strategies Research & Architecture',
+    description:
+      'Human-AI collaborative synthesis: cross-disciplinary structural analogies presented as testable hypotheses under human curation.',
+    images: [{ url: '/og-research.png', width: 1200, height: 630, alt: 'Maha Strategies Research & Architecture' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Maha Strategies Research & Architecture',
+    description: 'Human-AI collaborative synthesis of cross-disciplinary structural analogies.',
+    images: ['/og-research.png'],
+  },
+};
+
+// JSON-LD: describe the site as a CollectionPage / research project, and the
+// inaugural paper as a ScholarlyArticle. Inject in the page body.
+export const researchHomeLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'Maha Strategies Research & Architecture',
+      description:
+        'An open-access research project applying agentic AI, under human curation, to surface cross-disciplinary structural analogies as testable hypotheses.',
+      publisher: { '@id': `${SITE_URL}/#org` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#org`,
+      name: 'Maha Strategies',
+      url: 'https://www.mahastrategies.com',
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#architect`,
+      name: 'Mayone Maha Rajan',
+      url: 'https://www.mayonemaharajan.com',
+      jobTitle: 'Architect / Curator',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article`,
+      headline:
+        'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway: Structural Analogy Between Planetary Greenhouse Effects and Mesolimbic Dopaminergic Addiction',
+      url: `${SITE_URL}/papers/thermodynamic-isomorphism`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Nonlinear dynamical systems', 'Runaway greenhouse effect', 'Mesolimbic dopamine pathway', 'Saddle-node bifurcation'],
+      abstract:
+        'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems that lose negative feedback and undergo a saddle-node bifurcation under exogenous forcing. Presented as a hypothesis for empirical investigation.',
+      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
+    },
+  ],
+};
 
 export default function ResearchHomepage() {
   return (
@@ -12,7 +100,6 @@ export default function ResearchHomepage() {
             Maha Strategies <span className="text-indigo-400">///</span> Research & Architecture
           </div>
           <div className="flex gap-6">
-            {/* Swapped href to an anchor link */}
             <a href="#manifesto" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
               [ The Manifesto ]
             </a>
