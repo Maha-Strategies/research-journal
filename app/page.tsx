@@ -86,6 +86,20 @@ export const researchHomeLd = {
         'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems that lose negative feedback and undergo a saddle-node bifurcation under exogenous forcing. Presented as a hypothesis for empirical investigation.',
       creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
     },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/dissolving-self-ocean-planet#article`,
+      headline:
+        'Why the Dissolving Self Is Imagined as an Ocean Planet: Default Mode Network Downregulation in Altered States and the Cognitive Basis of the Neptune Metaphor',
+      url: `${SITE_URL}/papers/dissolving-self-ocean-planet`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Default Mode Network', 'Altered states of consciousness', 'Conceptual metaphor', 'Structure-mapping theory', 'Cognitive science'],
+      abstract:
+        'A review of the neuroscience of self-attenuation in altered states (flow, meditation, psychedelics) and its association with prefrontal and default-mode downregulation, followed by a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. Argues the planetary mapping is a fact about human metaphor formation, not a physical correspondence.',
+      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
+    },
   ],
 };
 
@@ -161,6 +175,44 @@ export default function ResearchHomepage() {
             </div>
 
             <Link href="/papers/thermodynamic-isomorphism" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* Second entry */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Cognitive Science / Philosophy of Mind / Neuroscience
+                </div>
+                <Link href="/papers/dissolving-self-ocean-planet">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    Why the Dissolving Self Is Imagined as an Ocean Planet
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A review of the neuroscience of self-attenuation in altered states &mdash; its association with prefrontal and default-mode network downregulation &mdash; and a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. The planetary mapping is treated as a fact about human metaphor formation, not a physical correspondence.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/dissolving-self-ocean-planet" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
               &#8599;
             </Link>
           </article>
