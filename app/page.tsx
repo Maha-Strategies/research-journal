@@ -100,6 +100,20 @@ export const researchHomeLd = {
         'A review of the neuroscience of self-attenuation in altered states (flow, meditation, psychedelics) and its association with prefrontal and default-mode downregulation, followed by a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. Argues the planetary mapping is a fact about human metaphor formation, not a physical correspondence.',
       creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
     },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/commercial-fusion-viability#article`,
+      headline:
+        'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power',
+      url: `${SITE_URL}/papers/commercial-fusion-viability`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Nuclear fusion', 'Magnetic confinement', 'Inertial confinement fusion', 'Plasma physics', 'Fusion engineering'],
+      abstract:
+        'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power, covering magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature, not original research; quantitative figures are pending independent verification.',
+      creativeWorkStatus: 'Synthesis review (not peer-reviewed; figures pending verification)',
+    },
   ],
 };
 
@@ -213,6 +227,44 @@ export default function ResearchHomepage() {
             </div>
 
             <Link href="/papers/dissolving-self-ocean-planet" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* Third entry */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Technical Synthesis / Fusion Energy Engineering
+                </div>
+                <Link href="/papers/commercial-fusion-viability">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              An AI-assisted synthesis of the engineering bottlenecks between scientific break-even and commercial fusion power &mdash; magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature rather than a cross-disciplinary analogy; quantitative figures are flagged as pending independent verification.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/commercial-fusion-viability" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
               &#8599;
             </Link>
           </article>

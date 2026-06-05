@@ -52,6 +52,21 @@ const PAPER_META: Record<
     abstract:
       'A review of the neuroscience of self-attenuation in altered states and its association with prefrontal and default-mode downregulation, followed by a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. Argues the planetary mapping is a fact about human metaphor formation, not a physical correspondence.',
   },
+  'commercial-fusion-viability': {
+    title:
+      'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power',
+    description:
+      'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power: magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature, not original research; quantitative figures pending independent verification.',
+    about: [
+      'Nuclear fusion',
+      'Magnetic confinement fusion',
+      'Inertial confinement fusion',
+      'Plasma physics',
+      'Fusion engineering',
+    ],
+    abstract:
+      'An AI-assisted technical synthesis of the bottlenecks between scientific break-even and commercial fusion power, covering tokamak/stellarator/ICF confinement, the engineering-gain (Q_eng) derivation, first-wall neutron-damage materials, and muon-catalyzed fusion. A review of publicly available literature rather than original research; quantitative claims are flagged for independent verification.',
+  },
 };
 
 export async function generateMetadata({
