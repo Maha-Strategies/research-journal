@@ -22,6 +22,21 @@ const PAPER_META: Record<
     abstract: string;
   }
 > = {
+  'planet-nine-forecast': {
+    title:
+      'A Monte Carlo Forecast for the Detection of Planet Nine',
+    description:
+      'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine: a weighted three-model parameter ensemble propagated through Kepler orbit simulation, with existing survey masks and forward models for LSST, Subaru/HSC, and infrared surveys through 2036. Treats existence as an unproven hypothesis.',
+    about: [
+      'Planet Nine',
+      'Trans-Neptunian objects',
+      'Monte Carlo simulation',
+      'Vera C. Rubin Observatory',
+      'Orbital mechanics',
+    ],
+    abstract:
+      'A Monte Carlo forecast of where, when, and by which instrument an undetected trans-Neptunian super-Earth would most plausibly be found, propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey null-detection masks, and modeling future detection by LSST, Subaru/HSC, and infrared surveys through 2036. Reports a null-detection posterior and does not claim the planet exists.',
+  },
   'thermodynamic-isomorphism': {
     title:
       'A Structural Analogy Between Planetary Greenhouse Runaway and Dopaminergic Addiction',

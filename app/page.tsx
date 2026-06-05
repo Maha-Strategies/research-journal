@@ -74,6 +74,20 @@ export const researchHomeLd = {
     },
     {
       '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/planet-nine-forecast#article`,
+      headline:
+        'A Monte Carlo Forecast for the Detection of Planet Nine',
+      url: `${SITE_URL}/papers/planet-nine-forecast`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Planet Nine', 'Trans-Neptunian objects', 'Monte Carlo simulation', 'Vera C. Rubin Observatory', 'Orbital mechanics'],
+      abstract:
+        'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine, propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey null-detection masks, and modeling future detection by LSST, Subaru/HSC, and infrared surveys through 2036. Treats the planet as an unproven hypothesis and reports a null-detection posterior; does not claim the planet exists.',
+      creativeWorkStatus: 'Forecast / Conditional analysis (not peer-reviewed)',
+    },
+    {
+      '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article`,
       headline:
         'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway: Structural Analogy Between Planetary Greenhouse Effects and Mesolimbic Dopaminergic Addiction',
@@ -154,6 +168,44 @@ export default function ResearchHomepage() {
           <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-8">
             Vol. 1 — Inaugural Synthesis
           </div>
+
+          {/* Lead Paper Item — Planet Nine */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Astronomy / Statistical Forecasting / Orbital Dynamics
+                </div>
+                <Link href="/papers/planet-nine-forecast">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    A Monte Carlo Forecast for the Detection of Planet Nine
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A Monte Carlo forecast (N = 100,000) of where, when, and by which instrument the hypothesized Planet Nine would most plausibly be detected &mdash; propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey masks, and modeling LSST, Subaru/HSC, and infrared detection through 2036. The planet is treated as an unproven hypothesis; the analysis quantifies detectability and a null-detection posterior rather than asserting existence.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/planet-nine-forecast" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
 
           {/* Featured Paper Item */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 hover:border-indigo-500/30 transition-all duration-300">
