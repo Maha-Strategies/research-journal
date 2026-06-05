@@ -221,8 +221,8 @@ All results derive from a single script, `simulation.py` (N = 100,000, `numpy` s
 - Brown, M. E., & Batygin, K. (2021). *The Orbit of Planet Nine.* The Astronomical Journal. arXiv:2108.09868.
 - Brown, M. E., & Batygin, K. (2016). *Observational Constraints on the Orbit and Location of Planet Nine in the Outer Solar System.* arXiv:1603.05712.
 - Batygin, K., & Brown, M. E. (2016). *Evidence for a Distant Giant Planet in the Solar System.* The Astronomical Journal.
-- Siraj, A., Chyba, C. F., & Tremaine, S. (2025). Orbit of a Possible Planet X. The Astrophysical Journal, 978, 139. https://doi.org/10.3847/1538-4357/ad98f6
+- Siraj, A., Chyba, C. F., & Tremaine, S. (2025). *Orbit of a Possible Planet X.* The Astrophysical Journal, 978, 139. https://doi.org/10.3847/1538-4357/ad98f6
 - Vera C. Rubin Observatory / LSST documentation, Rubin Observatory.
 - NSF–DOE Vera C. Rubin Observatory first-imagery release (2025).
 
-*Citations are provided for traceability; secondary parameter values quoted from encyclopedic aggregations should be confirmed against the primary papers before formal publication.*
+*Citations are provided for traceability. The Siraj et al. (2025) parameters — the most consequential single input — have been confirmed against the primary publication (ApJ 978, 139). The remaining model parameters (Batygin et al. 2019; Brown & Batygin 2021) are quoted as widely reported; readers should confirm them against those primaries before formal publication, and the NEO Surveyor operational window should be reconfirmed against the current mission baseline.*
