@@ -2,7 +2,12 @@
 
 **Where, when, and by which instrument an undetected trans-Neptunian super-Earth would most plausibly be found**
 
+**Architect & Curator:** Mayone Maha Rajan
+**AI Synthesis Instrument:** Google Antigravity (agentic model)
+
 *Revision 2 — June 2026*
+
+*This forecast was produced through human-directed AI synthesis. The human architect curated the inquiry, selected the source models, and is responsible for all claims; the AI instrument assisted with drafting, simulation, and literature synthesis under that direction. All quantitative results are reproducible from the accompanying `simulation.py` (seed 42); parameter values quoted from secondary sources should be confirmed against the primary papers before being relied upon.*
 
 ---
 
@@ -136,12 +141,12 @@ Weights are then normalized to sum to one. This implements the published result 
 
 The median predicted brightness near $m_r \approx 22$ sits squarely in the regime the literature has long anticipated (roughly $22 < V < 25$ near aphelion) and within LSST's single-epoch reach, but the faint tail beyond $m_r \approx 24.5$ is where detection becomes hard.
 
-![Predicted apparent-magnitude distribution: a peaked, right-skewed histogram centered near r-band magnitude 22, with a long faint tail extending past 24.](figures/magnitude_histogram.png)
+![Predicted apparent-magnitude distribution: a peaked, right-skewed histogram centered near r-band magnitude 22, with a long faint tail extending past 24.](/papers/figures/magnitude_histogram.png)
 *Figure 1. Prior-weighted distribution of predicted r-band apparent magnitude. The bulk lies between 21 and 24, with the faint tail (m_r > 24.5) representing the hardest-to-detect orbits.*
 
 ### 6.2 Where to look
 
-![Sky-position probability heatmap in right ascension and declination, with the brightest probability density forming an arc near the ecliptic at low-to-moderate northern declination, overlaid with the ecliptic plane, galactic plane, and the galactic-plane confusion boundary.](figures/sky_position_heatmap.png)
+![Sky-position probability heatmap in right ascension and declination, with the brightest probability density forming an arc near the ecliptic at low-to-moderate northern declination, overlaid with the ecliptic plane, galactic plane, and the galactic-plane confusion boundary.](/papers/figures/sky_position_heatmap.png)
 *Figure 2. On-sky probability density (geocentric equatorial). The highest-probability region follows the ecliptic and concentrates in the northern winter sky, roughly RA 3h–6h, Dec +10° to +30° — the aphelion direction where a body on an eccentric orbit spends most of its time. The white curves mark the galactic plane and its |b| = 15° confusion zone, where stellar crowding suppresses detection.*
 
 The probability mass tracks the ecliptic (as expected for a planet) and piles up toward aphelion. Where that arc crosses the galactic plane, detection is degraded — a real observational handicap, not a modelling artifact.
@@ -168,7 +173,7 @@ Detection year is modelled per facility:
 
 The combined curve takes the earliest detection across facilities.
 
-![Cumulative detection probability versus calendar year from 2026 to 2036, showing a steep rise driven by LSST that levels off near 0.61 by 2030; LSST is the leading contributor, Subaru adds a smaller increment, and infrared surveys contribute least.](figures/detection_date_cdf.png)
+![Cumulative detection probability versus calendar year from 2026 to 2036, showing a steep rise driven by LSST that levels off near 0.61 by 2030; LSST is the leading contributor, Subaru adds a smaller increment, and infrared surveys contribute least.](/papers/figures/detection_date_cdf.png)
 *Figure 3. Cumulative detection probability by year. The combined probability (black) climbs steeply as LSST reaches depth and asymptotes near 0.61 around 2030. LSST (blue) is the dominant contributor; Subaru/HSC (green) and IR surveys (red) add smaller increments.*
 
 The combined cumulative probability reaches **~61% by 2030** and then flattens. The residual ~39% corresponds to orbits that are simultaneously too faint ($m_r > 25$) and outside the deep targeted footprints — the parameter space that a future ≥10 m-class facility would be needed to close.
