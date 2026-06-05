@@ -221,7 +221,7 @@ All results derive from a single script, `simulation.py` (N = 100,000, `numpy` s
 - Brown, M. E., & Batygin, K. (2021). *The Orbit of Planet Nine.* The Astronomical Journal. arXiv:2108.09868.
 - Brown, M. E., & Batygin, K. (2016). *Observational Constraints on the Orbit and Location of Planet Nine in the Outer Solar System.* arXiv:1603.05712.
 - Batygin, K., & Brown, M. E. (2016). *Evidence for a Distant Giant Planet in the Solar System.* The Astronomical Journal.
-- Siraj, A., et al. (2025). Updated dynamical constraints on Planet Nine ($a = 290 \pm 30$ AU, $i = 6.8° \pm 5.0°$, $m = 4.4 \pm 1.1\,M_\oplus$).
+- Siraj, A., Chyba, C. F., & Tremaine, S. (2025). Orbit of a Possible Planet X. The Astrophysical Journal, 978, 139. https://doi.org/10.3847/1538-4357/ad98f6
 - Vera C. Rubin Observatory / LSST documentation, Rubin Observatory.
 - NSF–DOE Vera C. Rubin Observatory first-imagery release (2025).
 
