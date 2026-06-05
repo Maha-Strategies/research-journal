@@ -125,16 +125,13 @@ function getPaperContent(slug: string) {
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       return fileContents;
     } catch (error) {
-      // THIS LINE WILL REVEAL THE ISSUE:
       console.log("❌ FAILED TO FIND FILE AT: ", fullPath);
       console.error(error); 
       return null; 
     }
   }
 
-// 1. Make the component async and type params as a Promise
 export default async function PaperPage({ params }: { params: Promise<{ slug: string }> }) {
-  // 2. Await the params before accessing the slug
   const resolvedParams = await params;
   const content = getPaperContent(resolvedParams.slug);
 
@@ -177,6 +174,9 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
       }
     : null;
 
+  // Generate a safe BibTeX key by stripping hyphens from the slug
+  const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
+
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-zinc-300 font-sans selection:bg-indigo-500 selection:text-white p-8 md:p-24">
       {articleLd && (
@@ -204,8 +204,42 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
           </ReactMarkdown>
         </article>
 
+        {/* CITATION BLOCK */}
+        {meta && (
+          <div className="mt-20 bg-[#121214] border border-zinc-800 p-6 md:p-8 rounded-lg">
+            <h3 className="text-zinc-300 font-mono text-xs uppercase tracking-widest mb-6 border-b border-zinc-800 pb-2">
+              Cite This Work
+            </h3>
+            
+            <div className="mb-6">
+              <h4 className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">APA Format</h4>
+              <p className="text-zinc-400 text-sm leading-relaxed select-all">
+                Rajan, M. M. (2026). {meta.title}. <em>Maha Strategies Research</em>. {`${SITE_URL}/papers/${resolvedParams.slug}`}
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">BibTeX</h4>
+              <pre className="text-zinc-400 text-xs overflow-x-auto p-4 bg-[#0a0a0c] border border-zinc-800 rounded select-all font-mono whitespace-pre">
+{`@article{${bibtexKey},
+  title={${meta.title}},
+  author={Rajan, Mayone Maha},
+  journal={Maha Strategies Research},
+  year={2026},
+  url={${SITE_URL}/papers/${resolvedParams.slug}}
+}`}
+              </pre>
+            </div>
+            
+            {/* Note about DOI if you upload to Zenodo later */}
+            <p className="mt-4 text-zinc-600 text-xs italic">
+              Note: If citing a specific version archived on Zenodo, please append the relevant DOI to the formats above.
+            </p>
+          </div>
+        )}
+
         {/* HUMAN-IN-THE-LOOP DISCLAIMER */}
-        <div className="mt-24 pt-8 border-t border-zinc-800 text-xs text-zinc-500 font-mono leading-relaxed">
+        <div className="mt-16 pt-8 border-t border-zinc-800 text-xs text-zinc-500 font-mono leading-relaxed">
           <strong className="text-zinc-400 uppercase tracking-widest">Architect's Note:</strong> This manuscript was synthesized by an AI agent (Antigravity) and architected by a human curator. The frameworks and analyses presented herein are intended to spark empirical cross-disciplinary research and should not be treated as peer-reviewed scientific fact without further independent verification.
         </div>
 
