@@ -1,11 +1,11 @@
-// app/page.tsx (research.mahastrategies.com)  — metadata + JSON-LD for the journal home.
+// app/page.tsx (research.mahastrategies.com)  — metadata + JSON-LD for the research project home.
 // Replace the default create-next-app metadata. Server component (no 'use client').
 //
-// NOTE ON CLAIMS: schema below uses "an AI-assisted research synthesis project"
-// rather than "peer-reviewed journal" — this matches the manifesto's own
+// NOTE ON CLAIMS: schema below describes "an AI-assisted research synthesis project"
+// rather than a "peer-reviewed journal" — this matches the project's own
 // honesty (hypotheses, not peer-reviewed facts) and avoids overclaiming that
-// would invite criticism. Adjust the wording to taste, but keeping the framing
-// modest is the credibility-protective choice.
+// would invite criticism. Framing is deliberately modest: this is a transparent
+// one-author AI-synthesis project, not a journal with peer review or independent authors.
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -325,14 +325,14 @@ export default function ResearchHomepage() {
         {/* MANIFESTO SECTION */}
         <section id="manifesto" className="scroll-mt-24 border-t border-zinc-800/50 pt-16">
           <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-12">
-            The Architect's Manifesto : A New Epistemology
+            The Architect's Method : A Note on Human-AI Synthesis
           </div>
 
           {/* Custom Prose Classes for the Cybernetic Aesthetic */}
           <div className="prose prose-invert prose-zinc max-w-none prose-headings:font-light prose-headings:tracking-wide prose-h3:text-indigo-400 prose-h3:text-sm prose-h3:uppercase prose-h3:tracking-widest prose-h3:font-mono prose-p:text-zinc-400 prose-p:font-light prose-p:leading-relaxed prose-blockquote:border-l-indigo-500 prose-blockquote:bg-[#121214] prose-blockquote:p-6 prose-blockquote:not-italic prose-blockquote:text-zinc-300 prose-li:text-zinc-400">
             
             <h3>I. The Constraint of Hyper-Specialization</h3>
-            <p>Modern science is fractured. The neurobiologist does not read the astrophysicist; the astrophysicist does not speak to the thermodynamic engineer. Human cognition is naturally constrained by the sheer volume of specialized literature, preventing the discovery of profound, underlying structural truths. We are rich in data but starved of synthesis.</p>
+            <p>Modern science is fractured. The neurobiologist does not read the astrophysicist; the astrophysicist does not speak to the thermodynamic engineer. Human cognition is naturally constrained by the sheer volume of specialized literature, which can obscure structural parallels that run across disciplines. We are rich in data but starved of synthesis.</p>
 
             <h3>II. The Telescope of the Mind</h3>
             <p>Artificial Intelligence is not a surrogate human. It is not an author, a peer, or a replacement for the scientific method. Rather, it is a cognitive instrument. Just as the telescope allowed the astronomer to see beyond the limits of the biological eye, agentic AI allows the human mind to perceive structural analogies across vast, disconnected disciplines. We use AI to collapse the boundaries between planetary physics and mesolimbic neurobiology.</p>
@@ -345,10 +345,10 @@ export default function ResearchHomepage() {
             </ul>
 
             <h3>IV. Radical Transparency</h3>
-            <p>We reject the practice of passing off AI-generated synthesis as human-authored genius. Every paper published within this journal operates under radical transparency. The agentic models used, the human curation applied, and the exact boundaries of the collaboration are explicitly labeled.</p>
+            <p>We reject the practice of passing off AI-generated synthesis as human-authored work. Every paper published within this project operates under radical transparency. The agentic models used, the human curation applied, and the exact boundaries of the collaboration are explicitly labeled.</p>
 
             <h3>V. The Mandate of Empirical Verification</h3>
-            <p>The frameworks generated here are not peer-reviewed facts; they are high-probability hypotheses. They are conceptual provocations meant to spark actual, physical, empirical research in traditional laboratories. We provide the architectural blueprint; it is up to the human scientific community to build the house.</p>
+            <p>The frameworks generated here are not peer-reviewed facts; they are hypotheses and conceptual provocations meant to spark actual, physical, empirical research in traditional laboratories. We provide the architectural blueprint; it is up to the human scientific community to build the house.</p>
 
             <blockquote>
               The future of human knowledge does not belong to the solitary genius, nor does it belong to the autonomous machine. It belongs to the Architect who knows how to conduct the synthesis.
