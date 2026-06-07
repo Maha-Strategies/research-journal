@@ -82,6 +82,21 @@ const PAPER_META: Record<
     abstract:
       'An AI-assisted technical synthesis of the bottlenecks between scientific break-even and commercial fusion power, covering tokamak/stellarator/ICF confinement, the engineering-gain (Q_eng) derivation, first-wall neutron-damage materials, and muon-catalyzed fusion. A review of publicly available literature rather than original research; quantitative claims are flagged for independent verification.',
   },
+    'chronobiological-entrainment': {
+    title:
+      'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis',
+    description:
+      'The "Circadian Fortress" hypothesis: an AI-assisted synthesis proposing that circadian misalignment between central (SCN) and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction, with a proposed isocaloric RCT to test it. Stated at hypothesis level; not peer-reviewed.',
+    about: [
+      'Circadian rhythm',
+      'Chronobiology',
+      'Metabolic syndrome',
+      'Time-restricted eating',
+      'Suprachiasmatic nucleus',
+    ],
+    abstract:
+      'A hypothesis and literature synthesis proposing that metabolic dysfunction is, in substantial part, a systems-level failure of temporal architecture rather than purely caloric thermodynamics. Proposes the "Circadian Fortress" model synchronizing photic and non-photic zeitgebers, and an isocaloric randomized controlled trial designed to test whether circadian timing is an independent contributor to metabolic health. Stated at hypothesis level; not peer-reviewed.',
+  },
 };
 
 export async function generateMetadata({

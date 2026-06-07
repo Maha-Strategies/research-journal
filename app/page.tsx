@@ -128,6 +128,20 @@ export const researchHomeLd = {
         'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power, covering magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature, not original research; quantitative figures are pending independent verification.',
       creativeWorkStatus: 'Synthesis review (not peer-reviewed; figures pending verification)',
     },
+        {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/chronobiological-entrainment#article`,
+      headline:
+        'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis',
+      url: `${SITE_URL}/papers/chronobiological-entrainment`,
+      datePublished: '2026-02',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Circadian rhythm', 'Chronobiology', 'Metabolic syndrome', 'Time-restricted eating', 'Suprachiasmatic nucleus'],
+      abstract:
+        'A hypothesis and literature synthesis proposing that circadian misalignment between central and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction, with a proposed isocaloric RCT to test it. Stated at hypothesis level; not peer-reviewed.',
+      creativeWorkStatus: 'Hypothesis / synthesis (not peer-reviewed)',
+    },
   ],
 };
 
@@ -316,7 +330,44 @@ export default function ResearchHomepage() {
               </div>
             </div>
 
+            
+
             <Link href="/papers/commercial-fusion-viability" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+                    {/* Chronobiology entry */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Chronobiology / Metabolic Health / Hypothesis
+                </div>
+                <Link href="/papers/chronobiological-entrainment">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                Feb 2026
+              </div>
+            </div>
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              The "Circadian Fortress" hypothesis: a synthesis proposing that misalignment between the central (SCN) and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction &mdash; with an isocaloric randomized trial proposed to test whether circadian timing matters independently of calories. Stated at hypothesis level; not a clinical conclusion.
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+            <Link href="/papers/chronobiological-entrainment" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
               &#8599;
             </Link>
           </article>
