@@ -161,6 +161,10 @@ The probability mass tracks the ecliptic (as expected for a planet) and piles up
 | Radius $R$ | +0.24 | Weak; mass–radius scaling is shallow. |
 | Albedo $p_V$ | −0.09 | **Near-zero raw — see note.** |
 
+To visualize how the orbital inclination parameters affect the detection probability across the LSST survey masks, run the simulation below:
+
+<MonteCarloChart />
+
 > **On the albedo result.** The near-zero *raw* correlation is not a bug and not evidence that albedo is irrelevant. Albedo enters $H_V$ directly and spans ~0.55 mag across the sampled range, but heliocentric distance varies so much more that it dwarfs albedo in an unconditioned correlation. Holding distance and radius fixed, the **partial correlation of albedo with $m_r$ is −0.998** — i.e. at fixed distance, albedo almost entirely determines the residual brightness, exactly as the physics requires. The lesson is that distance uncertainty must be reduced before albedo matters observationally, not that albedo is unimportant.
 
 ### 6.4 When, and by which instrument
