@@ -2,17 +2,19 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import ReactMarkdown from 'react-markdown';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 // CRITICAL: This CSS file is required to render the LaTeX equations properly
 import 'katex/dist/katex.min.css';
 
+// YOUR CUSTOM INTERACTIVE COMPONENTS
+import MonteCarloChart from '@/components/MonteCarloChart';
+
 const SITE_URL = 'https://research.mahastrategies.com';
 
 // Per-paper metadata. Add an entry here when you publish a new paper.
-// Keyed by slug (the markdown filename without .md).
 const PAPER_META: Record<
   string,
   {
@@ -23,79 +25,34 @@ const PAPER_META: Record<
   }
 > = {
   'planet-nine-forecast': {
-    title:
-      'A Monte Carlo Forecast for the Detection of Planet Nine',
-    description:
-      'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine: a weighted three-model parameter ensemble propagated through Kepler orbit simulation, with existing survey masks and forward models for LSST, Subaru/HSC, and infrared surveys through 2036. Treats existence as an unproven hypothesis.',
-    about: [
-      'Planet Nine',
-      'Trans-Neptunian objects',
-      'Monte Carlo simulation',
-      'Vera C. Rubin Observatory',
-      'Orbital mechanics',
-    ],
-    abstract:
-      'A Monte Carlo forecast of where, when, and by which instrument an undetected trans-Neptunian super-Earth would most plausibly be found, propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey null-detection masks, and modeling future detection by LSST, Subaru/HSC, and infrared surveys through 2036. Reports a null-detection posterior and does not claim the planet exists.',
+    title: 'A Monte Carlo Forecast for the Detection of Planet Nine',
+    description: 'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine...',
+    about: ['Planet Nine', 'Trans-Neptunian objects', 'Monte Carlo simulation', 'Vera C. Rubin Observatory', 'Orbital mechanics'],
+    abstract: 'A Monte Carlo forecast of where, when, and by which instrument an undetected trans-Neptunian super-Earth would most plausibly be found...',
   },
   'thermodynamic-isomorphism': {
-    title:
-      'A Structural Analogy Between Planetary Greenhouse Runaway and Dopaminergic Addiction',
-    description:
-      'A nonlinear dynamical-systems analysis proposing that the runaway greenhouse effect and mesolimbic dopamine collapse share a saddle-node bifurcation. Presented as a testable hypothesis, not a peer-reviewed result.',
-    about: [
-      'Saddle-node bifurcation',
-      'Runaway greenhouse effect',
-      'Mesolimbic dopamine',
-      'Nonlinear dynamics',
-      'Dissipative systems',
-    ],
-    abstract:
-      'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems that lose negative feedback and undergo a saddle-node bifurcation under exogenous forcing. Presented as a hypothesis for empirical investigation.',
+    title: 'A Structural Analogy Between Planetary Greenhouse Runaway and Dopaminergic Addiction',
+    description: 'A nonlinear dynamical-systems analysis proposing that the runaway greenhouse effect and mesolimbic dopamine collapse share a saddle-node bifurcation.',
+    about: ['Saddle-node bifurcation', 'Runaway greenhouse effect', 'Mesolimbic dopamine', 'Nonlinear dynamics', 'Dissipative systems'],
+    abstract: 'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway...',
   },
   'dissolving-self-ocean-planet': {
-    title:
-      'Why the Dissolving Self Is Imagined as an Ocean Planet: DMN Downregulation and the Cognitive Basis of the Neptune Metaphor',
-    description:
-      'A review of the neuroscience of self-attenuation in altered states (flow, meditation, psychedelics) and its association with prefrontal and default-mode downregulation, with a cognitive-science account of why the experience is mapped onto a boundaryless ocean planet. The mapping is cognitive, not physical.',
-    about: [
-      'Default Mode Network',
-      'Altered states of consciousness',
-      'Conceptual metaphor',
-      'Structure-mapping theory',
-      'Cognitive science',
-    ],
-    abstract:
-      'A review of the neuroscience of self-attenuation in altered states and its association with prefrontal and default-mode downregulation, followed by a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. Argues the planetary mapping is a fact about human metaphor formation, not a physical correspondence.',
+    title: 'Why the Dissolving Self Is Imagined as an Ocean Planet: DMN Downregulation and the Cognitive Basis of the Neptune Metaphor',
+    description: 'A review of the neuroscience of self-attenuation in altered states...',
+    about: ['Default Mode Network', 'Altered states of consciousness', 'Conceptual metaphor', 'Structure-mapping theory', 'Cognitive science'],
+    abstract: 'A review of the neuroscience of self-attenuation in altered states and its association with prefrontal and default-mode downregulation...',
   },
   'commercial-fusion-viability': {
-    title:
-      'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power',
-    description:
-      'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power: magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature, not original research; quantitative figures pending independent verification.',
-    about: [
-      'Nuclear fusion',
-      'Magnetic confinement fusion',
-      'Inertial confinement fusion',
-      'Plasma physics',
-      'Fusion engineering',
-    ],
-    abstract:
-      'An AI-assisted technical synthesis of the bottlenecks between scientific break-even and commercial fusion power, covering tokamak/stellarator/ICF confinement, the engineering-gain (Q_eng) derivation, first-wall neutron-damage materials, and muon-catalyzed fusion. A review of publicly available literature rather than original research; quantitative claims are flagged for independent verification.',
+    title: 'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power',
+    description: 'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power...',
+    about: ['Nuclear fusion', 'Magnetic confinement fusion', 'Inertial confinement fusion', 'Plasma physics', 'Fusion engineering'],
+    abstract: 'An AI-assisted technical synthesis of the bottlenecks between scientific break-even and commercial fusion power...',
   },
-    'chronobiological-entrainment': {
-    title:
-      'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis',
-    description:
-      'The "Circadian Fortress" hypothesis: an AI-assisted synthesis proposing that circadian misalignment between central (SCN) and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction, with a proposed isocaloric RCT to test it. Stated at hypothesis level; not peer-reviewed.',
-    about: [
-      'Circadian rhythm',
-      'Chronobiology',
-      'Metabolic syndrome',
-      'Time-restricted eating',
-      'Suprachiasmatic nucleus',
-    ],
-    abstract:
-      'A hypothesis and literature synthesis proposing that metabolic dysfunction is, in substantial part, a systems-level failure of temporal architecture rather than purely caloric thermodynamics. Proposes the "Circadian Fortress" model synchronizing photic and non-photic zeitgebers, and an isocaloric randomized controlled trial designed to test whether circadian timing is an independent contributor to metabolic health. Stated at hypothesis level; not peer-reviewed.',
+  'chronobiological-entrainment': {
+    title: 'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis',
+    description: 'The "Circadian Fortress" hypothesis: an AI-assisted synthesis proposing that circadian misalignment...',
+    about: ['Circadian rhythm', 'Chronobiology', 'Metabolic syndrome', 'Time-restricted eating', 'Suprachiasmatic nucleus'],
+    abstract: 'A hypothesis and literature synthesis proposing that metabolic dysfunction is, in substantial part, a systems-level failure of temporal architecture...',
   },
 };
 
@@ -133,18 +90,27 @@ export async function generateMetadata({
 }
 
 function getPaperContent(slug: string) {
-    const papersDirectory = path.join(process.cwd(), 'content/papers');
-    const fullPath = path.join(papersDirectory, `${slug}.md`);
-    
-    try {
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      return fileContents;
-    } catch (error) {
-      console.log("❌ FAILED TO FIND FILE AT: ", fullPath);
-      console.error(error); 
-      return null; 
+  const papersDirectory = path.join(process.cwd(), 'content/papers');
+  
+  // UPDATED: Now targeting .mdx files instead of .md
+  const mdxPath = path.join(papersDirectory, `${slug}.mdx`);
+  const mdPath = path.join(papersDirectory, `${slug}.md`);
+  
+  try {
+    // Fallback logic to support any remaining .md files during the transition
+    if (fs.existsSync(mdxPath)) {
+      return fs.readFileSync(mdxPath, 'utf8');
+    } else if (fs.existsSync(mdPath)) {
+      return fs.readFileSync(mdPath, 'utf8');
+    } else {
+      console.log("❌ FAILED TO FIND MDX OR MD FILE FOR: ", slug);
+      return null;
     }
+  } catch (error) {
+    console.error("Error reading file:", error); 
+    return null; 
   }
+}
 
 export default async function PaperPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -189,8 +155,12 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
       }
     : null;
 
-  // Generate a safe BibTeX key by stripping hyphens from the slug
   const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
+
+  // MDX COMPONENT MAP: Add any new interactive components here
+  const mdxComponents = {
+    MonteCarloChart,
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-zinc-300 font-sans selection:bg-indigo-500 selection:text-white p-8 md:p-24">
@@ -205,18 +175,22 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
         {/* BACK NAVIGATION */}
         <nav className="mb-16 border-b border-zinc-800 pb-4">
           <Link href="/" className="font-mono text-[10px] tracking-widest text-zinc-500 hover:text-indigo-400 uppercase transition-colors">
-            &#8592; Return to Index
+            ← Return to Index
           </Link>
         </nav>
 
-        {/* MARKDOWN RENDERER */}
+        {/* MDX RENDERER */}
         <article className="prose prose-invert prose-zinc max-w-none prose-headings:font-light prose-headings:tracking-wide prose-a:text-indigo-400 hover:prose-a:text-indigo-300 prose-pre:bg-[#121214] prose-pre:border prose-pre:border-zinc-800">
-          <ReactMarkdown 
-            remarkPlugins={[remarkMath]} 
-            rehypePlugins={[rehypeKatex]}
-          >
-            {content}
-          </ReactMarkdown>
+          <MDXRemote 
+            source={content} 
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex],
+              }
+            }}
+          />
         </article>
 
         {/* CITATION BLOCK */}
@@ -246,7 +220,6 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
               </pre>
             </div>
             
-            {/* Note about DOI if you upload to Zenodo later */}
             <p className="mt-4 text-zinc-600 text-xs italic">
               Note: If citing a specific version archived on Zenodo, please append the relevant DOI to the formats above.
             </p>
