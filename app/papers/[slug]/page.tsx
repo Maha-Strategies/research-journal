@@ -11,6 +11,7 @@ import 'katex/dist/katex.min.css';
 
 // YOUR CUSTOM INTERACTIVE COMPONENTS
 import MonteCarloChart from '@/components/MonteCarloChart';
+import RunawayBifurcation from '@/components/RunawayBifurcation';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 
@@ -160,6 +161,7 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
   // MDX COMPONENT MAP: Add any new interactive components here
   const mdxComponents = {
     MonteCarloChart,
+    RunawayBifurcation,
   };
 
   return (
