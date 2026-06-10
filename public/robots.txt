@@ -1,0 +1,54 @@
+# robots.txt for https://research.mahastrategies.com
+
+# Default: allow all crawlers full access
+User-agent: *
+Allow: /
+
+# --- AI / LLM crawlers ---
+# Explicitly allowed so assistants can discover, cite, and accurately
+# describe this research synthesis project. Flip any to "Disallow: /"
+# to opt that bot out.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Content-Signal directive (emerging convention).
+#   search=yes   -> allow use in search / answer features
+#   ai-input=yes -> allow use as grounding input for live AI answers
+#   ai-train=no  -> disallow use for model training (adjust to taste)
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+Sitemap: https://research.mahastrategies.com/sitemap.xml
