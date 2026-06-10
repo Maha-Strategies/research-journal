@@ -58,6 +58,24 @@ export const researchHomeLd = {
       description:
         'An open-access research project applying agentic AI, under human curation, to surface cross-disciplinary structural analogies as testable hypotheses.',
       publisher: { '@id': `${SITE_URL}/#org` },
+      isAccessibleForFree: true,
+    },
+    {
+      '@type': 'CollectionPage',
+      '@id': `${SITE_URL}/#collection`,
+      url: SITE_URL,
+      name: 'Maha Strategies Research & Architecture',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      isAccessibleForFree: true,
+      about:
+        'Cross-disciplinary structural analogies generated via human-curated agentic AI synthesis, presented as testable hypotheses.',
+      hasPart: [
+        { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
+        { '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article` },
+        { '@id': `${SITE_URL}/papers/dissolving-self-ocean-planet#article` },
+        { '@id': `${SITE_URL}/papers/commercial-fusion-viability#article` },
+        { '@id': `${SITE_URL}/papers/chronobiological-entrainment#article` },
+      ],
     },
     {
       '@type': 'Organization',
@@ -84,6 +102,11 @@ export const researchHomeLd = {
       about: ['Planet Nine', 'Trans-Neptunian objects', 'Monte Carlo simulation', 'Vera C. Rubin Observatory', 'Orbital mechanics'],
       abstract:
         'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine, propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey null-detection masks, and modeling future detection by LSST, Subaru/HSC, and infrared surveys through 2036. Treats the planet as an unproven hypothesis and reports a null-detection posterior; does not claim the planet exists.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
       creativeWorkStatus: 'Forecast / Conditional analysis (not peer-reviewed)',
     },
     {
@@ -98,6 +121,11 @@ export const researchHomeLd = {
       about: ['Nonlinear dynamical systems', 'Runaway greenhouse effect', 'Mesolimbic dopamine pathway', 'Saddle-node bifurcation'],
       abstract:
         'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems that lose negative feedback and undergo a saddle-node bifurcation under exogenous forcing. Presented as a hypothesis for empirical investigation.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
       creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
     },
     {
@@ -112,6 +140,11 @@ export const researchHomeLd = {
       about: ['Default Mode Network', 'Altered states of consciousness', 'Conceptual metaphor', 'Structure-mapping theory', 'Cognitive science'],
       abstract:
         'A review of the neuroscience of self-attenuation in altered states (flow, meditation, psychedelics) and its association with prefrontal and default-mode downregulation, followed by a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. Argues the planetary mapping is a fact about human metaphor formation, not a physical correspondence.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
       creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
     },
     {
@@ -126,6 +159,11 @@ export const researchHomeLd = {
       about: ['Nuclear fusion', 'Magnetic confinement', 'Inertial confinement fusion', 'Plasma physics', 'Fusion engineering'],
       abstract:
         'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power, covering magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature, not original research; quantitative figures are pending independent verification.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
       creativeWorkStatus: 'Synthesis review (not peer-reviewed; figures pending verification)',
     },
         {
@@ -140,6 +178,11 @@ export const researchHomeLd = {
       about: ['Circadian rhythm', 'Chronobiology', 'Metabolic syndrome', 'Time-restricted eating', 'Suprachiasmatic nucleus'],
       abstract:
         'A hypothesis and literature synthesis proposing that circadian misalignment between central and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction, with a proposed isocaloric RCT to test it. Stated at hypothesis level; not peer-reviewed.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
       creativeWorkStatus: 'Hypothesis / synthesis (not peer-reviewed)',
     },
   ],
@@ -148,6 +191,10 @@ export const researchHomeLd = {
 export default function ResearchHomepage() {
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-zinc-300 font-sans selection:bg-indigo-500 selection:text-white p-8 md:p-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(researchHomeLd) }}
+      />
       <div className="max-w-4xl w-full mx-auto">
         
         {/* TOP NAVIGATION */}
@@ -375,9 +422,9 @@ export default function ResearchHomepage() {
 
         {/* MANIFESTO SECTION */}
         <section id="manifesto" className="scroll-mt-24 border-t border-zinc-800/50 pt-16">
-          <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-12">
-            The Architect's Method : A Note on Human-AI Synthesis
-          </div>
+          <h2 className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-12 font-normal">
+            The Architect&rsquo;s Method : A Note on Human-AI Synthesis
+          </h2>
 
           {/* Custom Prose Classes for the Cybernetic Aesthetic */}
           <div className="prose prose-invert prose-zinc max-w-none prose-headings:font-light prose-headings:tracking-wide prose-h3:text-indigo-400 prose-h3:text-sm prose-h3:uppercase prose-h3:tracking-widest prose-h3:font-mono prose-p:text-zinc-400 prose-p:font-light prose-p:leading-relaxed prose-blockquote:border-l-indigo-500 prose-blockquote:bg-[#121214] prose-blockquote:p-6 prose-blockquote:not-italic prose-blockquote:text-zinc-300 prose-li:text-zinc-400">
