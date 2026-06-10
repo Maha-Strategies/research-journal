@@ -120,7 +120,7 @@ export const researchHomeLd = {
       publisher: { '@id': `${SITE_URL}/#org` },
       about: ['Nonlinear dynamical systems', 'Runaway greenhouse effect', 'Mesolimbic dopamine pathway', 'Saddle-node bifurcation'],
       abstract:
-        'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems that lose negative feedback and undergo a saddle-node bifurcation under exogenous forcing. Presented as a hypothesis for empirical investigation.',
+        'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems whose saturating dissipation (the Ingersoll / clearance-Vmax ceiling) is overwhelmed by exogenous forcing, producing a saddle-node fold. The framework yields a falsifiable cross-domain prediction — shared early-warning signatures (critical slowing down, rising variance, rising lag-1 autocorrelation) near the threshold. The shared universality class is presented as a hypothesis for empirical investigation, not a demonstrated result.',
       isAccessibleForFree: true,
       creator: [
         { '@id': `${SITE_URL}/#architect` },
@@ -287,7 +287,7 @@ export default function ResearchHomepage() {
             </div>
 
             <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
-              A mathematical framework proposing a structural analogy between the runaway greenhouse effect in planetary astrophysics and the pathological collapse of the mammalian mesolimbic dopamine pathway.
+              A mathematical framework proposing a structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway — and deriving a falsifiable cross-domain prediction of shared early-warning signatures near the tipping point. The shared universality class is advanced as a hypothesis, not a demonstrated result.
             </p>
 
             <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">

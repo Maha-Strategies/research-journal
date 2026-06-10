@@ -32,10 +32,19 @@ const PAPER_META: Record<
     abstract: 'A Monte Carlo forecast of where, when, and by which instrument an undetected trans-Neptunian super-Earth would most plausibly be found...',
   },
   'thermodynamic-isomorphism': {
-    title: 'A Structural Analogy Between Planetary Greenhouse Runaway and Dopaminergic Addiction',
-    description: 'A nonlinear dynamical-systems analysis proposing that the runaway greenhouse effect and mesolimbic dopamine collapse share a saddle-node bifurcation.',
-    about: ['Saddle-node bifurcation', 'Runaway greenhouse effect', 'Mesolimbic dopamine', 'Nonlinear dynamics', 'Dissipative systems'],
-    abstract: 'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway...',
+    title: 'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway: Structural Analogy Between Planetary Greenhouse Effects and Mesolimbic Dopaminergic Addiction',
+    description:
+      'A nonlinear dynamical-systems framework proposing that the runaway greenhouse effect and mesolimbic dopamine collapse share a saddle-node (fold) bifurcation, and deriving a falsifiable cross-domain prediction of shared early-warning signatures near the tipping point. The shared universality class is advanced as a hypothesis, not a demonstrated result.',
+    about: [
+      'Saddle-node bifurcation',
+      'Runaway greenhouse effect',
+      'Mesolimbic dopamine',
+      'Nonlinear dynamics',
+      'Dissipative systems',
+      'Critical slowing down',
+    ],
+    abstract:
+      'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems whose saturating dissipation (the Ingersoll / clearance-Vmax ceiling) is overwhelmed by exogenous forcing, producing a saddle-node fold. The framework yields a falsifiable cross-domain prediction — shared early-warning signatures (critical slowing down, rising variance, rising lag-1 autocorrelation) near the threshold. The shared universality class is presented as a hypothesis for empirical investigation, not a demonstrated result.',
   },
   'dissolving-self-ocean-planet': {
     title: 'Why the Dissolving Self Is Imagined as an Ocean Planet: DMN Downregulation and the Cognitive Basis of the Neptune Metaphor',
