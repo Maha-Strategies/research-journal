@@ -70,6 +70,7 @@ export const researchHomeLd = {
       about:
         'Cross-disciplinary structural analogies generated via human-curated agentic AI synthesis, presented as testable hypotheses.',
       hasPart: [
+        { '@id': `${SITE_URL}/papers/readout_plasticity_paper#article` },
         { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
         { '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article` },
         { '@id': `${SITE_URL}/papers/dissolving-self-ocean-planet#article` },
@@ -229,6 +230,45 @@ export default function ResearchHomepage() {
           <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-8">
             Vol. 1 — Inaugural Synthesis
           </div>
+
+          {/* New Lead Paper Item — Synaptic Plasticity */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Computational Neuroscience / Symbolic Regression
+                </div>
+                <Link href="/papers/readout_plasticity_paper">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    Evolving Local Synaptic Plasticity Rules to Track Representational Drift
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A study implementing a grammar-constrained symbolic regression framework to systematically discover optimal local plasticity rules governing the readout weights of an empirical neural population. The framework systematically discovered homeostatic Hebbian rules that out-perform prior hand-crafted baselines in tracking representational drift.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/readout_plasticity_paper" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
 
           {/* Lead Paper Item — Planet Nine */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">

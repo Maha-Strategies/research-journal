@@ -64,6 +64,12 @@ const PAPER_META: Record<
     about: ['Circadian rhythm', 'Chronobiology', 'Metabolic syndrome', 'Time-restricted eating', 'Suprachiasmatic nucleus'],
     abstract: 'A hypothesis and literature synthesis proposing that metabolic dysfunction is, in substantial part, a systems-level failure of temporal architecture...',
   },
+  'readout_plasticity_paper': {
+    title: 'Evolving Local Synaptic Plasticity Rules to Track Representational Drift',
+    description: 'A Symbolic Regression and Hierarchical Modeling Study evaluating how biologically plausible local learning rules can maintain stable decoding geometry despite unstable neural representations.',
+    about: ['Representational drift', 'Synaptic plasticity', 'Symbolic regression', 'Computational neuroscience', 'Hierarchical modeling', 'Hebbian learning'],
+    abstract: 'Neuronal representations in sensory and association cortices undergo continuous reorganization over days and weeks, a phenomenon known as representational drift. This study implements a grammar-constrained symbolic regression framework to systematically discover optimal local plasticity rules governing the readout weights of an empirical neural population (Posterior Parietal Cortex, PPC, of mice performing a virtual-navigation task).',
+  },
 };
 
 export async function generateMetadata({
