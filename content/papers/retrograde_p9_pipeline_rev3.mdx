@@ -1,0 +1,92 @@
+# A Reproducible N-Body Pipeline and Numerical Convergence Framework for Retrograde Planet Nine Configurations
+
+**Mayone Maha Rajan** (Architect & Curator)
+**AI Synthesis Instrument:** Google Antigravity (agentic model)
+**Project Home:** `research.mahastrategies.com`
+**Revision 3 — June 2026**
+
+---
+
+## Abstract
+We present a reproducible methodological specification, code architecture, and numerical convergence framework designed for cluster-scale deployment to study highly inclined, retrograde perturbers ($m_9 = 6.2\ M_\oplus, a_9 = 550\text{ AU}, e_9 = 0.3, i_9 = 145^\circ$). Operating under a strict zero-fabrication sandbox protocol, we bypass traditional secular "wire" approximations to implement an active point-mass integrator using REBOUND's adaptive `ias15` solver, which resolves retrograde crossings without the coordinate-hierarchy strain that affects phase-averaged methods. We exercise this pipeline via a 20,000-year proof-of-concept run ($N = 2,000$ test particles), projecting early-phase dynamical drift metrics into Cartesian Poincaré coordinates ($h, k$ and $p, g$). We couple this numerical framework with a thermal infrared parameterization model based on stratospheric methane condensation in the WISE W1 ($3.4\ \mu\text{m}$) band. This run is explicitly a high-fidelity initialization and boundary-validation phase ($\Delta t \to t_{\text{max}}$ truncation check) intended to confirm code stability prior to transfer to high-performance computing (HPC) nodes. It is not a physical determination of shepherding efficiency, which requires integration timescales four to five orders of magnitude longer than those reported here.
+
+---
+
+## 1. Introduction & Theoretical Context
+The physical alignment of extreme trans-Neptunian objects (eTNOs) with semi-major axes $a > 250\text{ AU}$ remains one of the most compelling anomalies in outer solar system science. While classical shepherding models rely on a prograde, moderately inclined Planet Nine, alternative orbital configurations are possible. A retrograde perturber possesses distinct secular potentials that can in principle shepherd orbits, but their study is computationally intensive.
+
+This paper does not attempt to resolve whether such configurations shepherd eTNOs. Instead, it provides the numerical infrastructure to ask that question correctly. We introduce a fully resolved active point-mass integration framework and initialization pipeline, moving past phase-averaged "wire" potentials (secular models in which each planet's mass is smeared into an axisymmetric ring; defined in §2). This code architecture serves as a numerical specification and boundary-validation scheme that can be scaled to HPC clusters, enabling the full-scale, secular-timescale integrations that a genuine shepherding study would demand. We couple this with a direct thermal detectability parameterization and a transparent system audit.
+
+---
+
+## 2. Numerical Methodology: Active Point Masses vs. Secular Wires
+To preserve the non-linear integrity of the solar system's architecture, this run rejects the traditional smoothing of the interior gas giants. Jupiter, Saturn, Uranus, and Neptune are modeled directly as active moving point masses. The underlying equations of motion are governed by:
+
+$$\frac{d^2 \mathbf{r}_i}{dt^2} = -G \sum_{j \neq i} m_j \frac{\mathbf{r}_i - \mathbf{r}_j}{|\mathbf{r}_i - \mathbf{r}_j|^3}$$
+
+The fundamental structural trade-offs separating this active point-mass framework from historical semi-averaged ("secular wire") equations are formalized below:
+
+| Physical Phenomena | Active Point-Mass Calculations (This Model) | Semi-Averaged Secular Equations (Historical Lit) |
+| :--- | :--- | :--- |
+| **Planetary Representation** | Active moving point masses with varying orbital phases. | Orbits are spread out into concentric rings ("wires" of mass). |
+| **Gravitational Potential** | Fully time-dependent, resolved gravitational forces. | Axisymmetric quadrupole-smoothed potential ($J_2$ smoothing). |
+| **Resonant Dynamics** | Captures **Mean-Motion Resonances (MMRs)** (e.g. 3:1, 2:1 tracking). | Filters out mean anomalies, completely removing MMRs. |
+| **Close Encounters** | Models localized **gravitational scattering** (Neptune flybys). | Particles pass "through" planetary wires without scattering. |
+| **Computational Cost** | High; requires tight adaptive steps (REBOUND `ias15` solver). | Extremely fast; allows timesteps of $10^4$ to $10^5$ years. |
+
+All metrics reported in this paper were produced by the `ias15` integrator. A fixed-step vectorized NumPy Leapfrog routine is included in the codebase solely as a dependency-failure fallback for environments where REBOUND cannot be installed; it was **not** used to generate any reported result. Leapfrog is a fixed-step symplectic method and cannot faithfully resolve the close-encounter scattering described in the table above, so any future use of the fallback path invalidates the MMR and Neptune-flyby claims and must be flagged as such.
+
+---
+
+## 3. Cartesian Poincaré Phase-Space Analysis
+Test-particle coordinates are converted to Keplerian elements relative to the central barycenter using standard angular momentum vectors and orbital energy tracking:
+$$\mathbf{h} = \mathbf{r} \times \mathbf{v}, \qquad \mathcal{E} = \frac{v^2}{2} - \frac{G M_\odot}{r}, \qquad a = -\frac{G M_\odot}{2 \mathcal{E}}$$
+
+To track shepherding trends relative to the retrograde Planet Nine orbit without coordinate singularities at $i \to 0$, elements are mapped directly into Cartesian Poincaré actions:
+$$h = e \sin(\varpi - \varpi_9), \qquad k = e \cos(\varpi - \varpi_9)$$
+$$p = \sin(i/2) \sin(\Omega - \Omega_9), \qquad g = \sin(i/2) \cos(\Omega - \Omega_9)$$
+
+The simulation initialized an unclustered, isotropic baseline. As a consistency check, the initial anti-aligned fraction is $\approx 0.50$, exactly as expected for an isotropic distribution. Over the integrated timeline, the resulting final metrics represent **early-phase dynamical drift** rather than permanent steady-state shepherding configurations, validating the initialization phase under extreme retrograde torque.
+
+*(The compiled visual records `poincare_eccentricity.png`, `poincare_inclination.png`, and `perihelion_alignment_hist.png` are preserved in the repository archive.)*
+
+---
+
+## 4. Atmospheric Photometry & Infrared Detection Thresholds
+Following direct dynamic tracking, we evaluate the object's electromagnetic detectability. At $d = 550\text{ AU}$, the solar equilibrium temperature is low ($T_{\text{eq}} \approx 12\text{ K}$ given albedo $A = 0.3$), so detectability is governed almost entirely by the internal cooling effective temperature ($T_{\text{eff}} \approx 40\text{ K}$) sustained by primordial accretion decay; the equilibrium term is negligible at these temperatures.
+
+We implement the stratospheric methane freeze-out model of Fortney et al. (2016). When methane mixing ratios drop below $\le 10^{-6}$, visible molecular absorption is depleted, opening an infrared flux window in the 3.4 $\mu\text{m}$ spectral region:
+$$m_{\text{W1}} = 17.5 + 5 \log_{10}\left(\frac{d}{700\text{ AU}}\right) - 15 \log_{10}\left(\frac{T_{\text{eff}}}{40\text{ K}}\right)$$
+
+Evaluated at the configuration parameters of this run ($d = 550\text{ AU}, T_{\text{eff}} = 40\text{ K}$), the distance term contributes $5\log_{10}(550/700) \approx -0.52$ mag and the temperature term vanishes, giving:
+$$m_{\text{W1}} \approx 17.5 - 0.52 \approx 16.98.$$
+The corresponding flux density follows from $F_{\mu\text{Jy}} = 10^6 \times F_0 \times 10^{-m_{\text{W1}} / 2.5}$. This places the object near the practical confusion limit of single-frame WISE W1 photometry; detection would rely on multi-epoch co-addition and proper-motion selection in the WISE/NEOWISE archive rather than a single exposure. We note this parameterization is anchored to Fortney et al. (2016) constraints and is not a substitute for a line-by-line radiative transfer solution (see §5).
+
+---
+
+## 5. System Architecture & Radical Transparency Audit
+In accordance with the project's zero-fabrication manifesto, we openly document the technical boundaries governing this automated run:
+1. **Timescale Truncation:** A full 4 Gyr integration was computationally impossible within the sandbox allocation. The integration was scaled to 20,000 years, establishing early secular rates rather than steady-state permanence.
+2. **Isolated Ephemerides:** Network isolation blocked direct access to the live NASA HORIZONS database. Barycentric planet elements were hardcoded at the module level to ensure offline execution stability.
+3. **Radiative Solver Approximation:** We lack high-temperature molecular line databases (e.g., HITRAN). The atmospheric photometry uses a parameterization fit anchored to Fortney et al. (2016) constraints rather than a live multi-dimensional radiative-transfer solver.
+
+### 5.1 Timescale Truncation Boundary
+Applying Kepler's Third Law:
+
+$$T_9 = a_9^{1.5} = 550^{1.5} \approx 12,898\text{ years}$$
+
+The 20,000-year sandbox execution therefore spans roughly 1.55 perturber revolutions. This is four to five orders of magnitude shorter than the $10\text{–}100\text{ Myr}$ secular shepherding timescale of extreme TNOs, so long-term orbital shepherding cannot manifest within the run by construction. The simulation is thus a convergence boundary test confirming integrator stability, not a physical steady-state shepherding result. Any shepherding conclusion requires the HPC-scale integration this pipeline is designed to enable.
+
+---
+
+## 6. Code Architecture and Reproducibility
+- **N-Body Codebase:** Executed via `retrograde_p9_sim.py` using the REBOUND `ias15` solver. A vectorized NumPy Leapfrog routine is present as a dependency-failure fallback only (see §2) and was not used for any reported metric.
+- **Dependencies:** Python, REBOUND, NumPy, SciPy, and Matplotlib. Exact pinned version numbers are recorded in the repository `requirements.txt` and environment lockfile; readers should treat the lockfile, not this prose, as authoritative.
+- **Random Seed:** Hardcoded and pinned at `42` to guarantee exact trajectory reproduction.
+
+---
+
+## References
+- Batygin, K., Adams, F. C., Brown, M. E., & Becker, J. C. (2019). The Planet Nine Hypothesis. *Physics Reports*, 805, 1–53.
+- Brown, M. E., & Batygin, K. (2021). The Orbit of Planet Nine. *The Astronomical Journal*, 162, 219.
+- Fortney, J. J., Marley, M. S., Laughlin, G., et al. (2016). The Hunt for Planet Nine: Atmosphere, Spectra, Evolution, and Detectability. *ApJL*, 824, L25.

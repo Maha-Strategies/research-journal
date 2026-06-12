@@ -64,6 +64,21 @@ const PAPER_META: Record<
     about: ['Circadian rhythm', 'Chronobiology', 'Metabolic syndrome', 'Time-restricted eating', 'Suprachiasmatic nucleus'],
     abstract: 'A hypothesis and literature synthesis proposing that metabolic dysfunction is, in substantial part, a systems-level failure of temporal architecture...',
   },
+  'the_perturber_question': {
+    title: 'The Perturber Question Under Audit: An Agentic-AI Replication of the eTNO Clustering Test and a Composition-Agnostic Hypothesis Synthesis',
+    description:
+      'A computational astrophysics audit that replicates the extreme trans-Neptunian object orbital-clustering test on the fully characterized CFEPS/OSSOS sample, benchmarks an independent Python pipeline against the official Fortran SurveySimulator, maps a composition-agnostic hypothesis matrix, and documents what an agentic AI instrument contributed to and fabricated within the work.',
+    about: [
+      'Planet Nine',
+      'Extreme trans-Neptunian objects',
+      'Orbital clustering',
+      'Survey selection bias',
+      'Monte Carlo simulation',
+      'Agentic AI in research',
+    ],
+    abstract:
+      'A replication and audit study addressing whether the extreme trans-Neptunian object (eTNO) orbital-clustering signal survives selection-bias modeling in fully characterized surveys. Using the public CFEPS/OSSOS characterizations, an independently implemented Python selection-function simulator is benchmarked against the official Fortran SurveySimulator on identical synthetic populations. The complete characterized sample reconstructed from Shankman et al. (2017) yields selection-biased Monte Carlo p-values showing no statistically significant clustering, a conclusion robust to implementation choice and directionally consistent with Napier et al. (2021); the benchmark also surfaces genuine implementation disagreement, so the pipeline is validated for the clustering conclusion but not for absolute completeness predictions. The paper further presents a composition-agnostic discriminating-observables matrix and a candidate vetting protocol, and closes with an empirical self-audit documenting both real contributions and recurring failure modes of the agentic AI instrument. Presented as a replication and methods study, not peer-reviewed.',
+  },
   'readout_plasticity_paper': {
     title: 'Evolving Local Synaptic Plasticity Rules to Track Representational Drift',
     description: 'A Symbolic Regression and Hierarchical Modeling Study evaluating how biologically plausible local learning rules can maintain stable decoding geometry despite unstable neural representations.',

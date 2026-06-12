@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     'computational neuroscience',
     'astrophysics',
     'AI-assisted research',
+    'agentic AI in research',
   ],
   authors: [{ name: 'Mayone Maha Rajan' }],
   alternates: { canonical: '/' },
@@ -70,12 +71,13 @@ export const researchHomeLd = {
       about:
         'Cross-disciplinary structural analogies generated via human-curated agentic AI synthesis, presented as testable hypotheses.',
       hasPart: [
-        { '@id': `${SITE_URL}/papers/readout_plasticity_paper#article` },
         { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
+        { '@id': `${SITE_URL}/papers/the_perturber_question#article` },
+        { '@id': `${SITE_URL}/papers/readout_plasticity_paper#article` },
         { '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article` },
         { '@id': `${SITE_URL}/papers/dissolving-self-ocean-planet#article` },
-        { '@id': `${SITE_URL}/papers/commercial-fusion-viability#article` },
         { '@id': `${SITE_URL}/papers/chronobiological-entrainment#article` },
+        { '@id': `${SITE_URL}/papers/commercial-fusion-viability#article` },
       ],
     },
     {
@@ -109,6 +111,25 @@ export const researchHomeLd = {
         { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
       ],
       creativeWorkStatus: 'Forecast / Conditional analysis (not peer-reviewed)',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/the_perturber_question#article`,
+      headline:
+        'The Perturber Question Under Audit: An Agentic-AI Replication of the eTNO Clustering Test and a Composition-Agnostic Hypothesis Synthesis',
+      url: `${SITE_URL}/papers/the_perturber_question`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Planet Nine', 'Extreme trans-Neptunian objects', 'Orbital clustering', 'Survey selection bias', 'Monte Carlo simulation', 'Agentic AI in research'],
+      abstract:
+        'A replication and audit study testing whether the extreme trans-Neptunian object orbital-clustering signal survives selection-bias modeling in fully characterized surveys. An independently implemented Python selection-function simulator, benchmarked against the official Fortran SurveySimulator on identical synthetic populations, finds no statistically significant clustering in the reconstructed characterized CFEPS/OSSOS sample — a conclusion robust to implementation choice and directionally consistent with Napier et al. (2021). The benchmark surfaces genuine implementation disagreement, so the pipeline is validated for the clustering conclusion but not for absolute completeness predictions. Includes a composition-agnostic discriminating-observables matrix, a candidate vetting protocol, and an empirical self-audit of the agentic AI instrument. Presented as a replication and methods study, not peer-reviewed.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
+      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
     },
     {
       '@type': 'ScholarlyArticle',
@@ -231,6 +252,82 @@ export default function ResearchHomepage() {
             Vol. 1 — Inaugural Synthesis
           </div>
 
+          {/* Lead Paper Item — Planet Nine */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Astronomy / Statistical Forecasting / Orbital Dynamics
+                </div>
+                <Link href="/papers/planet-nine-forecast">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    A Monte Carlo Forecast for the Detection of Planet Nine
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A Monte Carlo forecast (N = 100,000) of where, when, and by which instrument the hypothesized Planet Nine would most plausibly be detected &mdash; propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey masks, and modeling LSST, Subaru/HSC, and infrared detection through 2036. The planet is treated as an unproven hypothesis; the analysis quantifies detectability and a null-detection posterior rather than asserting existence.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/planet-nine-forecast" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* eTNO Clustering Audit */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Astronomy / Replication / Survey Selection Bias
+                </div>
+                <Link href="/papers/the_perturber_question">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    The Perturber Question Under Audit
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A replication of the extreme trans-Neptunian object orbital-clustering test on the fully characterized CFEPS/OSSOS sample, using an independent Python selection-function pipeline benchmarked against the official Fortran SurveySimulator. The reconstructed sample shows no statistically significant clustering &mdash; robust to implementation choice and directionally consistent with Napier et al. (2021). Includes a composition-agnostic hypothesis matrix, a candidate vetting protocol, and an empirical self-audit of the agentic AI instrument.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/the_perturber_question" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
           {/* New Lead Paper Item — Synaptic Plasticity */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
@@ -269,44 +366,6 @@ export default function ResearchHomepage() {
             </Link>
           </article>
 
-
-          {/* Lead Paper Item — Planet Nine */}
-          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-              <div className="space-y-2">
-                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
-                  Astronomy / Statistical Forecasting / Orbital Dynamics
-                </div>
-                <Link href="/papers/planet-nine-forecast">
-                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
-                    A Monte Carlo Forecast for the Detection of Planet Nine
-                  </h2>
-                </Link>
-              </div>
-              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
-                June 2026
-              </div>
-            </div>
-
-            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
-              A Monte Carlo forecast (N = 100,000) of where, when, and by which instrument the hypothesized Planet Nine would most plausibly be detected &mdash; propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey masks, and modeling LSST, Subaru/HSC, and infrared detection through 2036. The planet is treated as an unproven hypothesis; the analysis quantifies detectability and a null-detection posterior rather than asserting existence.
-            </p>
-
-            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
-              <div className="flex flex-col">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
-                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
-                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
-              </div>
-            </div>
-
-            <Link href="/papers/planet-nine-forecast" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
-              &#8599;
-            </Link>
-          </article>
 
           {/* Featured Paper Item */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 hover:border-indigo-500/30 transition-all duration-300">
@@ -384,6 +443,42 @@ export default function ResearchHomepage() {
             </Link>
           </article>
 
+                    {/* Chronobiology entry */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Chronobiology / Metabolic Health / Hypothesis
+                </div>
+                <Link href="/papers/chronobiological-entrainment">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                Feb 2026
+              </div>
+            </div>
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              The "Circadian Fortress" hypothesis: a synthesis proposing that misalignment between the central (SCN) and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction &mdash; with an isocaloric randomized trial proposed to test whether circadian timing matters independently of calories. Stated at hypothesis level; not a clinical conclusion.
+            </p>
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+            <Link href="/papers/chronobiological-entrainment" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+        </section>
+
           {/* Third entry */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
@@ -423,42 +518,6 @@ export default function ResearchHomepage() {
               &#8599;
             </Link>
           </article>
-
-                    {/* Chronobiology entry */}
-          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-              <div className="space-y-2">
-                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
-                  Chronobiology / Metabolic Health / Hypothesis
-                </div>
-                <Link href="/papers/chronobiological-entrainment">
-                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
-                    Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis
-                  </h2>
-                </Link>
-              </div>
-              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
-                Feb 2026
-              </div>
-            </div>
-            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
-              The "Circadian Fortress" hypothesis: a synthesis proposing that misalignment between the central (SCN) and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction &mdash; with an isocaloric randomized trial proposed to test whether circadian timing matters independently of calories. Stated at hypothesis level; not a clinical conclusion.
-            </p>
-            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
-              <div className="flex flex-col">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
-                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
-                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
-              </div>
-            </div>
-            <Link href="/papers/chronobiological-entrainment" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
-              &#8599;
-            </Link>
-          </article>
-        </section>
 
         {/* MANIFESTO SECTION */}
         <section id="manifesto" className="scroll-mt-24 border-t border-zinc-800/50 pt-16">
