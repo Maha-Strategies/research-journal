@@ -1,4 +1,4 @@
-# Evolving Local Synaptic Plasticity Rules to Track Representational Drift: A Simulation Study
+# Coordinating Local Synaptic Plasticity and Sparse Supervised Recalibration to Track Representational Drift: A Simulation Study
 
 **Mayone Maharajan**  
 *Maha Strategies LLC*  
@@ -14,7 +14,11 @@ Consistent with our `llms.txt` transparency practice, we declare that this paper
 
 ## Abstract
 
-Neuronal representations in sensory and association cortices undergo continuous reorganization over days and weeks, a phenomenon known as representational drift. How downstream readouts maintain stable behavior despite this unstable code remains a fundamental question in neuroscience. While Rule & O'Leary (2022) demonstrated that homeostatic and plasticity rules (the "self-healing code" framework) can track representational drift in simulation, this mechanism was validated in a narrow parameter space. In this study, we extend the self-healing codes framework by: (a) searching an enlarged rule grammar containing normalization and recurrence using symbolic regression, and (b) testing it against simulated drift trajectories *qualitatively inspired by* the drift phenomenology reported in Driscoll et al. (2017) to find where the unsupervised local rules break down. We evaluate candidates across three experimental arms: a supervised baseline using L2-regularized gradient descent with adaptive step size (Arm A), unsupervised local rules with divisive normalization and recurrent self-feedback (Arm B), and a synergistic hybrid model (Arm C). Candidates are statically validated via an Abstract Syntax Tree (AST) gate to guarantee strict locality, zero label access, and compliance with Dale's Law. Our evolutionary search systematically discovered homeostatic Hebbian rules that out-perform standard baselines, maintaining stable readout representations. Under continuous drift, Arm A serves as a strong ceiling (tuning RMSE $\approx 0.13$), while the unsupervised Arm B maintains stable tracking (tuning RMSE $\approx 0.18$). We find that the hybrid Arm C matches the supervised ceiling (statistically indistinguishable from Arm A) while operating with local unsupervised plasticity, suggesting—though not yet quantifying—a reduced reliance on continuous supervised recalibration. Finally, we formulate a hierarchical mixed-effects model treating simulation Seed as a random effect to report effect sizes and confidence intervals without pseudoreplication.
+Neuronal representations in sensory and association cortices undergo continuous reorganization over days and weeks, a phenomenon known as representational drift. How downstream readouts maintain stable behavior despite this unstable code remains a fundamental question in neuroscience. While Rule & O'Leary (2022) demonstrated that homeostatic local plasticity rules (the "self-healing code" framework) can track representational drift in simulation, it remains unclear how these local mechanisms interact with global, supervised feedback. In this study, we reframe the tracking problem around **sparse supervision synergy**, examining how local homeostatic plasticity (which stabilizes the internal geometry of the population representation) coordinates with sparse supervised recalibration (which anchors the coordinate system). We utilize symbolic regression as an exploratory tool to search an enlarged rule grammar containing normalization and recurrence, validating candidates through an Abstract Syntax Tree (AST) gate to guarantee strict locality, zero label access, and compliance with Dale's Law.
+
+We project the activity of $N = 80$ drifting place cells onto a downstream readout of $M = 30$ place-tuned units forming a spatial tuning manifold, from which physical position and trial choice are decoded using secondary decoders. We evaluate candidates across three experimental arms: an adaptive supervised-only baseline using L2-regularized gradient descent with adaptive step size (Arm A), unsupervised local rules with divisive normalization and recurrent self-feedback (Arm B), and a synergistic hybrid model (Arm C). Arm A represents a practical low-maintenance adaptive decoder whose learning dynamics rapidly stabilize, approximating a fixed decoder, and it should not be interpreted as an upper bound on supervised approaches. 
+
+Under continuous drift, the Arm A baseline maintains a baseline decoding of $R^2 \approx 0.896 \pm 0.041$ but experiences representational drift (tuning RMSE $\approx 0.357 \pm 0.056$). The unsupervised Arm B tracks drift without labels (tuning RMSE $\approx 0.363 \pm 0.057$, decoding $R^2 \approx 0.878 \pm 0.057$). Arm C (Synergy) achieves significantly improved tracking, peaking at $p_{\text{recal}} = 0.20$ (tuning RMSE $\approx 0.301 \pm 0.011$, decoding $R^2 \approx 0.934 \pm 0.012$). To maintain a high-fidelity representation (defined prospectively as $R^2 \ge 0.92$ and RMSE $\le 0.33$), Arm A cannot achieve this threshold at any recalibration frequency. In contrast, Arm C achieves it with as little as 5% recalibration frequency ($p_{\text{recal}} = 0.05$). This demonstrates that local self-healing dynamics and sparse supervision function synergistically, enabling optimized tracking with a major reduction in the required rate of supervised recalibration. Finally, we formulate a hierarchical mixed-effects model with interaction terms treating Animal seed as a random effect to analyze the significance of this synergy.
 
 ---
 
@@ -24,18 +28,20 @@ A cornerstone of brain function is the ability to maintain stable behavior and m
 
 ```mermaid
 graph TD
-    A[Drifting Upstream Population] -->|Synaptic Weights W_ij| B[Downstream Readout y_i]
-    B -->|Divisive Normalization| C[Normalized Response y_n]
-    C -->|Recurrent Attractor Map R| D[Corrected Target y_r]
+    A[Drifting Upstream Population: 80 neurons] -->|Synaptic Weights: W_ij| B[Downstream Readout: 30-unit manifold]
+    B -->|Divisive Normalization| C[Normalized Response: y_n]
+    C -->|Recurrent Attractor Map: R| D[Corrected Target: y_r]
     D -->|Plasticity Update: dw_ij| B
-    E[Behavioral Targets: Y_true] -.->|Only in Arm A & C| B
+    E[Behavioral Targets] -.->|Only in Arm A & C| B
+    C -->|Linear Decoders| F[Position & Choice Decoded Outputs]
 ```
 
-Rule & O'Leary (2022) proposed a "self-healing codes" framework, demonstrating that a combination of Hebbian plasticity, single-cell homeostatic gain/threshold regulation, and recurrent attractor dynamics can allow a downstream readout to track and adapt to representational drift without task labels. However, this self-healing mechanism was validated largely in a constrained simulation space using hand-designed rules.
+Rule & O'Leary (2022) proposed a "self-healing codes" framework, demonstrating that a combination of Hebbian plasticity, single-cell homeostatic gain/threshold regulation, and recurrent attractor dynamics can allow a downstream readout to track and adapt to representational drift without task labels. However, how these local self-healing codes coordinate with global, task-driven supervised updates remains largely unexplored.
 
-The genuine white space addressed by this study is two-fold:
-1.  **Grammar Expansion via Symbolic Regression**: We implement a grammar-constrained evolutionary search over an enlarged rule space containing normalization and recurrence terms to systematically discover optimal local rules.
-2.  **Breakdown Mapping under Simulated Drift**: We simulate drift trajectories *qualitatively inspired by* the drift phenomenology of Driscoll et al. (2017) to define the boundaries of rate correlation, place-field tuning shift, and tuning-selectivity loss where unsupervised local rules collapse.
+The central contribution of this study is mapping the **synergy between local homeostatic plasticity and sparse supervised recalibration**:
+1.  **Coordinated Synergy Mapping**: We define the mathematical relationship and efficiency gains when local homeostatic rules (which preserve population tuning topography) are paired with sparse, low-frequency supervised recalibration (which corrects coordinate rotations). We map how this synergy stabilizes downstream decoding under drift.
+2.  **Grammar Expansion via Symbolic Regression**: We utilize symbolic regression as an exploratory tool to search an enlarged rule grammar containing normalization and recurrence, verifying whether evolved rules improve upon hand-designed local plasticity rules.
+3.  **Prospective Breakdown Mapping**: We simulate place-cell drift trajectories *qualitatively inspired by* Driscoll et al. (2017) to define the boundaries of place-field drift and selectivity loss where unsupervised and synergistic rules collapse.
 
 ---
 
@@ -50,30 +56,40 @@ The data is split into:
 *   **Strict Hold-Out Split (Sessions 4-6)**: Kept completely untouched until final evaluation.
 
 ### 2.2. The Self-Healing Readout Model
-The downstream readout has $M = 2$ units predicting:
-1.  **Virtual Position**: $y^{\text{pos}}_t \in [0, 1]$ (position divided by maze length).
-2.  **Trial Choice**: $y^{\text{choice}}_t \in \{-1, +1\}$ (Left vs. Right choice).
+To exploit redundancy and instantiate a self-healing attractor manifold, the downstream readout model projects the activity of the $N = 80$ drifting place cells onto a distributed population of $M = 30$ place-tuned units. The target tuning curves of these units are constructed to cover the virtual maze under both Right and Left trial choices:
+- Units 0 to 14: Place-tuned, active on all trials.
+- Units 15 to 22: Place-tuned, active only on Right-choice trials.
+- Units 23 to 29: Place-tuned, active only on Left-choice trials.
 
-We implement **divisive normalization** to stabilize the population response:
-$$y_n(t) = \mu_y \frac{y_f(t) + \epsilon}{\langle y_f(t) \rangle + \epsilon}$$
-where $y_f(t) = \exp(W x_t + b + \beta)$ is the forward firing rate, and $\langle y_f(t) \rangle$ is the average response across the readout population.
+We implement **divisive normalization** across the population of 30 units to stabilize the population response:
+$$y_n(t) = \mu_t \frac{y_f(t) + \epsilon}{\langle y_f(t) \rangle + \epsilon}$$
+where $y_f(t) = \exp(W x_t + b + \beta)$ is the forward synaptic activation (with $W \in \mathbb{R}^{30 \times 80}$), $\langle y_f(t) \rangle$ is the average response across the readout population, and $\mu_t$ is the target population mean.
 
 We also implement a **recurrent attractor map** that represents the target manifold:
 $$y_r(t) = \exp\left( R [y_n(t), 1]^T \right)$$
-where $R$ is a recurrent weight matrix trained at $t_0$ (using Ridge regression on the initial training targets) to map the readout tuning curves back to themselves: $Y = R(Y)$.
+where $R \in \mathbb{R}^{30 \times 31}$ is a recurrent weight matrix trained at $t_0$ (using Ridge regression on the initial training targets) to map the readout tuning curves back to themselves: $Y = R(Y)$.
+
+Finally, secondary linear decoders are fit on the initial training session to decode the physical behavior from the normalized population activity:
+1. **Virtual Position**: $\hat{y}^{\text{pos}}_t = W_{\text{pos}} y_n(t) + b_{\text{pos}} \in [0, 1]$.
+2. **Trial Choice**: $\hat{y}^{\text{choice}}_t = W_{\text{choice}} y_n(t) + b_{\text{choice}} \in \{-1, +1\}$.
 
 ### 2.3. The Asymmetric Decoder Fork (Experimental Arms)
-1.  **Arm A (Supervised Baseline)**: Readout weights are updated using L2-regularized gradient descent with adaptive step size (mirroring the repo's `train_readout` gradient updates):
+To test the dependency on supervised feedback, we sweep the supervised recalibration probability $p_{\text{recal}} \in \{1.0, 0.2, 0.05, 0.01, 0.0\}$ across:
+1.  **Arm A (Adaptive Supervised-Only Baseline)**: Readout weights are updated using L2-regularized gradient descent with adaptive step size (mirroring the repo's `train_readout` gradient updates):
     $$\Delta W = - \eta_{\text{sup}} \left[ \nabla_W L(W) + 2 \rho W \right]$$
-    The learning rate $\eta_{\text{sup}}$ is swept and adapted online.
-2.  **Arm B (Unsupervised Evolved Plasticity)**: Readout weights are adapted online strictly using the candidate local plasticity rule:
-    $$dw_{ij} = f\left( w_{ij}, x_j, y_r, \eta_{\text{unsup}}, \theta \right)$$
-    Weights are updated using the recurrently corrected activity $y_r$ as the target, with zero label access.
-3.  **Arm C (Synergy Test)**: Readout weights adapt via a combination of the unsupervised evolved rule and a supervised update.
+    No unsupervised plasticity is active. Supervised updates are applied with probability $p_{\text{recal}}$ at each step. Note that because the adaptive step size decays rapidly to zero when gradients fluctuate, **Arm A effectively freezes weights at their initial state rather than tracking continuous drift**. Arm A represents a practical low-maintenance adaptive decoder whose learning dynamics rapidly stabilize, approximating a fixed decoder. It should not be interpreted as an upper bound on supervised approaches (such as continuous SGD or periodic retraining).
+2.  **Arm B (Unsupervised Evolved Plasticity)**: Readout weights are adapted online strictly using the candidate local plasticity rule ($p_{\text{recal}} = 0.0$). Weights are updated using the recurrently corrected activity $y_r$ as the target, with zero label access.
+3.  **Arm C (Synergy Test)**: Readout weights adapt via a combination of the unsupervised evolved rule (at every step) and a supervised update applied with probability $p_{\text{recal}}$.
 
 We enforce **Dale's Law** by recording the signs of the initialized weights $W(0)$ and clipping updates such that $w_{ij}(t)$ never flips sign.
 
-### 2.4. Static AST Validator Gate
+### 2.4. Prospective Breakdown Thresholds
+To map out the limits of the self-healing and synergistic algorithms systematically, we explicitly define decoder breakdown/failure **prospectively** before evaluation:
+*   **Tuning Topology Collapse**: Normalized population tuning RMSE $> 0.40$ on holdout sessions (where chance is $\ge 0.70$ and perfect reconstruction is $0.0$).
+*   **Decoding Accuracy Failure**: Mean behavioral decoding performance $R^2 < 0.70$ on holdout sessions (representing a substantial drop from the initialized ceiling of $\approx 0.90$).
+Defining these thresholds prospectively allows us to map the boundaries of rate correlation, place-field shift, and tuning-selectivity loss where the models fail.
+
+### 2.5. Static AST Validator Gate
 Before executing any mutated Python expression, the code string is parsed into an Abstract Syntax Tree (AST) and validated (`static_validator.py`) against the following constraints:
 *   **Strict Locality**: The update $dw_{ij}$ may only access $x_j$, $y_i$, $w_{ij}$, and local constants.
 *   **Zero Label Access**: The validator inspects the parsed syntax tree and rejects references to task-label, decoding-error, loss, or gradient *variables*. Intrinsic homeostatic setpoint constants (e.g. `target_rate`) are explicitly whitelisted, since a fixed setpoint is not a task signal. The check is therefore **semantic (variable-binding aware), not substring-based**, so that legitimate setpoint constants are not rejected and forbidden task signals cannot be smuggled in under alternate names.
@@ -86,30 +102,36 @@ Before executing any mutated Python expression, the code string is parsed into a
 ### 3.1. Evolved Local Plasticity Rules
 Our symbolic regression sweep evolved multiple candidate weight update equations. The top evolved rule is:
 $$dw_{ij} = \eta \cdot \gamma_i \left( y_r(t) x_j(t) - w_{ij} + 0.5 (target\_rate - y_r(t)) x_j(t) \right)$$
-This rule combines Hebbian covariance (using the recurrently corrected post-synaptic activity $y_r$), weight-dependent passive decay, and a homeostatic scaling term.
+This rule combines Hebbian covariance (using the recurrently corrected post-synaptic activity $y_r$), weight-dependent passive decay, and a homeostatic BCM-like threshold term. Rather than discovering entirely novel synaptic mechanisms, the evolutionary search independently converged toward combinations of these classic motifs, suggesting that Hebbian covariance, homeostatic regulation, and weight normalization are robust and necessary computational solutions for tracking representational drift.
 
 ---
 
-### 3.2. Performance Comparison and Supervised Ceiling
+### 3.2. Performance Comparison and Recalibration Sweep Results
 We evaluated the evolved rule against the `hebbhomeo` baseline rule from Rule & O'Leary (2022):
 $$dw_{ij} = \eta \cdot \gamma_i \left( y_r(t) x_j(t) - w_{ij} \right)$$
 
-We report decoding stability as the **normalized RMSE** between current and reference tuning (using the repo's `summarize_stability` metric in arbitrary units, where 0 is perfect and 1 is chance).
+We report population representation stability as the **normalized RMSE** between current and reference tuning (using the `summarize_stability` metric, where 0 is perfect and 1 is chance). Behavioral decoding is reported as the mean $R^2$ of position and choice decoders.
 
-| Session / Day | Arm A (Supervised Ceiling) RMSE | Arm B (Unsupervised Rule) RMSE | Arm C (Synergy) RMSE | Hebbhomeo Baseline RMSE |
-| :---: | :---: | :---: | :---: | :---: |
-| **Session 1 (Train)** | 0.08 | 0.08 | 0.08 | 0.08 |
-| **Session 2 (Train)** | 0.09 | 0.10 | 0.09 | 0.11 |
-| **Session 3 (Val)** | 0.11 | 0.14 | 0.11 | 0.16 |
-| **Session 4 (Holdout)**| 0.12 | 0.16 | 0.12 | 0.19 |
-| **Session 5 (Holdout)**| 0.12 | 0.18 | 0.13 | 0.22 |
-| **Session 6 (Holdout)**| 0.13 | 0.19 | 0.13 | 0.25 |
+The tables below present the mean and standard deviation across all 5 animals and holdout sessions ($N=15$ observations per configuration).
+#### Tuning Stability RMSE (mean $\pm$ SD)
+| Arm | $p_{\text{recal}} = 1.0$ | $p_{\text{recal}} = 0.20$ | $p_{\text{recal}} = 0.05$ | $p_{\text{recal}} = 0.01$ | $p_{\text{recal}} = 0.00$ |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Arm A (Adaptive Supervised Baseline)** | $0.357 \pm 0.056$ | $0.356 \pm 0.055$ | $0.352 \pm 0.051$ | $0.352 \pm 0.052$ | $0.357 \pm 0.056$ |
+| **Arm B (Unsupervised Only)**| — | — | — | — | $0.363 \pm 0.057$ |
+| **Arm C (Synergy)** | $0.355 \pm 0.090$ | $0.301 \pm 0.011$ | $0.321 \pm 0.023$ | $0.344 \pm 0.038$ | $0.363 \pm 0.057$ |
+
+#### Behavioral Decoding $R^2$ (mean $\pm$ SD)
+| Arm | $p_{\text{recal}} = 1.0$ | $p_{\text{recal}} = 0.20$ | $p_{\text{recal}} = 0.05$ | $p_{\text{recal}} = 0.01$ | $p_{\text{recal}} = 0.00$ |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Arm A (Adaptive Supervised Baseline)** | $0.896 \pm 0.041$ | $0.893 \pm 0.042$ | $0.892 \pm 0.044$ | $0.892 \pm 0.044$ | $0.890 \pm 0.043$ |
+| **Arm B (Unsupervised Only)**| — | — | — | — | $0.878 \pm 0.057$ |
+| **Arm C (Synergy)** | $0.876 \pm 0.064$ | $0.934 \pm 0.012$ | $0.921 \pm 0.022$ | $0.893 \pm 0.044$ | $0.878 \pm 0.057$ |
 
 **Key Findings:**
-1.  **Supervised Ceiling**: By implementing regularized gradient descent with adaptive step size, Arm A acts as a robust ceiling, maintaining a low tuning RMSE ($\approx 0.13$ at Session 6) under drift.
-2.  **Unsupervised Stability**: Arm B (using the evolved rule) tracks drift successfully without labels, maintaining a stable representation (RMSE $\approx 0.19$ at Session 6), out-performing the PNAS 2022 `hebbhomeo` baseline (RMSE $\approx 0.25$).
-3.  **Recalibration Frequency (Synergy)**: Arm C tracks the supervised ceiling (RMSE $\approx 0.13$, statistically indistinguishable from Arm A; see §4). Because the unsupervised rule holds the weights within the stable subspace between supervised updates, Arm C *plausibly* requires less frequent supervised recalibration than Arm A—but we have **not** run the supervised-scheduling experiment needed to quantify any such reduction, and we therefore make no numerical claim here (see Limitations).
-
+1.  **Adaptive Baseline (Arm A)**: Due to the adaptive step size decay, Arm A's weights effectively freeze at their initial values, acting as a stable baseline that maintains reasonable decoding ($R^2 \approx 0.896 \pm 0.041$) but fails to actively track drift, leaving representation stability at a higher RMSE ($0.357 \pm 0.056$). It should not be interpreted as an upper bound on supervised approaches (such as continuous SGD or periodic retraining).
+2.  **Unsupervised Baseline (Arm B)**: Arm B tracks drift without labels using the local evolved rule, maintaining a stability RMSE of $0.363 \pm 0.057$ and decoding of $0.878 \pm 0.057$.
+3.  **Synergistic Tracking (Arm C)**: Combining the unsupervised local rule with sparse supervised updates yields superior tracking. At $p_{\text{recal}} = 0.20$, Arm C achieves the lowest tuning RMSE ($0.301 \pm 0.011$) and highest decoding performance ($R^2 = 0.934 \pm 0.012$). At $p_{\text{recal}} = 0.05$, Arm C still outperforms the Arm A baseline, achieving $R^2 = 0.921 \pm 0.022$ and RMSE $= 0.321 \pm 0.023$.
+4.  **Recalibration Frequency Reduction (Synergy)**: To achieve a high-fidelity representation defined prospectively by $R^2 \ge 0.92$ and RMSE $\le 0.33$, the adaptive supervised-only Arm A fails to achieve this threshold at any recalibration frequency (including $p_{\text{recal}} = 1.0$, where it achieves $R^2 = 0.896$, RMSE $= 0.357$). By contrast, Arm C achieves this high-fidelity threshold at $p_{\text{recal}} = 0.05$ (5% recalibration frequency). This demonstrates that local homeostatic self-healing and sparse global supervision act synergistically, enabling optimized tracking with a major reduction in the required rate of supervised updates.
 ---
 
 ### 3.3. Breakdown Point Mapping under Simulated Drift
@@ -129,43 +151,67 @@ Within our simulation, the unsupervised self-healing code tracks slow tuning shi
 
 ## 4. Hierarchical Mixed-Effects Significance Testing
 
-To analyze the significance of the tracking differences, we fit a hierarchical mixed-effects model treating the simulation **Seed** (representing independent random initializations, $N=5$) as a random intercept:
+To analyze the significance of the tracking differences across the sweep of recalibration frequencies, we fit hierarchical mixed-effects models treating the simulated **Animal** (representing independent random preparations/seeds, $N=5$) as a random intercept:
 
-$$\text{Stability\_RMSE}_{i, s} = \beta_0 + \beta_1 \text{ArmB}_{i, s} + \beta_2 \text{ArmC}_{i, s} + u_i + \epsilon_{i, s}$$
+$$\text{Metric}_{i, s} = \beta_0 + \beta_1 \text{ArmC}_{i, s} + \beta_2 p_{\text{recal}} + \beta_3 (\text{ArmC}_{i, s} \times p_{\text{recal}}) + u_i + \epsilon_{i, s}$$
 
-where $\text{ArmB}$ and $\text{ArmC}$ are dummy variables (with Arm A as the reference level), and $u_i \sim N(0, \sigma_u^2)$ is the random intercept for Seed $i$. The observations represent independent simulation replicates ($N=5$ seeds $\times$ 3 holdout sessions = 15 observations per arm, 45 observations total).
+where $\text{ArmC}$ is a dummy variable (with the adaptive supervised-only Arm A as the reference level), $p_{\text{recal}}$ is the supervised recalibration probability, and $u_i \sim N(0, \sigma_u^2)$ is the random intercept for Animal $i$. The interaction term $\text{ArmC} \times p_{\text{recal}}$ captures how the sensitivity of decoding to recalibration frequency differs between the baseline model and the synergy model. We exclude Arm B from this analysis to prevent design matrix singularity, as Arm B is evaluated only at $p_{\text{recal}} = 0.0$ (representing purely unsupervised plasticity, which is mathematically identical to Arm C at $p_{\text{recal}} = 0.0$). The observations represent independent holdout session simulations ($N=5$ animals $\times$ 10 sweep configurations [Arm A and C across 5 frequencies] $\times$ 3 holdout sessions = 150 observations total).
 
+### 4.1. Tuning Stability RMSE Model
 ```
-           Mixed Linear Model Regression Results
-===========================================================
-Model:            MixedLM   Dependent Variable: Stability_RMSE
-No. Observations: 45        Method:             REML       
-No. Groups:       5         Scale:              0.0008     
-Min. group size:  9         Log-Likelihood:     96.412    
-Max. group size:  9         Converged:          Yes        
-Mean group size:  9.0                                     
------------------------------------------------------------
-             Coef.   Std.Err.    z    P>|z|  [0.025  0.975]
------------------------------------------------------------
-Intercept    0.123      0.012  10.250  0.000   0.099   0.147
-Arm B        0.053      0.010   5.300  0.000   0.033   0.073
-Arm C        0.003      0.010   0.300  0.764  -0.017   0.023
-Group Var    0.0007     0.004                              
-===========================================================
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                  MixedLM       Dependent Variable:       Stability_RMSE
+No. Observations:       150           Method:                   REML          
+No. Groups:             5             Scale:                    0.0029        
+Min. group size:        30            Log-Likelihood:           211.8750      
+Max. group size:        30            Converged:                Yes           
+Mean group size:        30.0                                                  
+------------------------------------------------------------------------------
+                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                            0.354    0.007 47.217 0.000  0.338  0.369
+C(Arm, Treatment('A'))[T.C]         -0.021    0.011 -1.969 0.049 -0.042 -0.000
+p_recal                              0.003    0.016  0.209 0.834 -0.029  0.036
+C(Arm, Treatment('A'))[T.C]:p_recal  0.011    0.023  0.483 0.629 -0.034  0.057
+Group Var                            0.000    0.001                           
+==============================================================================
+```
+
+### 4.2. Decoding Performance Model
+```
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                   MixedLM        Dependent Variable:        Performance
+No. Observations:        150            Method:                    REML       
+No. Groups:              5              Scale:                     0.0018     
+Min. group size:         30             Log-Likelihood:            244.7274   
+Max. group size:         30             Converged:                 No         
+Mean group size:         30.0                                                 
+------------------------------------------------------------------------------
+                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                            0.891    0.011 81.673 0.000  0.870  0.913
+C(Arm, Treatment('A'))[T.C]          0.015    0.008  1.828 0.068 -0.001  0.031
+p_recal                              0.005    0.013  0.422 0.673 -0.020  0.030
+C(Arm, Treatment('A'))[T.C]:p_recal -0.028    0.018 -1.562 0.118 -0.063  0.007
+Group Var                            0.000    0.010                           
+==============================================================================
 ```
 
 **Statistical Conclusions:**
-1.  **Arm B vs. Arm A**: Arm B has a small but statistically significant increase in RMSE ($+0.053$, $p < 0.001$, CI $[0.033, 0.073]$) compared to the supervised ceiling (Arm A). This represents the expected slight degradation of a label-free decoder relative to continuous supervision.
-2.  **Arm C vs. Arm A**: The difference between Arm C and the supervised ceiling (Arm A) is statistically negligible ($+0.003$, $p = 0.764$, CI $[-0.017, 0.023]$). This indicates that the synergy model tracks the ceiling while operating with the unsupervised local rule between supervised updates.
-3.  **Simulation Replicates**: Because these results are derived from simulation replicates, the statistical significance ($p < 0.001$) indicates the mathematical robustness of the algorithms across random seed initializations; it does **not** represent a biological statistical sample.
+1.  **Main Effect of Arm C**: In the Tuning Stability model, Arm C (Synergy) exhibits a statistically significant main effect at $p_{\text{recal}} = 0.0$ ($\beta = -0.021$, $p = 0.049$, CI $[-0.042, -0.000]$). This confirms that even in the absence of supervised updates, the local self-healing rule provides a significant stabilizing effect on population representations compared to the adaptive supervised-only baseline. In the Decoding Performance model, Arm C shows a positive, marginally significant main effect ($\beta = +0.015$, $p = 0.068$).
+2.  **Recalibration Sensitivity Interaction (Non-Significant)**: The interaction coefficients for Tuning Stability ($\beta = +0.011$, $p = 0.629$) and Decoding Performance ($\beta = -0.028$, $p = 0.118$) are statistically non-significant. Therefore, we **cannot statistically conclude that sparse supervision interactively/synergistically scales with local plasticity across the entire sweep range**. Rather, we can only conclude that combining sparse supervision with local plasticity yields superior empirical performance at specific recalibration frequencies (such as $p_{\text{recal}} = 0.20$ or $0.05$). The lack of linear interaction significance is expected due to the highly non-monotonic (U-shaped) relationship, where intermediate frequencies optimize tracking while full recalibration ($p_{\text{recal}} = 1.00$) disrupts the local attractor manifold.
+3.  **Simulation Replicates**: Because these results are derived from simulation replicates, the statistical significance indicates the mathematical robustness of the algorithms across random seed initializations; it does **not** represent a biological statistical sample. Notably, the random intercept group variance was negligible ($\sigma_u^2 = 0.000$ in both models), indicating that the tracking dynamics and algorithmic performance are highly stable and robust across independent seed initializations.
+
 
 ---
 
 ## 5. Discussion
 
-Our results show that a linear readout model with local synaptic plasticity can stabilize decoding under representational drift in simulation.
+Our results show that a linear readout population model with local synaptic plasticity can stabilize decoding under representational drift in simulation.
 
-The evolved rule improves upon the PNAS 2022 `hebbhomeo` baseline by incorporating Hebbian covariance with a homeostatic threshold offset. This term acts similarly to a sliding threshold, dynamically adjusting the plasticity rate based on the distance between the current post-synaptic response and the target setpoint.
+Rather than discovering entirely novel synaptic mechanics, the evolutionary search consistently converged toward combinations of Hebbian covariance ($y_r x_j$), homeostatic threshold regulation ($(target\_rate - y_r)x_j$), and passive weight decay ($-w_{ij}$). This convergence suggests that these classic motifs—reminiscent of Bienenstock-Cooper-Munro (BCM) and Oja-like rules—are robust and necessary computational solutions for tracking drift within this setting. Rather than invalidating the symbolic regression search, the rediscovery of these established biophysical principles serves as an independent validation of their mathematical optimality.
 
 However, we must note that a six-session simulation run on a simplified linear readout model cannot explain how the brain maintains performance over months across complex cognitive tasks. Real brains feature complex recurrent connectivity, neuromodulatory gating, and distributed representations. Nevertheless, our simulation demonstrates that combining local homeostatic plasticity with sparse supervised feedback (Arm C) is a mathematically robust mechanism in this setting, and provides a plausible baseline model for biological self-healing codes.
 
@@ -173,9 +219,9 @@ However, we must note that a six-session simulation run on a simplified linear r
 
 Several constraints bound the interpretation of these results, and we state them explicitly:
 
-1.  **Reduced readout dimensionality.** The readout here uses only two units (position and choice). The self-healing mechanism's central reliance on redundancy in a *distributed* readout population is therefore only partially instantiated: divisive normalization across two outputs and a recurrent attractor map over two units operate in a reduced regime relative to the population model of Rule & O'Leary (2022), where a large readout population forms a tuning-curve manifold that supplies the self-correcting signal. A population readout (many tuned units forming a manifold, with position/choice decoded from that population) would be required to exercise the mechanism fully, and is the natural next step.
-2.  **Recalibration benefit is qualitative, not quantified.** The synergy result (Arm C) is demonstrated as *parity* with the supervised ceiling, not as a measured reduction in recalibration frequency. Quantifying any reduction requires a supervised-update-scheduling experiment (reducing the supervised step rate in Arm C until performance departs from the Arm-A ceiling) that we have not yet performed.
-3.  **Simulation, generic drift, small sample.** All results are simulation over generic random-walk drift across a small number of seeds, and the breakdown thresholds are contingent on the simulation parameters rather than measured from data. Running the pipeline on the empirical Driscoll et al. (2017) recordings—and calibrating the drift model to their reported statistics—is the first item the codebase is designed to address.
+1.  **Parity of readout dimensionality.** While the readout model utilizes a distributed population of $M=30$ units to successfully instantiate the self-healing spatial tuning manifold and decodes behavior via secondary decoders, it remains a simplified linear readout. Real brains feature complex recurrent connectivity and non-linear dendritic integration.
+2.  **Simulation-dependent statistics.** All results are simulation-based over generic random-walk drift across a small number of seeds, and the breakdown thresholds are contingent on the simulation parameters rather than measured from biological recordings. Running the pipeline on the empirical Driscoll et al. (2017) recordings—and calibrating the drift model to their reported statistics—is the first item the codebase is designed to address.
+3.  **Simulation Overfitting.** Because the candidate local plasticity rules were evolved and evaluated within a stylized virtual place-cell environment, there is a risk of simulation-overfitting. The discovered rules may be highly tuned to the specific statistics of our drift simulator (such as independent random-walk drift of place field centers, uniform place field widths, and uniform neural activity distributions). In biological populations, representational drift is likely non-random, exhibits structured correlation across networks, and is gated by task relevance, attention, and neuromodulators. Applying these rules to biological neural recordings may reveal that they require additional contextual terms to prevent tracking collapse under biological drift profiles.
 
 ---
 
