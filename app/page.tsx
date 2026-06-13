@@ -73,7 +73,10 @@ export const researchHomeLd = {
       hasPart: [
         { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
         { '@id': `${SITE_URL}/papers/the_perturber_question#article` },
+        { '@id': `${SITE_URL}/papers/retrograde_p9#article` },
         { '@id': `${SITE_URL}/papers/readout_plasticity_paper#article` },
+        { '@id': `${SITE_URL}/papers/machine_learning_g2_betti#article` },
+        { '@id': `${SITE_URL}/papers/de_sitter_swampland_map#article` },
         { '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article` },
         { '@id': `${SITE_URL}/papers/dissolving-self-ocean-planet#article` },
         { '@id': `${SITE_URL}/papers/chronobiological-entrainment#article` },
@@ -130,6 +133,63 @@ export const researchHomeLd = {
         { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
       ],
       creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/machine_learning_g2_betti#article`,
+      headline:
+        'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data: A Leakage-Audited Predictive Test',
+      url: `${SITE_URL}/papers/machine_learning_g2_betti`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['G2 manifolds', 'M-theory compactification', 'Calabi-Yau threefolds', 'Kreuzer-Skarke database', 'Machine learning in physics', 'Feature leakage'],
+      abstract:
+        'A test of whether the Betti numbers b2 and b3 of candidate G2 manifolds can be predicted from the underlying Calabi-Yau topology and a Z2 involution encoding, without access to the invariant eigenspace dimensions that trivially determine them. Using real entries from the public orientifold Calabi-Yau database derived from the Kreuzer-Skarke classification, a deep neural network is benchmarked against an ordinary-least-squares baseline on a held-out set of involution families with no training overlap. The network outperforms the baseline on the non-trivial target b2 and is outperformed on the linear-dominated b3; the mixed result is reported in full. A self-audit documents a prior version whose circular result and synthetic data were removed in revision. The smooth G2 resolution is assumed, not constructed. Presented as a leakage-audited methods study, not peer-reviewed.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
+      creativeWorkStatus: 'Methods study (not peer-reviewed)',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/de_sitter_swampland_map#article`,
+      headline:
+        'The de Sitter Problem in the String Swampland: A Verified Literature Map',
+      url: `${SITE_URL}/papers/de_sitter_swampland_map`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['de Sitter vacua', 'Swampland program', 'String theory landscape', 'KKLT construction', 'Large Volume Scenario', 'Dark Dimension'],
+      abstract:
+        'A literature map of the de Sitter problem in the string/M-theory swampland program: whether string theory admits stable or metastable de Sitter vacua, or whether quantum gravity forbids them. The map structures the debate around seven open problems — KKLT control, Large Volume Scenario control, the de Sitter Swampland Conjecture, the Dark Dimension, quintessence, the Dine-Seiberg problem, and Trans-Planckian Censorship — representing each camp\'s strongest arguments without adjudicating between them. Citations carry provenance tags distinguishing independently resolved identifiers from sourced-but-unaudited ones. A non-peer-reviewed synthesis and orientation tool, not original research.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
+      creativeWorkStatus: 'Literature synthesis (not peer-reviewed; not original research)',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/retrograde_p9#article`,
+      headline:
+        'A Reproducible N-Body Pipeline and Numerical Convergence Framework for Retrograde Planet Nine Configurations',
+      url: `${SITE_URL}/papers/retrograde_p9`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['Planet Nine', 'Retrograde perturber', 'N-body simulation', 'REBOUND integrator', 'Extreme trans-Neptunian objects', 'Numerical convergence'],
+      abstract:
+        'A reproducible active point-mass N-body pipeline and numerical convergence framework for studying highly inclined, retrograde perturbers, built on REBOUND\'s adaptive ias15 solver rather than phase-averaged secular approximations. A 20,000-year proof-of-concept run projects early-phase dynamical drift into Cartesian Poincaré coordinates, coupled with an infrared detectability parameterization anchored to Fortney et al. (2016). The run is explicitly an initialization and boundary-validation phase confirming integrator stability prior to HPC-scale deployment; it spans roughly 1.55 perturber revolutions, four to five orders of magnitude short of the secular shepherding timescale, and reaches no physical shepherding conclusion by construction. A methods-and-infrastructure paper, not peer-reviewed.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
+      creativeWorkStatus: 'Methods / infrastructure (not peer-reviewed; reaches no physical conclusion)',
     },
     {
       '@type': 'ScholarlyArticle',
@@ -362,6 +422,120 @@ export default function ResearchHomepage() {
             </div>
 
             <Link href="/papers/readout_plasticity_paper" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* G2 Manifold ML */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  M-Theory / Machine Learning / Methods
+                </div>
+                <Link href="/papers/machine_learning_g2_betti">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A leakage-audited test of whether a neural network can predict the Betti numbers of candidate G2 manifolds from real Kreuzer-Skarke-derived Calabi-Yau topology and a Z2 involution encoding, benchmarked against a linear baseline. The network wins on the non-trivial target and loses on the linear-dominated one &mdash; the mixed result is reported in full. Includes a self-audit of a prior version whose circular result and synthetic data were removed in revision. The smooth G2 resolution is assumed, not constructed.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/machine_learning_g2_betti" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* de Sitter Swampland Map */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  String Theory / Literature Synthesis / Swampland
+                </div>
+                <Link href="/papers/de_sitter_swampland_map">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    The de Sitter Problem in the String Swampland: A Verified Literature Map
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A verified map of the contested de Sitter problem in the string/M-theory swampland program, structured around seven open problems and their competing camps &mdash; KKLT control, the Large Volume Scenario, the de Sitter Swampland Conjecture, the Dark Dimension, quintessence, Dine-Seiberg, and Trans-Planckian Censorship. Each camp's strongest arguments are represented without adjudication, and citations carry provenance tags marking which identifiers were independently resolved. A synthesis and orientation tool, not original research.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/de_sitter_swampland_map" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* Retrograde Planet Nine Pipeline */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Astronomy / N-Body Methods / Infrastructure
+                </div>
+                <Link href="/papers/retrograde_p9">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    A Reproducible N-Body Pipeline for Retrograde Planet Nine Configurations
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A reproducible active point-mass N-body pipeline and numerical convergence framework for studying highly inclined retrograde perturbers, built on REBOUND's ias15 solver rather than phase-averaged secular approximations, with a coupled infrared detectability parameterization. The 20,000-year proof-of-concept run is explicitly an integrator-stability and boundary-validation phase &mdash; roughly 1.55 perturber revolutions, far short of the secular shepherding timescale &mdash; and reaches no shepherding conclusion by construction.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/retrograde_p9" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
               &#8599;
             </Link>
           </article>

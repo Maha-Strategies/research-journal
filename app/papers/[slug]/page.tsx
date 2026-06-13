@@ -85,6 +85,51 @@ const PAPER_META: Record<
     about: ['Representational drift', 'Synaptic plasticity', 'Symbolic regression', 'Computational neuroscience', 'Hierarchical modeling', 'Hebbian learning'],
     abstract: 'Neuronal representations in sensory and association cortices undergo continuous reorganization over days and weeks, a phenomenon known as representational drift. This study implements a grammar-constrained symbolic regression framework to systematically discover optimal local plasticity rules governing the readout weights of an empirical neural population (Posterior Parietal Cortex, PPC, of mice performing a virtual-navigation task).',
   },
+  'machine_learning_g2_betti': {
+    title: 'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data: A Leakage-Audited Predictive Test',
+    description:
+      'A leakage-audited machine-learning test predicting the Betti numbers of candidate G2 manifolds from orientifold Calabi-Yau topology and Z2 involution data, benchmarked against a linear baseline on real Kreuzer-Skarke-derived data. The deep model beats the baseline on the non-trivial target and loses on the linear-dominated one; the result is reported in full, including a self-audit of a prior circular version.',
+    about: [
+      'G2 manifolds',
+      'M-theory compactification',
+      'Calabi-Yau threefolds',
+      'Kreuzer-Skarke database',
+      'Machine learning in physics',
+      'Feature leakage',
+    ],
+    abstract:
+      'A test of whether the Betti numbers b2 and b3 of candidate G2 manifolds can be predicted from the underlying Calabi-Yau topology and a Z2 involution encoding, without access to the invariant eigenspace dimensions that trivially determine them. Candidate G2 spaces are constructed as orbifolds from orientifold Calabi-Yau threefolds (the smooth G2 resolution is assumed, not constructed). Using real entries from the public orientifold Calabi-Yau database derived from the Kreuzer-Skarke classification, a deep neural network is benchmarked against an ordinary-least-squares baseline on a held-out set of involution families with no training overlap. The network outperforms the baseline on the non-trivial target b2 and is outperformed on the linear-dominated b3; the mixed result is reported in full. A self-audit documents a prior version whose circular result and synthetic data were removed in revision. Presented as a leakage-audited methods study, not peer-reviewed.',
+  },
+  'de_sitter_swampland_map': {
+    title: 'The de Sitter Problem in the String Swampland: A Verified Literature Map',
+    description:
+      'A verified literature map of the contested de Sitter problem in the string/M-theory swampland program, surveying seven open problems and their competing camps with provenance-tagged, independently resolved citations. A synthesis and orientation tool, not original research, and explicit about which citations were verified.',
+    about: [
+      'de Sitter vacua',
+      'Swampland program',
+      'String theory landscape',
+      'KKLT construction',
+      'Large Volume Scenario',
+      'Dark Dimension',
+    ],
+    abstract:
+      'A literature map of the de Sitter problem in the string/M-theory swampland program: whether string theory admits stable or metastable de Sitter vacua, or whether quantum gravity forbids them. The map structures the debate around seven open problems — KKLT control, Large Volume Scenario control, the de Sitter Swampland Conjecture, the Dark Dimension, quintessence, the Dine-Seiberg problem, and Trans-Planckian Censorship — representing each camp\'s strongest arguments without adjudicating between them. Citations carry provenance tags distinguishing independently resolved identifiers from sourced-but-unaudited ones. Presented as a non-peer-reviewed synthesis and orientation tool, not original research.',
+  },
+  'retrograde_p9': {
+    title: 'A Reproducible N-Body Pipeline and Numerical Convergence Framework for Retrograde Planet Nine Configurations',
+    description:
+      'A reproducible active-point-mass N-body pipeline and convergence-boundary framework for studying highly inclined retrograde Planet Nine configurations, with a coupled infrared detectability parameterization. Explicitly infrastructure and a stability check, not a determination of shepherding efficiency, which requires integration timescales orders of magnitude longer.',
+    about: [
+      'Planet Nine',
+      'Retrograde perturber',
+      'N-body simulation',
+      'REBOUND integrator',
+      'Extreme trans-Neptunian objects',
+      'Numerical convergence',
+    ],
+    abstract:
+      'A reproducible methodological specification, code architecture, and numerical convergence framework for studying highly inclined, retrograde perturbers, built on an active point-mass integration using REBOUND\'s adaptive ias15 solver rather than phase-averaged secular approximations. A 20,000-year proof-of-concept run projects early-phase dynamical drift into Cartesian Poincaré coordinates, coupled with an infrared detectability parameterization anchored to Fortney et al. (2016). The run is explicitly an initialization and boundary-validation phase confirming integrator stability prior to HPC-scale deployment; it spans roughly 1.55 perturber revolutions, four to five orders of magnitude short of the secular shepherding timescale, and reaches no physical shepherding conclusion by construction. Presented as a methods-and-infrastructure paper, not peer-reviewed.',
+  },
 };
 
 export async function generateMetadata({
