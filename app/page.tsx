@@ -71,6 +71,7 @@ export const researchHomeLd = {
       about:
         'Cross-disciplinary structural analogies generated via human-curated agentic AI synthesis, presented as testable hypotheses.',
       hasPart: [
+        { '@id': `${SITE_URL}/papers/the-maha-framework#article` },
         { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
         { '@id': `${SITE_URL}/papers/the_perturber_question#article` },
         { '@id': `${SITE_URL}/papers/retrograde_p9#article` },
@@ -95,6 +96,25 @@ export const researchHomeLd = {
       name: 'Mayone Maha Rajan',
       url: 'https://www.mayonemaharajan.com',
       jobTitle: 'Architect / Curator',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/the-maha-framework#article`,
+      headline:
+        'The M·A·H·A Framework: An Integrative Architecture for Resisting Systemic Metabolic, Attentional, and Relational Extraction',
+      url: `${SITE_URL}/papers/the-maha-framework`,
+      datePublished: '2026-06',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      about: ['M·A·H·A Framework', 'Metabolic health', 'Attention economy', 'Cognitive liberty', 'Commons governance', 'Systems thermodynamics'],
+      abstract:
+        'This paper formalizes the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model designed to resist the compounding crises of the early twenty-first century. The core thesis of the framework is that contemporary metabolic, attentional, and relational pathologies may be productively understood not as isolated public health failures, but as coupled downstream consequences of a single, structurally extractive economic architecture.',
+      isAccessibleForFree: true,
+      creator: [
+        { '@id': `${SITE_URL}/#architect` },
+        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      ],
+      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
     },
     {
       '@type': 'ScholarlyArticle',
@@ -248,7 +268,7 @@ export const researchHomeLd = {
       ],
       creativeWorkStatus: 'Synthesis review (not peer-reviewed; figures pending verification)',
     },
-        {
+    {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/chronobiological-entrainment#article`,
       headline:
@@ -312,7 +332,45 @@ export default function ResearchHomepage() {
             Vol. 1 — Inaugural Synthesis
           </div>
 
-          {/* Lead Paper Item — Planet Nine */}
+          {/* Lead Paper Item — The M·A·H·A Framework */}
+          <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Systems Theory / Socio-Biology / Framework
+                </div>
+                <Link href="/papers/the-maha-framework">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    The M·A·H·A Framework: An Integrative Architecture for Resisting Systemic Extraction
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                June 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A formalization of the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model. This paper proposes that contemporary metabolic, attentional, and relational pathologies may be productively understood not as isolated public health failures, but as coupled downstream consequences of a single, structurally extractive economic architecture.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Google Antigravity (agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/the-maha-framework" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
+          {/* Planet Nine */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
               <div className="space-y-2">
@@ -388,7 +446,7 @@ export default function ResearchHomepage() {
             </Link>
           </article>
 
-          {/* New Lead Paper Item — Synaptic Plasticity */}
+          {/* Synaptic Plasticity */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
               <div className="space-y-2">
@@ -541,7 +599,7 @@ export default function ResearchHomepage() {
           </article>
 
 
-          {/* Featured Paper Item */}
+          {/* Thermodynamic Isomorphism */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
               <div className="space-y-2">
@@ -579,7 +637,7 @@ export default function ResearchHomepage() {
             </Link>
           </article>
 
-          {/* Second entry */}
+          {/* Dissolving Self Ocean Planet */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
               <div className="space-y-2">
@@ -617,7 +675,7 @@ export default function ResearchHomepage() {
             </Link>
           </article>
 
-                    {/* Chronobiology entry */}
+          {/* Chronobiology entry */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
               <div className="space-y-2">
@@ -651,9 +709,8 @@ export default function ResearchHomepage() {
               &#8599;
             </Link>
           </article>
-        </section>
 
-          {/* Third entry */}
+          {/* Fusion Energy */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mt-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
               <div className="space-y-2">
@@ -686,12 +743,12 @@ export default function ResearchHomepage() {
               </div>
             </div>
 
-            
-
             <Link href="/papers/commercial-fusion-viability" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors">
               &#8599;
             </Link>
           </article>
+
+        </section>
 
         {/* MANIFESTO SECTION */}
         <section id="manifesto" className="scroll-mt-24 border-t border-zinc-800/50 pt-16">

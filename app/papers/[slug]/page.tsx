@@ -25,6 +25,19 @@ const PAPER_META: Record<
     abstract: string;
   }
 > = {
+  'the-maha-framework': {
+    title: 'The M·A·H·A Framework: An Integrative Architecture for Resisting Systemic Metabolic, Attentional, and Relational Extraction',
+    description: 'A formalization of the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model designed to resist modern metabolic, attentional, and relational pathologies.',
+    about: [
+      'M·A·H·A Framework',
+      'Metabolic health',
+      'Attention economy',
+      'Cognitive liberty',
+      'Commons governance',
+      'Systems thermodynamics',
+    ],
+    abstract: 'This paper formalizes the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model designed to resist the compounding crises of the early twenty-first century. The core thesis of the framework is that contemporary metabolic, attentional, and relational pathologies may be productively understood not as isolated public health failures, but as coupled downstream consequences of a single, structurally extractive economic architecture. We examine how the industrialization of food production, the algorithmic optimization of digital interfaces, and the erosion of local relational networks interact with human biological vulnerabilities. By mapping proposed couplings between cellular inflammation, prefrontal-cortex resource depletion, and parasocial cognitive offloading, this paper sketches a scale-free pathway toward metabolic and cognitive sovereignty. We present the framework\'s theoretical foundations in systems thermodynamics, lipidology, cognitive science, and commons governance, and conclude with a formal falsifiability protocol establishing empirical boundary conditions. This work is offered as a conceptual blueprint and an explicit set of testable propositions, not as established medical consensus.',
+  },
   'planet-nine-forecast': {
     title: 'A Monte Carlo Forecast for the Detection of Planet Nine',
     description: 'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine...',
