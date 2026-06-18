@@ -5,7 +5,7 @@
 **Architect & Curator:** Mayone Maha Rajan
 **AI Synthesis Instrument:** Google Antigravity (agentic model)
 
-*Revision 2 — June 2026*
+*Revision 3 — June 2026*
 
 *This forecast was produced through human-directed AI synthesis. The human architect curated the inquiry, selected the source models, and is responsible for all claims; the AI instrument assisted with drafting, simulation, and literature synthesis under that direction. All quantitative results are reproducible from the accompanying `simulation.py` (seed 42); parameter values quoted from secondary sources should be confirmed against the primary papers before being relied upon.*
 
@@ -13,20 +13,27 @@
 
 ## Abstract
 
-We forecast the detectability of the hypothesized Planet Nine by propagating a weighted three-model parameter ensemble — drawn from Batygin et al. (2019), Brown & Batygin (2021), and Siraj et al. (2025) — through a Monte Carlo orbit simulation (N = 100,000). For each sample we solve Kepler's equation, project to geocentric equatorial coordinates with `astropy`, estimate an r-band apparent magnitude, apply existing survey null-detection masks (ZTF, Pan-STARRS, DES), and model future detection by the Vera C. Rubin Observatory/LSST, Subaru/HSC, and infrared surveys through 2036. The current heliocentric distance dominates all detection uncertainty. The combined cumulative detection probability rises steeply once LSST reaches full depth and asymptotes near 0.61 by 2030, leaving a roughly two-fifths residual that is too faint or too far for current facilities. We treat the planet's existence as an unproven hypothesis and report how a sustained null result revises a stated prior. This report does not claim Planet Nine exists; it quantifies what its detection would look like *if* it does.
+We forecast the detectability of the hypothesized Planet Nine by propagating a weighted three-model parameter ensemble — drawn from Batygin et al. (2019), Brown & Batygin (2021), and Siraj et al. (2025) — through a Monte Carlo orbit simulation (N = 100,000). For each sample we solve Kepler's equation, project to geocentric equatorial coordinates with `astropy`, estimate an r-band apparent magnitude, apply existing survey null-detection masks (ZTF, Pan-STARRS, DES), and model future detection by the Vera C. Rubin Observatory/LSST, Subaru/HSC, and infrared surveys through 2036. The current heliocentric distance dominates all detection uncertainty. Under a corrected treatment of LSST's northern footprint (Revision 3), the combined cumulative detection probability rises to approximately 0.72 by 2032 under plausible northern-cadence coverage — up from the 0.61 reported in Revision 2, which modelled the northern boundary as a hard wall. The exact value is contingent on an undecided Rubin survey-scheduling choice; the honest figure is a range, ~0.61–0.72, whose width is the value of that decision. We treat the planet's existence as an unproven hypothesis and report how a sustained null result revises a stated prior. This report does not claim Planet Nine exists; it quantifies what its detection would look like *if* it does.
 
 ---
 
-## Revision note (what changed since Revision 1)
+## Revision note (what changed since Revision 2)
 
-This revision corrects and re-grounds the first-pass draft:
+Revision 3 corrects a load-bearing error in the detection-timing model that Revision 2 flagged in principle but did not act on. Revision 2's Limitations section noted that per-facility detection years were drawn from plausible binned schedules, not a cadence-level survey simulator. On examination, one of those heuristics — the treatment of LSST's northern footprint — was not merely coarse but materially wrong, and correcting it changes both a headline number and a central limitation claim.
 
-- **Siraj (2025) inclination of 6.8° ± 5.0° confirmed, not corrected.** Revision 1's audit flagged this value as a suspected transcription error because it sits well below the other models (~16–30°). On checking the source it is the genuine published 2025 figure, reflecting a markedly lower-inclination orbit than the original 2016 hypothesis. It is retained as-is and the discrepancy with older models is now framed as real epistemic disagreement, not a bug.
-- **The albedo sensitivity result is explained rather than "fixed."** The near-zero raw correlation between albedo and apparent magnitude (r ≈ −0.09 to −0.14) is *not* a propagation bug. The albedo term is correctly present in the magnitude equation; its effect is simply masked in raw Pearson correlation by the overwhelming variance of heliocentric distance. Controlling for distance and radius, the partial correlation of albedo with magnitude is −0.998, confirming the physics is wired in correctly. A partial-correlation column is added to the sensitivity table.
-- **Per-model "clustering significance" rows removed.** Clustering significance is a property of the trans-Neptunian object (TNO) observations, not of any one parameter model, so per-model values were conceptually misplaced (and partly unsourced). It is now reported once, separately, with a citation.
-- **"Consensus" language removed.** The three semi-major-axis estimates (≈290, ≈380, 400–800 AU) are an unresolved disagreement, not a consensus, which is the entire reason an ensemble is used.
-- **Parameter table and prose now match the code**, including the existing-survey masking step and the actual sampled argument-of-perihelion priors, which were absent from the Revision 1 writeup.
-- **Figures use relative paths** so the report is portable.
+**1. The LSST northern boundary: a hard wall replaced with a soft, survey-strategy parameter.** Revision 2 modelled LSST coverage as a hard cutoff at Dec ≤ +15°: every sample north of +15° received an infinite detection year (never detected). This is incorrect on two counts. First, the LSST Wide-Fast-Deep `baseline_v2.0` footprint spans Dec −72° to +12°, not −65° to +15° (arXiv:2303.02355). Second, and more importantly, the northern boundary is not a hardware limit but an editable survey-strategy choice: the telescope at Cerro Pachón can physically observe to Dec < +33.5° at airmass ≤ 2.2 (lsst.org), the Northern Ecliptic Spur mini-survey already extends coverage to ecliptic latitude +10° (arXiv:1812.01149), and a proposed northern extension could fill nearly to Dec ≈ +30° (Rubin–Euclid report). Revision 3 replaces the hard wall with a graded northern-coverage model: full cadence to +12°, reduced (NES-extension) cadence with a coverage penalty from +12° to +30°, low-priority coverage to +33.5°, and no coverage beyond. The northern coverage probabilities in this graded model (0.5 between +12° and +30°, 0.15 above) are reasoned estimates of plausible NES-extension coverage, not sourced values; they depend on Rubin scheduling decisions that are not yet finalized, and are tagged accordingly.
+
+**2. LSST limiting depth aligned to documented figures.** Revision 2 used a flat single-tier limit of $m_r < 25.0$. Revision 3 uses the documented Rubin depths — single-visit $r \approx 24.0$, ten-year co-add $r \approx 26.9$ — with a graded detection schedule, so bright objects are held to a slightly stricter early-survey limit and the faint tail becomes reachable only via deep late-survey co-addition. This produces a more physically realistic curve shape (lower in the first two seasons, higher in the back half of the survey).
+
+**3. Albedo prior aligned to sources.** Revision 2 sampled geometric albedo from $\mathcal{U}(0.3, 0.5)$. The companion repository and the cited source (Fortney et al. 2016) span 0.2–0.75. Revision 3 uses $\mathcal{U}(0.2, 0.75)$. This has negligible effect on the headline detection probability (the distance term dominates, as Revision 2's sensitivity analysis established) but removes an inconsistency between the code and the stated sources.
+
+### Effect on the results
+
+The corrections move the forecast's two headline outputs, both in the direction of greater instrument capability. Cumulative detection probability by 2036 rises from 61.3% to 71.9% (stable across random seeds to within Monte Carlo noise of ~0.3 points). The increment appears in 2030–2032, in the northern aphelion region the hard wall had previously zeroed out. The null-detection posterior strengthens accordingly: because the instruments are more capable than Revision 2 assumed, continued non-detection is stronger evidence against existence, pulling the stated prior of 70% down to ~39.6% (Revision 2: ~47.4%). The qualitative conclusion is unchanged — a null result erodes but does not refute the hypothesis — but the erosion is roughly 8 percentage points deeper.
+
+### Correction to the stated cause of the residual
+
+Revision 2's Limitations section described the residual non-detection probability as structural — a consequence of the faint, distant tail requiring a ≥10 m-class facility to close. Revision 3 revises this: a substantial part of the residual was not faintness but the hard northern coverage cutoff — a survey-scheduling artifact, not a fundamental sensitivity limit. The genuinely irreducible residual (faint, deep, off-ecliptic, galactic-plane-confused) is correspondingly smaller, and the primary recommendation shifts from 'a new large telescope is needed' to 'most of the apparent gap is closable by Rubin northern-cadence allocation; new hardware is warranted only for a narrow, atmosphere- and geometry-specific residual corner.' This correction is developed in the companion paper, *Planet Nine Detectability Gap Analysis: 2026–2035*, which is the source of the present revision.
 
 ---
 
@@ -104,7 +111,7 @@ Radius from the assumed mass–radius scaling:
 
 $$R = R_\oplus\sqrt{M_p/M_\oplus}, \qquad R_{\text{km}} = R \cdot 6371$$
 
-Geometric albedo $p_V \sim \mathcal{U}(0.3, 0.5)$. Absolute magnitude:
+Geometric albedo $p_V \sim \mathcal{U}(0.2, 0.75)$ *(Revision 3: widened from $\mathcal{U}(0.3, 0.5)$ to match Fortney et al. 2016)*. Absolute magnitude:
 
 $$H_V = 14.113 - 5\log_{10}(R_{\text{km}}) - 2.5\log_{10}(p_V)$$
 
@@ -139,7 +146,7 @@ Weights are then normalized to sum to one. This implements the published result 
 | Current heliocentric distance $d$ (AU) | 660.1 | +199.2 | −128.4 |
 | Apparent magnitude $m_r$ | 22.03 | +1.14 | −0.82 |
 
-The median predicted brightness near $m_r \approx 22$ sits squarely in the regime the literature has long anticipated (roughly $22 < V < 25$ near aphelion) and within LSST's single-epoch reach, but the faint tail beyond $m_r \approx 24.5$ is where detection becomes hard.
+The median predicted brightness near $m_r \approx 22$ sits squarely in the regime the literature has long anticipated (roughly $22 < V < 25$ near aphelion) and within LSST's single-epoch reach, but the faint tail beyond $m_r \approx 24.5$ is where detection becomes hard. (Credible intervals are essentially unchanged from Revision 2; the albedo-prior widening shifts them negligibly, consistent with the distance-dominated sensitivity.)
 
 ![Predicted apparent-magnitude distribution: a peaked, right-skewed histogram centered near r-band magnitude 22, with a long faint tail extending past 24.](/papers/figures/magnitude_histogram.png)
 *Figure 1. Prior-weighted distribution of predicted r-band apparent magnitude. The bulk lies between 21 and 24, with the faint tail (m_r > 24.5) representing the hardest-to-detect orbits.*
@@ -147,7 +154,7 @@ The median predicted brightness near $m_r \approx 22$ sits squarely in the regim
 ### 6.2 Where to look
 
 ![Sky-position probability heatmap in right ascension and declination, with the brightest probability density forming an arc near the ecliptic at low-to-moderate northern declination, overlaid with the ecliptic plane, galactic plane, and the galactic-plane confusion boundary.](/papers/figures/sky_position_heatmap.png)
-*Figure 2. On-sky probability density (geocentric equatorial). The highest-probability region follows the ecliptic and concentrates in the northern winter sky, roughly RA 3h–6h, Dec +10° to +30° — the aphelion direction where a body on an eccentric orbit spends most of its time. The white curves mark the galactic plane and its |b| = 15° confusion zone, where stellar crowding suppresses detection.*
+*Figure 2. On-sky probability density (geocentric equatorial). The highest-probability region follows the ecliptic and concentrates in the northern winter sky, roughly RA 3h–6h, Dec +10° to +30° — the aphelion direction where a body on an eccentric orbit spends most of its time. The white curves mark the galactic plane and its |b| = 15° confusion zone. Note that much of this high-probability northern region lies near and above the Dec +12° LSST baseline footprint edge — which is precisely why the northern-cadence scheduling choice corrected in Revision 3 is load-bearing for the detection probability.*
 
 The probability mass tracks the ecliptic (as expected for a planet) and piles up toward aphelion. Where that arc crosses the galactic plane, detection is degraded — a real observational handicap, not a modelling artifact.
 
@@ -171,16 +178,16 @@ To visualize how the orbital inclination parameters affect the detection probabi
 
 Detection year is modelled per facility:
 
-- **Vera C. Rubin Observatory / LSST** (10-yr survey; $\delta \le +15°$, $m_r < 25.0$): bright targets ($m_r < 23.5$) found in the first 1–2 seasons; mid-range by years 3–5; the faintest ($24.5 \le m_r < 25$) only via multi-year shift-and-stack. Galactic-plane samples carry a 70% per-pass miss penalty.
+- **Vera C. Rubin Observatory / LSST** (10-yr survey): *[Revision 3]* a graded northern-coverage model replaces the Revision 2 hard Dec ≤ +15° cutoff. Full WFD cadence applies to Dec ≤ +12° (`baseline_v2.0`); reduced NES-extension cadence with a coverage penalty applies from +12° to +30°; low-priority coverage extends to the telescope's physical limit of +33.5°; nothing is observable beyond. Depth uses documented Rubin limits (single-visit $r \approx 24.0$, ten-year co-add $r \approx 26.9$): bright targets found in the first 1–2 seasons, mid-range by years 3–5, the faintest only via multi-year co-addition late in the survey. Northern (Dec > +12°) detections carry a reduced-cadence delay; galactic-plane samples carry a 70% per-pass miss penalty.
 - **Subaru / Hyper Suprime-Cam** (targeted deep fields, $m_r < 26.0$): covers the aphelion box (RA 2.5h–5.5h, Dec +5° to +25°) with ~80% completeness outside the galactic plane, ~30% inside, on a 2026–2029 timescale.
-- **Infrared** (archival IRAS/AKARI plus NEO Surveyor): models thermal detection for $d_{\text{hel}} < 450$ AU on a 2028–2033 window. *Note: NEO Surveyor's operational dates should be reconfirmed against the current mission baseline before this window is cited as firm.*
+- **Infrared** (archival IRAS/AKARI plus NEO Surveyor): models thermal detection for $d_{\text{hel}} < 450$ AU; NEO Surveyor is baselined for launch around late 2027 (no later than June 2028), with a five-year survey running approximately mid-2028 through ~2033.
 
 The combined curve takes the earliest detection across facilities.
 
-![Cumulative detection probability versus calendar year from 2026 to 2036, showing a steep rise driven by LSST that levels off near 0.61 by 2030; LSST is the leading contributor, Subaru adds a smaller increment, and infrared surveys contribute least.](/papers/figures/detection_date_cdf.png)
-*Figure 3. Cumulative detection probability by year. The combined probability (black) climbs steeply as LSST reaches depth and asymptotes near 0.61 around 2030. LSST (blue) is the dominant contributor; Subaru/HSC (green) and IR surveys (red) add smaller increments.*
+![Cumulative detection probability versus calendar year from 2026 to 2036, showing a rise driven by LSST that asymptotes near 0.72 by 2032 under the corrected northern-coverage model; LSST is the leading contributor, Subaru adds a smaller increment, and infrared surveys contribute least.](/papers/figures/detection_date_cdf.png)
+*Figure 3 (Revision 3). Cumulative detection probability by year, under the corrected northern-coverage model. The combined probability (black) climbs as LSST reaches depth and asymptotes near 0.72 by 2032 — up from the 0.61 of Revision 2 — with the increment appearing in 2030–2032 in the northern aphelion region the previous hard wall had excluded. The 0.72 value is contingent on plausible NES-extension northern coverage; under no northern extension it remains near the Revision 2 value, so the honest figure is the range ~0.61–0.72.*
 
-The combined cumulative probability reaches **~61% by 2030** and then flattens. The residual ~39% corresponds to orbits that are simultaneously too faint ($m_r > 25$) and outside the deep targeted footprints — the parameter space that a future ≥10 m-class facility would be needed to close.
+The combined cumulative probability reaches **~72% by 2032** under plausible northern coverage, then flattens. The genuinely irreducible residual corresponds to orbits that are simultaneously faint ($m_r > 25.5$), deep, off-ecliptic, and galactic-plane-confused — a much smaller parameter space than the Revision 2 residual, most of which was the northern coverage artifact rather than a fundamental sensitivity limit.
 
 ---
 
@@ -193,11 +200,12 @@ $$P(\text{exists} \mid \text{null}) = \frac{P(\text{null}\mid\text{exists})\,P(\
 | Through end of | $P(\text{detect}\mid\text{exists})$ | Posterior $P(\text{exists}\mid\text{null})$ |
 | :--- | ---: | ---: |
 | 2026 | ~0% | 70.0% |
-| 2028 | ~54% | 51.8% |
-| 2030 | ~59% | 48.7% |
-| 2036 | ~61% | 47.4% |
+| 2028 | ~50% | 53.7% |
+| 2030 | ~67% | 43.7% |
+| 2032 | ~71% | 40.4% |
+| 2036 | ~72% | 39.6% |
 
-A decade of LSST silence would pull the posterior from 70% down toward ~47% — substantial erosion, but not refutation, precisely because ~39% of the orbit stays beyond reach. The hypothesis is hard to *kill* with these instruments even though it is reasonably easy to *confirm* if the planet sits in the favorable bright/accessible region.
+*[Revision 3]* A decade of LSST silence would pull the posterior from 70% down to ~39.6% — deeper erosion than the ~47.4% of Revision 2, because the corrected model makes the instruments more capable and therefore makes non-detection stronger evidence against the hypothesis. The qualitative conclusion is unchanged: a null result substantially erodes but does not refute the hypothesis, because a residual fraction of the orbit stays beyond reach. The hypothesis is hard to *kill* with these instruments even though it is reasonably easy to *confirm* if the planet sits in the favorable bright/accessible region. Note that this revision strengthens the disconfirmation: continued non-detection argues against Planet Nine more decisively than Revision 2 reported.
 
 ---
 
@@ -205,10 +213,10 @@ A decade of LSST silence would pull the posterior from 70% down toward ~47% — 
 
 - **Existence is unproven.** Everything here is conditional. The clustering signal is statistically suggestive but contested, and observational bias remains a live alternative explanation.
 - **Distance dominates everything.** The single largest lever on detectability is the planet's current heliocentric distance, which the data constrain only weakly. Until that tightens, brightness predictions carry a wide spread and secondary parameters (albedo, radius) cannot be observationally isolated.
-- **The detection blind spot is structural.** The ~39% residual is not pessimism about LSST but a real consequence of the faint, distant tail; closing it requires a ≥10 m-class survey capability.
+- **The residual is smaller than Revision 2 stated, and partly a scheduling artifact.** *[Revision 3]* Revision 2 described the residual as structural faintness requiring a ≥10 m-class facility. A substantial part of it was instead the hard northern coverage cutoff — an editable survey-strategy parameter. The genuinely irreducible residual (faint, deep, off-ecliptic, galactic-plane-confused) is smaller, and is closable in large part by Rubin northern-cadence allocation rather than new hardware.
+- **Northern-coverage probabilities are reasoned, not sourced.** *[Revision 3]* The graded coverage values (0.5 from +12° to +30°, 0.15 above) estimate plausible NES-extension coverage and depend on undecided Rubin scheduling; the ~0.72 detection figure is contingent on them, and the honest headline is the range ~0.61–0.72.
 - **Detection-timing model is heuristic.** Per-facility detection years are drawn from plausible binned schedules, not a cadence-level survey simulator (e.g. Sorcha/`rubin_sim`). A full opsim-based treatment would refine the CDF shape.
 - **Mass–radius relation is a placeholder.** $R \propto \sqrt{M}$ is a convenience scaling, not a calibrated relation.
-- **NEO Surveyor schedule needs reconfirmation** against the current mission baseline.
 - **Static epoch.** Positions are evaluated at a single date; parallax motion over a survey baseline (a key real-world discriminator) is not modelled dynamically.
 
 ---
@@ -228,8 +236,10 @@ The script, the three output figures, and dependency/run instructions are availa
 - Brown, M. E., & Batygin, K. (2016). *Observational Constraints on the Orbit and Location of Planet Nine in the Outer Solar System.* arXiv:1603.05712.
 - Batygin, K., & Brown, M. E. (2016). *Evidence for a Distant Giant Planet in the Solar System.* The Astronomical Journal.
 - Siraj, A., Chyba, C. F., & Tremaine, S. (2025). *Orbit of a Possible Planet X.* The Astrophysical Journal, 978, 139. https://doi.org/10.3847/1538-4357/ad98f6
+- Fortney, J. J., et al. (2016). *The Hunt for Planet Nine: Atmosphere, Spectra, Evolution, and Detectability.* ApJL, 824, L25. arXiv:1604.07424.
+- Vera C. Rubin Observatory / LSST: survey-strategy and footprint documentation (arXiv:2303.02355; arXiv:1812.01149; lsst.org survey-cadence drivers).
 - Vera C. Rubin Observatory / LSST documentation, Rubin Observatory.
 - NSF–DOE Vera C. Rubin Observatory first-imagery release (2025).
 - Reproducibility repository (simulation code and figures): https://github.com/Maha-Strategies/planet-nine-forecast
 
-*Citations are provided for traceability. The Siraj et al. (2025) parameters (ApJ 978, 139) and the Batygin et al. (2019) ranges (Physics Reports 805, 1–53) have been confirmed against their primary publications. The Brown & Batygin (2021) semimajor-axis distribution is consistent with the cited orbit paper (AJ); the author should confirm the exact volume/DOI matches the specific 2021 paper the `[b]` parameters were drawn from. The NEO Surveyor operational window should be reconfirmed against the current mission baseline before that detection window is cited as firm.*
+*Citations are provided for traceability. The Siraj et al. (2025) and Batygin et al. (2019) parameters, and the Brown & Batygin (2021) parameters used in column [b], have been confirmed against their primary publications. The LSST footprint and northern-coverage figures introduced in Revision 3 are sourced to the Rubin survey-strategy literature cited above; the graded northern-coverage probabilities are reasoned estimates and are flagged as such.*
