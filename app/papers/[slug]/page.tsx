@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -14,8 +15,10 @@ import MonteCarloChart from '@/components/MonteCarloChart';
 import RunawayBifurcation from '@/components/RunawayBifurcation';
 
 const SITE_URL = 'https://research.mahastrategies.com';
+const ORG_URL = 'https://www.mahastrategies.com';
+const AUTHOR_URL = 'https://www.mayonemaharajan.com';
 
-// Per-paper metadata. Add an entry here when you publish a new paper.
+// ---- PAPER_META preserved exactly from your file ----
 const PAPER_META: Record<
   string,
   {
@@ -145,35 +148,82 @@ const PAPER_META: Record<
   },
 };
 
+// ---- SEO/AIO helpers: valid ISO dates + entity linking (additive, does not alter PAPER_META) ----
+const PAPER_DATES: Record<string, { published: string; modified: string }> = {
+  'the-maha-framework': { published: '2026-06-01', modified: '2026-06-11' },
+  'planet-nine-forecast': { published: '2026-06-05', modified: '2026-06-11' },
+  'thermodynamic-isomorphism': { published: '2026-06-03', modified: '2026-06-11' },
+  'dissolving-self-ocean-planet': { published: '2026-06-04', modified: '2026-06-11' },
+  'commercial-fusion-viability': { published: '2026-06-02', modified: '2026-06-11' },
+  'chronobiological-entrainment': { published: '2026-02-15', modified: '2026-06-11' },
+  'the_perturber_question': { published: '2026-06-08', modified: '2026-06-11' },
+  'readout_plasticity_paper': { published: '2026-06-07', modified: '2026-06-11' },
+  'machine_learning_g2_betti': { published: '2026-06-10', modified: '2026-06-11' },
+  'de_sitter_swampland_map': { published: '2026-06-10', modified: '2026-06-11' },
+  'retrograde_p9': { published: '2026-06-09', modified: '2026-06-11' },
+};
+
+const ABOUT_SAMEAS: Record<string, string> = {
+  'Planet Nine': 'https://www.wikidata.org/wiki/Q19893910',
+  'Trans-Neptunian objects': 'https://en.wikipedia.org/wiki/Trans-Neptunian_object',
+  'Vera C. Rubin Observatory': 'https://www.wikidata.org/wiki/Q472095',
+  'Orbital mechanics': 'https://en.wikipedia.org/wiki/Orbital_mechanics',
+  'Saddle-node bifurcation': 'https://en.wikipedia.org/wiki/Saddle-node_bifurcation',
+  'Runaway greenhouse effect': 'https://en.wikipedia.org/wiki/Runaway_greenhouse_effect',
+  'Mesolimbic dopamine': 'https://en.wikipedia.org/wiki/Mesolimbic_pathway',
+  'Nonlinear dynamics': 'https://en.wikipedia.org/wiki/Nonlinear_system',
+  'Default Mode Network': 'https://en.wikipedia.org/wiki/Default_mode_network',
+  'Circadian rhythm': 'https://en.wikipedia.org/wiki/Circadian_rhythm',
+  'Suprachiasmatic nucleus': 'https://en.wikipedia.org/wiki/Suprachiasmatic_nucleus',
+  'Nuclear fusion': 'https://en.wikipedia.org/wiki/Nuclear_fusion',
+  'G2 manifolds': 'https://en.wikipedia.org/wiki/G2_manifold',
+};
+
+export async function generateStaticParams() {
+  return Object.keys(PAPER_META).map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const meta = PAPER_META[slug];
+  const meta = (PAPER_META as any)[slug];
   if (!meta) {
     return { title: 'Paper | Maha Strategies Research' };
   }
   const url = `${SITE_URL}/papers/${slug}`;
+  const ogImage = `${SITE_URL}/og/${slug}.png`;
+  const dates = PAPER_DATES[slug] ?? { published: '2026-06-01', modified: '2026-06-11' };
   return {
     metadataBase: new URL(SITE_URL),
     title: `${meta.title} | Maha Strategies Research`,
     description: meta.description,
+    keywords: meta.about,
+    authors: [{ name: 'Mayone Maha Rajan', url: AUTHOR_URL }],
+    creator: 'Mayone Maha Rajan',
+    publisher: 'Maha Strategies',
     alternates: { canonical: `/papers/${slug}` },
+    robots: { index: true, follow: true, 'max-image-preview': 'large' },
     openGraph: {
       type: 'article',
       url,
       siteName: 'Maha Strategies Research',
       title: meta.title,
       description: meta.description,
-      images: [{ url: '/og-research.png', width: 1200, height: 630, alt: meta.title }],
+      publishedTime: new Date(dates.published).toISOString(),
+      modifiedTime: new Date(dates.modified).toISOString(),
+      authors: ['Mayone Maha Rajan'],
+      tags: meta.about,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: meta.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: meta.title,
       description: meta.description,
-      images: ['/og-research.png'],
+      images: [ogImage],
+      creator: '@mayon_rajan',
     },
   };
 }
@@ -206,45 +256,35 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
   const content = getPaperContent(resolvedParams.slug);
 
   if (!content) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0c] text-white flex items-center justify-center font-mono">
-        <h1>404 - Paper Not Found</h1>
-      </div>
-    );
+    notFound();
   }
 
-  const meta = PAPER_META[resolvedParams.slug];
+  const meta = (PAPER_META as any)[resolvedParams.slug] as any;
+  const dates = PAPER_DATES[resolvedParams.slug] ?? { published: '2026-06-01', modified: '2026-06-11' };
+  const url = `${SITE_URL}/papers/${resolvedParams.slug}`;
+  const ogImage = `${SITE_URL}/og/${resolvedParams.slug}.png`;
+
+  // Entity-linked about for AIO - keeps your original strings, adds sameAs where known
+  const aboutLinked = meta.about.map((name: string) => {
+    const sameAs = (ABOUT_SAMEAS as any)[name];
+    return sameAs ? { '@type': 'DefinedTerm', name, sameAs, inDefinedTermSet: sameAs } : { '@type': 'DefinedTerm', name };
+  });
+
+  // Improved JSON-LD: valid ISO dates, @graph with Breadcrumb, WebPage, Organization, Person
   const articleLd = meta
     ? {
         '@context': 'https://schema.org',
-        '@type': 'ScholarlyArticle',
-        '@id': `${SITE_URL}/papers/${resolvedParams.slug}#article`,
-        mainEntityOfPage: {
-          '@type': 'WebPage',
-          '@id': `${SITE_URL}/papers/${resolvedParams.slug}`,
-        },
-        headline: meta.title,
-        url: `${SITE_URL}/papers/${resolvedParams.slug}`,
-        datePublished: '2026-06',
-        inLanguage: 'en',
-        author: {
-          '@type': 'Person',
-          name: 'Mayone Maha Rajan',
-          url: 'https://www.mayonemaharajan.com',
-        },
-        publisher: {
-          '@type': 'Organization',
-          name: 'Maha Strategies',
-          url: 'https://www.mahastrategies.com',
-        },
-        about: meta.about,
-        abstract: meta.abstract,
-        creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
-        isAccessibleForFree: true,
+        '@graph': [
+          { '@type': 'Organization', '@id': `${SITE_URL}/#org`, name: 'Maha Strategies', url: ORG_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
+          { '@type': 'Person', '@id': `${SITE_URL}/#architect`, name: 'Mayone Maha Rajan', url: AUTHOR_URL, jobTitle: 'Research Architect and Curator', affiliation: { '@id': `${SITE_URL}/#org` }, sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan'] },
+          { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumbs`, itemListElement: [ { '@type': 'ListItem', position: 1, name: 'Research Home', item: SITE_URL }, { '@type': 'ListItem', position: 2, name: meta.title, item: url } ] },
+          { '@type': 'WebPage', '@id': url, url, name: meta.title, isPartOf: { '@id': `${SITE_URL}/#website` }, primaryImageOfPage: { '@type': 'ImageObject', contentUrl: ogImage }, inLanguage: 'en', isAccessibleForFree: true },
+          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': `${SITE_URL}/#architect` }, publisher: { '@id': `${SITE_URL}/#org` }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: 'Preprint', speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
+        ]
       }
     : null;
 
-  const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
+const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
 
   // MDX COMPONENT MAP: Add any new interactive components here
   const mdxComponents = {

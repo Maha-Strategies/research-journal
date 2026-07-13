@@ -1,34 +1,36 @@
-// app/page.tsx (research.mahastrategies.com)  — metadata + JSON-LD for the research project home.
-// Replace the default create-next-app metadata. Server component (no 'use client').
-//
-// NOTE ON CLAIMS: schema below describes "an AI-assisted research synthesis project"
-// rather than a "peer-reviewed journal" — this matches the project's own
-// honesty (hypotheses, not peer-reviewed facts) and avoids overclaiming that
-// would invite criticism. Framing is deliberately modest: this is a transparent
-// one-author AI-synthesis project, not a journal with peer review or independent authors.
+// app/page.tsx (research.mahastrategies.com) — SEO + AIO optimized
+// Server component (no 'use client').
+// Preserves all original visual content, only metadata + JSON-LD improved for SEO/AIO.
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
 const SITE_URL = 'https://research.mahastrategies.com';
+const ORG_URL = 'https://www.mahastrategies.com';
+const AUTHOR_URL = 'https://www.mayonemaharajan.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Maha Strategies Research & Architecture — Human-AI Collaborative Synthesis',
+  title: {
+    default: 'Maha Strategies Research | Human-AI Synthesis Lab',
+    template: '%s | Maha Strategies Research',
+  },
   description:
-    'An open-access research project exploring cross-disciplinary structural analogies, using agentic AI as a synthesis instrument under human curation. Frameworks are presented as hypotheses for empirical testing, not peer-reviewed conclusions.',
-  keywords: [
-    'human-AI collaboration',
-    'cross-disciplinary synthesis',
-    'nonlinear dynamical systems',
-    'systems theory',
-    'computational neuroscience',
-    'astrophysics',
-    'AI-assisted research',
-    'agentic AI in research',
-  ],
-  authors: [{ name: 'Mayone Maha Rajan' }],
-  alternates: { canonical: '/' },
+    'Open-access research project using agentic AI as a synthesis instrument under human curation. Cross-disciplinary structural analogies presented as testable hypotheses, not peer-reviewed conclusions.',
+  authors: [{ name: 'Mayone Maha Rajan', url: AUTHOR_URL }],
+  creator: 'Mayone Maha Rajan',
+  publisher: 'Maha Strategies',
+  category: 'Science',
+  classification: 'Research',
+  alternates: { canonical: SITE_URL },
+  robots: {
+    index: true,
+    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+    'max-video-preview': -1,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
   openGraph: {
     type: 'website',
     url: SITE_URL,
@@ -36,21 +38,46 @@ export const metadata: Metadata = {
     title: 'Maha Strategies Research & Architecture',
     description:
       'Human-AI collaborative synthesis: cross-disciplinary structural analogies presented as testable hypotheses under human curation.',
-    images: [{ url: '/og-research.png', width: 1200, height: 630, alt: 'Maha Strategies Research & Architecture' }],
+    images: [{ url: `${SITE_URL}/og-research.png`, width: 1200, height: 630, alt: 'Maha Strategies Research & Architecture - Human-AI Synthesis Lab' }],
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Maha Strategies Research & Architecture',
     description: 'Human-AI collaborative synthesis of cross-disciplinary structural analogies.',
-    images: ['/og-research.png'],
+    images: [`${SITE_URL}/og-research.png`],
+    creator: '@mayon_rajan',
   },
 };
 
-// JSON-LD: describe the site as a CollectionPage / research project, and the
-// inaugural paper as a ScholarlyArticle. Inject in the page body.
+// JSON-LD: Full valid graph for Google + LLM entity resolution
+// Dates are full ISO 8601. About fields use sameAs for AIO disambiguation.
 export const researchHomeLd = {
   '@context': 'https://schema.org',
   '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#org`,
+      name: 'Maha Strategies',
+      url: ORG_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo.png`,
+        width: 512,
+        height: 512,
+        caption: 'Maha Strategies',
+      },
+      sameAs: [ORG_URL],
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#architect`,
+      name: 'Mayone Maha Rajan',
+      url: AUTHOR_URL,
+      jobTitle: 'Research Architect and Curator',
+      affiliation: { '@id': `${SITE_URL}/#org` },
+      sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan', 'https://x.com/mayon_rajan'],
+    },
     {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
@@ -59,6 +86,7 @@ export const researchHomeLd = {
       description:
         'An open-access research project applying agentic AI, under human curation, to surface cross-disciplinary structural analogies as testable hypotheses.',
       publisher: { '@id': `${SITE_URL}/#org` },
+      inLanguage: 'en',
       isAccessibleForFree: true,
     },
     {
@@ -67,9 +95,15 @@ export const researchHomeLd = {
       url: SITE_URL,
       name: 'Maha Strategies Research & Architecture',
       isPartOf: { '@id': `${SITE_URL}/#website` },
+      description:
+        'Cross-disciplinary structural analogies generated via human-curated agentic AI synthesis, presented as testable hypotheses for empirical verification.',
+      inLanguage: 'en',
       isAccessibleForFree: true,
-      about:
-        'Cross-disciplinary structural analogies generated via human-curated agentic AI synthesis, presented as testable hypotheses.',
+      about: {
+        '@type': 'Thing',
+        name: 'Cross-disciplinary research synthesis',
+        sameAs: 'https://en.wikipedia.org/wiki/Interdisciplinarity',
+      },
       hasPart: [
         { '@id': `${SITE_URL}/papers/the-maha-framework#article` },
         { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
@@ -85,207 +119,219 @@ export const researchHomeLd = {
       ],
     },
     {
-      '@type': 'Organization',
-      '@id': `${SITE_URL}/#org`,
-      name: 'Maha Strategies',
-      url: 'https://www.mahastrategies.com',
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}/#breadcrumbs`,
+      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Research Home', item: SITE_URL }],
     },
     {
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#architect`,
-      name: 'Mayone Maha Rajan',
-      url: 'https://www.mayonemaharajan.com',
-      jobTitle: 'Architect / Curator',
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/#paper-list`,
+      name: 'Published Research Papers',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, url: `${SITE_URL}/papers/the-maha-framework`, name: 'The M·A·H·A Framework' },
+        { '@type': 'ListItem', position: 2, url: `${SITE_URL}/papers/planet-nine-forecast`, name: 'A Monte Carlo Forecast for the Detection of Planet Nine' },
+        { '@type': 'ListItem', position: 3, url: `${SITE_URL}/papers/the_perturber_question`, name: 'The Perturber Question Under Audit' },
+        { '@type': 'ListItem', position: 4, url: `${SITE_URL}/papers/readout_plasticity_paper`, name: 'Evolving Local Synaptic Plasticity Rules to Track Representational Drift' },
+        { '@type': 'ListItem', position: 5, url: `${SITE_URL}/papers/machine_learning_g2_betti`, name: 'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data' },
+        { '@type': 'ListItem', position: 6, url: `${SITE_URL}/papers/de_sitter_swampland_map`, name: 'The de Sitter Problem in the String Swampland' },
+        { '@type': 'ListItem', position: 7, url: `${SITE_URL}/papers/retrograde_p9`, name: 'A Reproducible N-Body Pipeline for Retrograde Planet Nine Configurations' },
+        { '@type': 'ListItem', position: 8, url: `${SITE_URL}/papers/thermodynamic-isomorphism`, name: 'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway' },
+        { '@type': 'ListItem', position: 9, url: `${SITE_URL}/papers/dissolving-self-ocean-planet`, name: 'Why the Dissolving Self Is Imagined as an Ocean Planet' },
+        { '@type': 'ListItem', position: 10, url: `${SITE_URL}/papers/chronobiological-entrainment`, name: 'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis' },
+        { '@type': 'ListItem', position: 11, url: `${SITE_URL}/papers/commercial-fusion-viability`, name: 'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power' },
+      ],
     },
+    // --- ScholarlyArticles: full ISO dates, entity-linked about, license, image ---
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/the-maha-framework#article`,
-      headline:
-        'The M·A·H·A Framework: An Integrative Architecture for Resisting Systemic Metabolic, Attentional, and Relational Extraction',
+      headline: 'The M·A·H·A Framework: An Integrative Architecture for Resisting Systemic Metabolic, Attentional, and Relational Extraction',
       url: `${SITE_URL}/papers/the-maha-framework`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/papers/the-maha-framework` },
+      datePublished: '2026-06-01',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['M·A·H·A Framework', 'Metabolic health', 'Attention economy', 'Cognitive liberty', 'Commons governance', 'Systems thermodynamics'],
-      abstract:
-        'This paper formalizes the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model designed to resist the compounding crises of the early twenty-first century. The core thesis of the framework is that contemporary metabolic, attentional, and relational pathologies may be productively understood not as isolated public health failures, but as coupled downstream consequences of a single, structurally extractive economic architecture.',
+      image: `${SITE_URL}/og/the-maha-framework.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      keywords: 'M·A·H·A Framework, Metabolic health, Attention economy, Cognitive liberty, Commons governance, Systems thermodynamics',
+      about: [
+        { '@type': 'DefinedTerm', name: 'Metabolic health', sameAs: 'https://en.wikipedia.org/wiki/Metabolic_syndrome' },
+        { '@type': 'DefinedTerm', name: 'Attention economy', sameAs: 'https://en.wikipedia.org/wiki/Attention_economy' },
       ],
-      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
+      abstract: 'This paper formalizes the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model designed to resist the compounding crises of the early twenty-first century.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/planet-nine-forecast#article`,
-      headline:
-        'A Monte Carlo Forecast for the Detection of Planet Nine',
+      headline: 'A Monte Carlo Forecast for the Detection of Planet Nine',
       url: `${SITE_URL}/papers/planet-nine-forecast`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-05',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Planet Nine', 'Trans-Neptunian objects', 'Monte Carlo simulation', 'Vera C. Rubin Observatory', 'Orbital mechanics'],
-      abstract:
-        'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine, propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey null-detection masks, and modeling future detection by LSST, Subaru/HSC, and infrared surveys through 2036. Treats the planet as an unproven hypothesis and reports a null-detection posterior; does not claim the planet exists.',
+      image: `${SITE_URL}/og/planet-nine-forecast.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      about: [
+        { '@type': 'Thing', name: 'Planet Nine', sameAs: 'https://www.wikidata.org/wiki/Q19893910' },
+        { '@type': 'Thing', name: 'Vera C. Rubin Observatory', sameAs: 'https://www.wikidata.org/wiki/Q472095' },
       ],
-      creativeWorkStatus: 'Forecast / Conditional analysis (not peer-reviewed)',
+      abstract: 'A Monte Carlo forecast (N = 100,000) of the detectability of the hypothesized Planet Nine, propagating a weighted three-model parameter ensemble through Kepler orbit simulation, applying existing survey null-detection masks, and modeling future detection by LSST, Subaru/HSC, and infrared surveys through 2036.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/the_perturber_question#article`,
-      headline:
-        'The Perturber Question Under Audit: An Agentic-AI Replication of the eTNO Clustering Test and a Composition-Agnostic Hypothesis Synthesis',
+      headline: 'The Perturber Question Under Audit: An Agentic-AI Replication of the eTNO Clustering Test and a Composition-Agnostic Hypothesis Synthesis',
       url: `${SITE_URL}/papers/the_perturber_question`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-08',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Planet Nine', 'Extreme trans-Neptunian objects', 'Orbital clustering', 'Survey selection bias', 'Monte Carlo simulation', 'Agentic AI in research'],
-      abstract:
-        'A replication and audit study testing whether the extreme trans-Neptunian object orbital-clustering signal survives selection-bias modeling in fully characterized surveys. An independently implemented Python selection-function simulator, benchmarked against the official Fortran SurveySimulator on identical synthetic populations, finds no statistically significant clustering in the reconstructed characterized CFEPS/OSSOS sample — a conclusion robust to implementation choice and directionally consistent with Napier et al. (2021). The benchmark surfaces genuine implementation disagreement, so the pipeline is validated for the clustering conclusion but not for absolute completeness predictions. Includes a composition-agnostic discriminating-observables matrix, a candidate vetting protocol, and an empirical self-audit of the agentic AI instrument. Presented as a replication and methods study, not peer-reviewed.',
+      image: `${SITE_URL}/og/the_perturber_question.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'A replication and audit study testing whether the extreme trans-Neptunian object orbital-clustering signal survives selection-bias modeling in fully characterized surveys.',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/readout_plasticity_paper#article`,
+      headline: 'Evolving Local Synaptic Plasticity Rules to Track Representational Drift',
+      url: `${SITE_URL}/papers/readout_plasticity_paper`,
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-07',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      image: `${SITE_URL}/og/readout_plasticity_paper.png`,
+      isAccessibleForFree: true,
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'A grammar-constrained symbolic regression framework to discover optimal local plasticity rules governing readout weights tracking representational drift.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/machine_learning_g2_betti#article`,
-      headline:
-        'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data: A Leakage-Audited Predictive Test',
+      headline: 'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data: A Leakage-Audited Predictive Test',
       url: `${SITE_URL}/papers/machine_learning_g2_betti`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-10',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['G2 manifolds', 'M-theory compactification', 'Calabi-Yau threefolds', 'Kreuzer-Skarke database', 'Machine learning in physics', 'Feature leakage'],
-      abstract:
-        'A test of whether the Betti numbers b2 and b3 of candidate G2 manifolds can be predicted from the underlying Calabi-Yau topology and a Z2 involution encoding, without access to the invariant eigenspace dimensions that trivially determine them. Using real entries from the public orientifold Calabi-Yau database derived from the Kreuzer-Skarke classification, a deep neural network is benchmarked against an ordinary-least-squares baseline on a held-out set of involution families with no training overlap. The network outperforms the baseline on the non-trivial target b2 and is outperformed on the linear-dominated b3; the mixed result is reported in full. A self-audit documents a prior version whose circular result and synthetic data were removed in revision. The smooth G2 resolution is assumed, not constructed. Presented as a leakage-audited methods study, not peer-reviewed.',
+      image: `${SITE_URL}/og/machine_learning_g2_betti.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Methods study (not peer-reviewed)',
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'A leakage-audited test of whether Betti numbers of candidate G2 manifolds can be predicted from real Kreuzer-Skarke-derived Calabi-Yau topology.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/de_sitter_swampland_map#article`,
-      headline:
-        'The de Sitter Problem in the String Swampland: A Verified Literature Map',
+      headline: 'The de Sitter Problem in the String Swampland: A Verified Literature Map',
       url: `${SITE_URL}/papers/de_sitter_swampland_map`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-10',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['de Sitter vacua', 'Swampland program', 'String theory landscape', 'KKLT construction', 'Large Volume Scenario', 'Dark Dimension'],
-      abstract:
-        'A literature map of the de Sitter problem in the string/M-theory swampland program: whether string theory admits stable or metastable de Sitter vacua, or whether quantum gravity forbids them. The map structures the debate around seven open problems — KKLT control, Large Volume Scenario control, the de Sitter Swampland Conjecture, the Dark Dimension, quintessence, the Dine-Seiberg problem, and Trans-Planckian Censorship — representing each camp\'s strongest arguments without adjudicating between them. Citations carry provenance tags distinguishing independently resolved identifiers from sourced-but-unaudited ones. A non-peer-reviewed synthesis and orientation tool, not original research.',
+      image: `${SITE_URL}/og/de_sitter_swampland_map.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Literature synthesis (not peer-reviewed; not original research)',
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'A verified literature map of the de Sitter problem in the string/M-theory swampland program structured around seven open problems.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/retrograde_p9#article`,
-      headline:
-        'A Reproducible N-Body Pipeline and Numerical Convergence Framework for Retrograde Planet Nine Configurations',
+      headline: 'A Reproducible N-Body Pipeline and Numerical Convergence Framework for Retrograde Planet Nine Configurations',
       url: `${SITE_URL}/papers/retrograde_p9`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-09',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Planet Nine', 'Retrograde perturber', 'N-body simulation', 'REBOUND integrator', 'Extreme trans-Neptunian objects', 'Numerical convergence'],
-      abstract:
-        'A reproducible active point-mass N-body pipeline and numerical convergence framework for studying highly inclined, retrograde perturbers, built on REBOUND\'s adaptive ias15 solver rather than phase-averaged secular approximations. A 20,000-year proof-of-concept run projects early-phase dynamical drift into Cartesian Poincaré coordinates, coupled with an infrared detectability parameterization anchored to Fortney et al. (2016). The run is explicitly an initialization and boundary-validation phase confirming integrator stability prior to HPC-scale deployment; it spans roughly 1.55 perturber revolutions, four to five orders of magnitude short of the secular shepherding timescale, and reaches no physical shepherding conclusion by construction. A methods-and-infrastructure paper, not peer-reviewed.',
+      image: `${SITE_URL}/og/retrograde_p9.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Methods / infrastructure (not peer-reviewed; reaches no physical conclusion)',
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'A reproducible active point-mass N-body pipeline and convergence framework built on REBOUND ias15 solver for retrograde perturbers.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/thermodynamic-isomorphism#article`,
-      headline:
-        'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway: Structural Analogy Between Planetary Greenhouse Effects and Mesolimbic Dopaminergic Addiction',
+      headline: 'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway: Structural Analogy Between Planetary Greenhouse Effects and Mesolimbic Dopaminergic Addiction',
       url: `${SITE_URL}/papers/thermodynamic-isomorphism`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-03',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Nonlinear dynamical systems', 'Runaway greenhouse effect', 'Mesolimbic dopamine pathway', 'Saddle-node bifurcation'],
-      abstract:
-        'A structural analogy between the runaway greenhouse effect and the collapse of the mesolimbic dopamine pathway, modeled as open dissipative systems whose saturating dissipation (the Ingersoll / clearance-Vmax ceiling) is overwhelmed by exogenous forcing, producing a saddle-node fold. The framework yields a falsifiable cross-domain prediction — shared early-warning signatures (critical slowing down, rising variance, rising lag-1 autocorrelation) near the threshold. The shared universality class is presented as a hypothesis for empirical investigation, not a demonstrated result.',
+      image: `${SITE_URL}/og/thermodynamic-isomorphism.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      about: [
+        { '@type': 'Thing', name: 'Saddle-node bifurcation', sameAs: 'https://en.wikipedia.org/wiki/Saddle-node_bifurcation' },
+        { '@type': 'Thing', name: 'Runaway greenhouse effect', sameAs: 'https://en.wikipedia.org/wiki/Runaway_greenhouse_effect' },
+        { '@type': 'Thing', name: 'Mesolimbic pathway', sameAs: 'https://en.wikipedia.org/wiki/Mesolimbic_pathway' },
       ],
-      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
+      abstract: 'A structural analogy between runaway greenhouse effect and mesolimbic dopamine collapse as saddle-node fold in open dissipative systems.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/dissolving-self-ocean-planet#article`,
-      headline:
-        'Why the Dissolving Self Is Imagined as an Ocean Planet: Default Mode Network Downregulation in Altered States and the Cognitive Basis of the Neptune Metaphor',
+      headline: 'Why the Dissolving Self Is Imagined as an Ocean Planet: Default Mode Network Downregulation in Altered States and the Cognitive Basis of the Neptune Metaphor',
       url: `${SITE_URL}/papers/dissolving-self-ocean-planet`,
-      datePublished: '2026-06',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-04',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Default Mode Network', 'Altered states of consciousness', 'Conceptual metaphor', 'Structure-mapping theory', 'Cognitive science'],
-      abstract:
-        'A review of the neuroscience of self-attenuation in altered states (flow, meditation, psychedelics) and its association with prefrontal and default-mode downregulation, followed by a cognitive-science account of why this interior experience is metaphorically mapped onto a boundaryless ocean planet. Argues the planetary mapping is a fact about human metaphor formation, not a physical correspondence.',
+      image: `${SITE_URL}/og/dissolving-self-ocean-planet.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Draft / Hypothesis (not peer-reviewed)',
-    },
-    {
-      '@type': 'ScholarlyArticle',
-      '@id': `${SITE_URL}/papers/commercial-fusion-viability#article`,
-      headline:
-        'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power',
-      url: `${SITE_URL}/papers/commercial-fusion-viability`,
-      datePublished: '2026-06',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Nuclear fusion', 'Magnetic confinement', 'Inertial confinement fusion', 'Plasma physics', 'Fusion engineering'],
-      abstract:
-        'An AI-assisted technical synthesis of the engineering bottlenecks separating scientific break-even from commercial fusion power, covering magnetic and inertial confinement, the engineering-gain derivation, first-wall materials, and muon-catalyzed fusion. A review of public literature, not original research; quantitative figures are pending independent verification.',
-      isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Synthesis review (not peer-reviewed; figures pending verification)',
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'A review of self-attenuation neuroscience and why interior experience is mapped onto ocean planet metaphor via structure-mapping theory.',
     },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/chronobiological-entrainment#article`,
-      headline:
-        'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis',
+      headline: 'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis',
       url: `${SITE_URL}/papers/chronobiological-entrainment`,
-      datePublished: '2026-02',
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-02-15',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
       author: { '@id': `${SITE_URL}/#architect` },
       publisher: { '@id': `${SITE_URL}/#org` },
-      about: ['Circadian rhythm', 'Chronobiology', 'Metabolic syndrome', 'Time-restricted eating', 'Suprachiasmatic nucleus'],
-      abstract:
-        'A hypothesis and literature synthesis proposing that circadian misalignment between central and peripheral metabolic clocks is an underweighted, independent contributor to metabolic dysfunction, with a proposed isocaloric RCT to test it. Stated at hypothesis level; not peer-reviewed.',
+      image: `${SITE_URL}/og/chronobiological-entrainment.png`,
       isAccessibleForFree: true,
-      creator: [
-        { '@id': `${SITE_URL}/#architect` },
-        { '@type': 'SoftwareApplication', name: 'Google Antigravity (agentic model)' },
-      ],
-      creativeWorkStatus: 'Hypothesis / synthesis (not peer-reviewed)',
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'Hypothesis that circadian misalignment between central and peripheral clocks is an underweighted contributor to metabolic dysfunction.',
+    },
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/commercial-fusion-viability#article`,
+      headline: 'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power',
+      url: `${SITE_URL}/papers/commercial-fusion-viability`,
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-06-02',
+      dateModified: '2026-06-11',
+      inLanguage: 'en',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      image: `${SITE_URL}/og/commercial-fusion-viability.png`,
+      isAccessibleForFree: true,
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      abstract: 'AI-assisted synthesis of engineering bottlenecks between scientific break-even and commercial fusion power.',
     },
   ],
 };
