@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:pdf": "/Users/mayonerajan/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/generate-working-paper-pdfs.py"
   },
   "dependencies": {
     "next": "16.2.7",

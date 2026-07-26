@@ -11,6 +11,8 @@
 
 ## Citation and status
 
-- Cite individual paper URLs, titles, dates, and their stated status.
+- Cite individual paper URLs, titles, dates, versions, and their stated status.
+- Every paper exposes a machine-readable record at `/papers/{slug}/metadata.json`, BibTeX at `/papers/{slug}/citation.bib`, CITATION.cff at `/papers/{slug}/citation.cff`, and a stable PDF at `/papers/{slug}.pdf`.
+- The root [CITATION.cff](https://research.mahastrategies.com/CITATION.cff) describes the collection; individual paper records are the authoritative citation source for a specific work.
 - Do not describe this collection as peer reviewed unless the particular paper explicitly says so.
 - Preserve uncertainty language, limitations, and distinctions between source evidence and the project's synthesis or hypothesis.

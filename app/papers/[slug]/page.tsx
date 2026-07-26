@@ -13,6 +13,8 @@ import 'katex/dist/katex.min.css';
 // YOUR CUSTOM INTERACTIVE COMPONENTS
 import MonteCarloChart from '@/components/MonteCarloChart';
 import RunawayBifurcation from '@/components/RunawayBifurcation';
+import { getPaperReferences } from '@/lib/paper-references';
+import { getBibtex, getWorkingPaper } from '@/lib/working-papers';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 const ORG_URL = 'https://www.mahastrategies.com';
@@ -273,6 +275,8 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
   }
 
   const meta = (PAPER_META as any)[resolvedParams.slug] as any;
+  const workingPaper = getWorkingPaper(resolvedParams.slug);
+  const references = getPaperReferences(resolvedParams.slug);
   const dates = PAPER_DATES[resolvedParams.slug] ?? { published: '2026-06-01', modified: '2026-06-11' };
   const url = `${SITE_URL}/papers/${resolvedParams.slug}`;
   const ogImage = `${SITE_URL}/og/${resolvedParams.slug}.png`;
@@ -292,12 +296,12 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
           { '@type': 'Person', '@id': `${SITE_URL}/#architect`, name: 'Mayone Maha Rajan', url: AUTHOR_URL, jobTitle: 'Research Architect and Curator', affiliation: { '@id': `${SITE_URL}/#org` }, sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan'] },
           { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumbs`, itemListElement: [ { '@type': 'ListItem', position: 1, name: 'Research Home', item: SITE_URL }, { '@type': 'ListItem', position: 2, name: meta.title, item: url } ] },
           { '@type': 'WebPage', '@id': url, url, name: meta.title, isPartOf: { '@id': `${SITE_URL}/#website` }, primaryImageOfPage: { '@type': 'ImageObject', contentUrl: ogImage }, inLanguage: 'en', isAccessibleForFree: true },
-          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': `${SITE_URL}/#architect` }, publisher: { '@id': `${SITE_URL}/#org` }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: 'Preprint', speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
+          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': `${SITE_URL}/#architect` }, publisher: { '@id': `${SITE_URL}/#org` }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: workingPaper?.status ?? 'Working paper', version: workingPaper?.version, citation: references.map((reference) => reference.text), encoding: [{ '@type': 'MediaObject', encodingFormat: 'application/pdf', contentUrl: `${url}.pdf` }, { '@type': 'MediaObject', encodingFormat: 'application/x-bibtex', contentUrl: `${url}/citation.bib` }, { '@type': 'MediaObject', encodingFormat: 'text/yaml', contentUrl: `${url}/citation.cff` }], speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
         ]
       }
     : null;
 
-const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
+  const bibtex = workingPaper ? getBibtex(workingPaper, SITE_URL) : '';
 
   // MDX COMPONENT MAP: Add any new interactive components here
   const mdxComponents = {
@@ -322,6 +326,16 @@ const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
           </Link>
         </nav>
 
+        {workingPaper && (
+          <section className="mb-10 border border-amber-400/35 bg-amber-400/5 p-5" aria-label="Working paper status">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div><p className="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-300">{workingPaper.status} · {workingPaper.reviewStatus}</p><p className="mt-2 text-sm text-zinc-300">{workingPaper.statusDetail}</p></div>
+              <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Version {workingPaper.version}<br />{workingPaper.versionDate}</div>
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-zinc-500">This is a citable public working-paper edition. It is not a peer-reviewed journal article; consult the version history, source ledger, and stated limitations before relying on it.</p>
+          </section>
+        )}
+
         {/* MDX RENDERER */}
         <article className="prose prose-invert prose-zinc max-w-none prose-headings:font-light prose-headings:tracking-wide prose-a:text-indigo-400 hover:prose-a:text-indigo-300 prose-pre:bg-[#121214] prose-pre:border prose-pre:border-zinc-800">
           <MDXRemote 
@@ -337,7 +351,7 @@ const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
         </article>
 
         {/* CITATION BLOCK */}
-        {meta && (
+        {meta && workingPaper && (
           <div className="mt-20 bg-[#121214] border border-zinc-800 p-6 md:p-8 rounded-lg">
             <h3 className="text-zinc-300 font-mono text-xs uppercase tracking-widest mb-6 border-b border-zinc-800 pb-2">
               Cite This Work
@@ -346,26 +360,19 @@ const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
             <div className="mb-6">
               <h4 className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">APA Format</h4>
               <p className="text-zinc-400 text-sm leading-relaxed select-all">
-                Rajan, M. M. (2026). {meta.title}. <em>Maha Strategies Research</em>. {`${SITE_URL}/papers/${resolvedParams.slug}`}
+                Rajan, M. M. ({workingPaper.versionDate.slice(0, 4)}). {workingPaper.title}. <em>Maha Strategies Research</em> (Version {workingPaper.version}; {workingPaper.status.toLowerCase()}). {`${SITE_URL}/papers/${resolvedParams.slug}`}
               </p>
             </div>
 
             <div>
               <h4 className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">BibTeX</h4>
               <pre className="text-zinc-400 text-xs overflow-x-auto p-4 bg-[#0a0a0c] border border-zinc-800 rounded select-all font-mono whitespace-pre">
-{`@article{${bibtexKey},
-  title={${meta.title}},
-  author={Rajan, Mayone Maha},
-  journal={Maha Strategies Research},
-  year={2026},
-  url={${SITE_URL}/papers/${resolvedParams.slug}}
-}`}
+{bibtex}
               </pre>
             </div>
-            
-            <p className="mt-4 text-zinc-600 text-xs italic">
-              Note: If citing a specific version archived on Zenodo, please append the relevant DOI to the formats above.
-            </p>
+            <div className="mt-6 flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-wider"><a href={`/papers/${resolvedParams.slug}/citation.bib`} className="border border-indigo-400 bg-indigo-400 px-4 py-2 text-zinc-950 hover:bg-white">Download BibTeX</a><a href={`/papers/${resolvedParams.slug}/citation.cff`} className="border border-zinc-700 px-4 py-2 text-zinc-300 hover:border-white hover:text-white">CITATION.cff</a><a href={`/papers/${resolvedParams.slug}/metadata.json`} className="border border-zinc-700 px-4 py-2 text-zinc-300 hover:border-white hover:text-white">Metadata JSON</a><a href={`/papers/${resolvedParams.slug}.pdf`} className="border border-zinc-700 px-4 py-2 text-zinc-300 hover:border-white hover:text-white">Stable PDF</a></div>
+            <div className="mt-6 border-t border-zinc-800 pt-5"><h4 className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-3">Version history</h4><ul className="space-y-2 text-xs text-zinc-400">{workingPaper.versionHistory.map((entry) => <li key={`${entry.version}-${entry.date}`}><strong className="text-zinc-200">v{entry.version}</strong> · {entry.date} · {entry.note}</li>)}</ul></div>
+            <p className="mt-5 text-xs text-zinc-500">Structured references: {references.length > 0 ? `${references.length} extracted entries are available in ` : 'no standalone reference ledger was detected; please complete one before deposit. '}<a href={`/papers/${resolvedParams.slug}/metadata.json`} className="text-indigo-300 underline">metadata.json</a>.</p>
             <p className="mt-4 text-zinc-500 text-xs leading-relaxed">Published by <a href="https://www.mahastrategies.com/about" className="text-indigo-300 underline">Maha Strategies</a> under the direction of <a href="https://www.mayonemaharajan.com" className="text-indigo-300 underline">Mayone Maha Rajan</a>. This archive presents open research syntheses and preprints, not peer-reviewed conclusions unless explicitly stated.</p>
           </div>
         )}

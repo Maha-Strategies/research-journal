@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use Maha Strategies Research, cite the individual working paper and version you consulted."
+title: "Maha Strategies Research Working Papers"
+type: collection
+authors:
+  - family-names: Rajan
+    given-names: Mayone Maha
+    orcid: https://orcid.org/0009-0006-8135-5306
+date-released: 2026-07-26
+url: https://research.mahastrategies.com/
+license: CC-BY-4.0
+abstract: "An open, human-curated collection of working papers and research syntheses. Individual records state their status, version, provenance, and citation boundary."

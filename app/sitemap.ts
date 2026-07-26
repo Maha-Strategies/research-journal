@@ -11,6 +11,12 @@ const papers: { slug: string; lastModified: string }[] = [
   { slug: 'dissolving-self-ocean-planet', lastModified: '2026-06-01' },
   { slug: 'commercial-fusion-viability', lastModified: '2026-06-01' },
   { slug: 'chronobiological-entrainment', lastModified: '2026-02-01' },
+  { slug: 'the-maha-framework', lastModified: '2026-06-18' },
+  { slug: 'the_perturber_question', lastModified: '2026-06-08' },
+  { slug: 'readout_plasticity_paper', lastModified: '2026-06-07' },
+  { slug: 'machine_learning_g2_betti', lastModified: '2026-06-10' },
+  { slug: 'de_sitter_swampland_map', lastModified: '2026-06-10' },
+  { slug: 'retrograde_p9', lastModified: '2026-06-09' },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
