@@ -3,23 +3,24 @@
 **Mayone Maha Rajan** (Architect & Curator)
 **AI synthesis instrument:** Google Antigravity (agentic model)
 **Editorial and provenance-verification instrument:** Claude (Anthropic), under the architect's direction
-**Revision 1 (final) — June 2026**
+**Revision 2 — July 2026**
 
 This document is a literature map, not original research. It surveys an active and contested debate in string/M-theory and represents the field's disagreements; it does not adjudicate them or advance a physics position of its own. It was produced through human-directed AI synthesis: the agentic instrument assembled the structure, camps, and candidate citations under the architect's direction, and a second AI instrument verified citations against arXiv, INSPIRE-HEP, and primary literature, correcting attributions whose provenance failed. Provenance tags mark the verification status of every cited work (see below). Open items are listed in the Verification Ledger.
 
 ## Provenance tags
 
 - **[VERIFIED]** — the arXiv identifier was independently resolved against arxiv.org or INSPIRE-HEP, and its title, authorship, and placement in the correct camp were confirmed during this map's production.
-- **[SOURCED]** — the work is real and standard in the literature and is cited in good faith, but its identifier was not independently re-resolved in this pass; treat as high-confidence-but-unaudited.
+- **[SOURCED]** — the work is real and standard in the literature and is cited in good faith, but its identifier was not independently re-resolved in this pass; treat as high-confidence-but-unaudited. *As of Revision 2 no citation in this map carries this tag; the definition is retained for future additions.*
 - **[FOUNDATIONAL]** — a pre-arXiv or field-defining work cited by its journal reference.
 
 ## Revision note (what changed, and why it is documented)
 
 The production of this map is itself an instance of the AI-failure-mode pattern this research program tracks, so its corrections are disclosed:
 
-- **Verification was executed before publication, not asserted after.** The synthesis instrument's draft labeled its citation list "key verified papers" while verification was still pending — the exact move that lets fabricated identifiers pass. Verification was then performed across two passes covering nineteen arXiv identifiers spanning all seven problems; every identifier checked resolved to a real paper correctly placed in its camp. Two author attributions initially flagged as suspect (Marsh on the LVS side; the KKLT-skeptic 10D papers) were confirmed correct on checking, and two Dark-Dimension attributions were corrected during synthesis and then confirmed against the literature.
+- **Verification was executed before publication, not asserted after.** The synthesis instrument's draft labeled its citation list "key verified papers" while verification was still pending — the exact move that lets fabricated identifiers pass. Verification was then performed across three passes covering all twenty-four arXiv identifiers spanning the seven problems; every identifier checked resolved to a real paper. Two author attributions initially flagged as suspect (Marsh on the LVS side; the KKLT-skeptic 10D papers) were confirmed correct on checking, and two Dark-Dimension attributions were corrected during synthesis and then confirmed against the literature.
 - **The Trans-Planckian Censorship Conjecture was promoted to its own thread.** The draft folded TCC under another problem; it is central enough to the post-2019 debate to stand as Problem 7.
 - **The overlap among Problems 1, 2, and 6 is made explicit.** KKLT control, LVS control, and the Dine-Seiberg problem are three angles on a single question — whether any dS construction is under EFT control — and the dependency map now shows that rather than presenting them as independent.
+- **Revision 2 closed the remaining ledger items.** The five [SOURCED] identifiers were resolved to full title and authorship; the Venken first-name rendering was confirmed; the Marsh and Shiu affiliations were re-checked; and one camp placement was corrected on the strength of what the resolved paper actually concludes (arXiv:2307.15060 — see Problem 5 and the Ledger).
 
 ---
 
@@ -56,29 +57,30 @@ KKLT stabilizes moduli in a supersymmetric AdS vacuum via fluxes and non-perturb
 
 LVS stabilizes Kähler moduli at exponentially large volume, nominally suppressing corrections. Proponents argue this secures control of the uplift; skeptics argue subleading corrections are not parametrically suppressed.
 
-- **Proponents.** Large volume suppresses α′ and loop corrections; uplift via F-terms of blow-up modes avoids singular anti-branes. Key works: LVS [FOUNDATIONAL: hep-th/0502058], "A New Class of de Sitter Vacua in Type IIB Large Volume Compactifications" [VERIFIED: arXiv:1707.01095, Gallego-Marsh-Vercnocke-Wrase], and dilaton-dependent uplift work [SOURCED: arXiv:1203.1750]. Lead figures: Conlon (Oxford), Quevedo (Cambridge), Cicoli (Bologna), Marsh, Wrase.
-- **Skeptics.** Warp/loop corrections violate the expected scaling, and maintaining control requires a negative D3-tadpole exceeding known Calabi-Yau bounds. Key works: "LVS de Sitter Vacua are probably in the Swampland" [VERIFIED: arXiv:2201.03572, Junghans], "The LVS parametric tadpole constraint" [VERIFIED: arXiv:2202.04087, Gao-Hebecker-Schreyer-Venken]. Lead figures: Junghans, Hebecker, Gao, Schreyer, Venken (Heidelberg). [Note: the tadpole paper's author is Gerben Venken; confirm first-name rendering before any citation export.]
+- **Proponents.** Large volume suppresses α′ and loop corrections; uplift via F-terms of blow-up modes avoids singular anti-branes. Key works: LVS [FOUNDATIONAL: hep-th/0502058], "A New Class of de Sitter Vacua in Type IIB Large Volume Compactifications" [VERIFIED: arXiv:1707.01095, Gallego-Marsh-Vercnocke-Wrase], "De Sitter String Vacua from Dilaton-dependent Non-perturbative Effects" [VERIFIED: arXiv:1203.1750, Cicoli-Maharana-Quevedo-Burgess; JHEP 06 (2012) 011]. Lead figures: Conlon (Oxford), Quevedo (Cambridge), Cicoli (Bologna), M. C. David Marsh (Stockholm), Wrase.
+- **Skeptics.** Warp/loop corrections violate the expected scaling, and maintaining control requires a negative D3-tadpole exceeding known Calabi-Yau bounds. Key works: "LVS de Sitter Vacua are probably in the Swampland" [VERIFIED: arXiv:2201.03572, Junghans], "The LVS Parametric Tadpole Constraint" [VERIFIED: arXiv:2202.04087, Xin Gao-Arthur Hebecker-Simon Schreyer-Gerben Venken; JHEP 07 (2022) 056]. Lead figures: Junghans, Hebecker, Gao, Schreyer, Venken (Heidelberg).
 
 ### 3. The de Sitter Swampland Conjecture
 
 The conjecture asserts the scalar potential obeys |∇V|/V ≥ c (refined versions constrain the Hessian). Advocates motivate it from the distance conjecture and dS thermodynamics; skeptics argue it is phenomenologically strained and lacks a rigorous derivation.
 
-- **Advocates.** Original conjecture [VERIFIED: arXiv:1806.08362, Obied-Ooguri-Spodyneiko-Vafa], refined form [VERIFIED: arXiv:1810.05506, Ooguri-Palti-Shiu-Vafa], slow-roll bound [VERIFIED: arXiv:1807.05193, Garg-Krishnan]. Lead figures: Vafa (Harvard), Ooguri (Caltech/IPMU), Palti (Ben-Gurion), Shiu (Wisconsin).
+- **Advocates.** Original conjecture [VERIFIED: arXiv:1806.08362, Obied-Ooguri-Spodyneiko-Vafa], refined form [VERIFIED: arXiv:1810.05506, Ooguri-Palti-Shiu-Vafa], slow-roll bound [VERIFIED: arXiv:1807.05193, Garg-Krishnan]. Lead figures: Vafa (Harvard), Ooguri (Caltech/IPMU), Palti (Ben-Gurion), Gary Shiu (Wisconsin-Madison).
 - **Landscape defenders.** c ∼ O(1) is in tension with inflation and the observed Λ; the conjecture over-generalizes tree-level no-go theorems. Cosmological critique [VERIFIED: arXiv:1808.09440, Akrami-Kallosh-Linde-Vardanyan]. Lead figures: Linde, Kallosh (Stanford).
 
 ### 4. The Dark Dimension
 
 Ties the dark-energy scale Λ to a Kaluza-Klein scale via the AdS distance conjecture, predicting a single micron-scale extra dimension. Proponents see a hierarchy-and-dark-matter payoff; skeptics cite short-range-gravity and astrophysical bounds.
 
-- **Proponents.** AdS distance conjecture plus the observed Λ predicts R ∼ 10⁻⁶ m; KK gravitons supply dark matter. Key works: "The Dark Dimension and the Swampland" [VERIFIED: arXiv:2205.12293, Montero-Vafa-Valenzuela], a warped-throat realization [VERIFIED: arXiv:2208.01057, Blumenhagen-Brinkmann-Makridou], decaying-dark-graviton constraints [SOURCED: arXiv:2307.11048, Law-Smith-Obied-Prabhu-Vafa]. Lead figures: Vafa, Obied (Harvard); Montero, Valenzuela; Anchordoqui (CUNY); Antoniadis; Lüst (LMU/MPP). [Author attributions on the second and third papers were corrected during synthesis — see Ledger.]
-- **Skeptics.** Torsion-balance limits on inverse-square-law deviations and SN1987A/neutron-star cooling constrain the scenario. Key works: short-range-gravity tests [SOURCED: arXiv:2002.11761; hep-ph/0611184, Kapner et al.]. Lead figures: Adelberger, Heckel (Eöt-Wash, U. Washington).
+- **Proponents.** AdS distance conjecture plus the observed Λ predicts R ∼ 10⁻⁶ m; KK gravitons supply dark matter. Key works: "The Dark Dimension and the Swampland" [VERIFIED: arXiv:2205.12293, Montero-Vafa-Valenzuela], a warped-throat realization [VERIFIED: arXiv:2208.01057, Blumenhagen-Brinkmann-Makridou], "Astrophysical Constraints on Decaying Dark Gravitons" [VERIFIED: arXiv:2307.11048, Law-Smith-Obied-Prabhu-Vafa; JHEP 06 (2024) 047]. Lead figures: Vafa, Obied (Harvard); Montero, Valenzuela; Anchordoqui (CUNY); Antoniadis; Lüst (LMU/MPP). [Author attributions on the second and third papers were corrected during synthesis — see Ledger.]
+- **Skeptics.** Torsion-balance limits on inverse-square-law deviations and SN1987A/neutron-star cooling constrain the scenario. Key works: "New Test of the Gravitational 1/r² Law at Separations down to 52 μm" [VERIFIED: arXiv:2002.11761, Lee-Adelberger-Cook-Fleischer-Heckel; PRL 124, 101101 (2020)], "Tests of the Gravitational Inverse-Square Law below the Dark-Energy Length Scale" [VERIFIED: hep-ph/0611184, Kapner-Cook-Adelberger-Gundlach-Heckel-Hoyle-Swanson; PRL 98, 021101 (2007)]. Lead figures: Adelberger, Heckel, Gundlach (Eöt-Wash, U. Washington).
 
 ### 5. Quintessence as the dark-energy alternative
 
 If dS is in the swampland, dark energy must roll. Proponents argue rolling-scalar potentials satisfy the swampland criteria; skeptics argue the fit to data demands fine-tuning.
 
 - **Advocates.** Quintessence avoids the thermodynamic problems of stable dS and can satisfy |∇V|/V ≥ c. Key work: cosmological implications of the conjectures [VERIFIED: arXiv:1806.09718, Agrawal-Obied-Steinhardt-Vafa]. Lead figures: Steinhardt (Princeton), Agrawal, Vafa (Harvard).
-- **Skeptics.** Bounds on the equation of state (w ≈ −1) push c ≲ 0.1, straining the O(1) requirement; DESI/Euclid will tighten this. Key works: [VERIFIED: arXiv:1808.02877, Heisenberg-Bartelmann-Brandenberger-Refregier; SOURCED: arXiv:2307.15060]. Lead figures: Heisenberg, Brandenberger (McGill).
+- **Skeptics.** Bounds on the equation of state (w ≈ −1) push c ≲ 0.1, straining the O(1) requirement. Key work: [VERIFIED: arXiv:1808.02877, Heisenberg-Bartelmann-Brandenberger-Refregier]. Lead figures: Lavinia Heisenberg (Heidelberg; ETH Zürich at time of writing), Brandenberger (McGill).
+- **Data-side reassessment (neither camp cleanly).** "News from the Swampland — Constraining string theory with astrophysics and cosmology" [VERIFIED: arXiv:2307.15060, Schöneberg-Vacher-Dias-Carvalho-Martins; JCAP 2023(10), 039, doi:10.1088/1475-7516/2023/10/039] refits a range of quintessence models to newer datasets and finds that the newer data *allows slightly more freedom* in the Swampland criteria rather than tightening the tension, while raising a separate fine-tuning problem from constraints on moduli–electromagnetic couplings and cautioning against model-independent reconstructions of the criteria from expansion-rate data. It is listed here rather than under "skeptics" because its result runs the other way; DESI/Euclid will continue to move this line.
 
 ### 6. The Dine-Seiberg problem
 
@@ -92,7 +94,7 @@ The 1985 observation that string compactifications are weakly coupled and large-
 TCC holds that sub-Planckian fluctuations must never cross the Hubble horizon and freeze, bounding the dS lifetime to τ ≲ H⁻¹ ln(M_Pl/H). Proponents derive swampland-like constraints from it; skeptics note the tension with inflation.
 
 - **Proponents.** Frozen sub-Planckian modes would break the EFT; TCC yields a natural lifetime bound. Key work: TCC foundational [VERIFIED: arXiv:1909.11063, Bedroya-Vafa]. Lead figures: Bedroya, Vafa (Harvard).
-- **Skeptics.** TCC forces V¹ᐟ⁴ ≲ 10⁹ GeV, making the observed perturbation amplitude hard to generate without fine-tuning. Cosmological constraints [SOURCED: arXiv:1808.09440]. Lead figures: Linde, Kallosh (Stanford); Brandenberger (McGill).
+- **Skeptics.** TCC forces V¹ᐟ⁴ ≲ 10⁹ GeV, making the observed perturbation amplitude hard to generate without fine-tuning. Cosmological constraints [VERIFIED: arXiv:1808.09440, Akrami-Kallosh-Linde-Vardanyan]. Lead figures: Linde, Kallosh (Stanford); Brandenberger (McGill).
 
 ---
 
@@ -126,7 +128,7 @@ Problems 1, 2, and 6 are three angles on a single underlying question — whethe
 
 Most of this literature is formalism-bound, requiring Calabi-Yau geometry, flux compactification, and 10D/11D supergravity. A few corners are genuinely tractable for a computationally-oriented outsider, and they should be distinguished honestly from the ones that are not.
 
-**Genuinely tractable.** Programmatic searching of the Kreuzer-Skarke database for Calabi-Yau manifolds meeting the LVS parametric-tadpole bounds (large Euler number, large negative D3-tadpole) is a database/algorithmic task that does not require solving supergravity equations. And constraining swampland-quintessence or TCC models against CMB/DESI data by modifying standard Boltzmann solvers (CLASS, CAMB) and running MCMC pipelines (Cobaya) is accessible to anyone with a cosmology-data background.
+**Genuinely tractable.** Programmatic searching of the Kreuzer-Skarke database for Calabi-Yau manifolds meeting the LVS parametric-tadpole bounds (large Euler number, large negative D3-tadpole) is a database/algorithmic task that does not require solving supergravity equations. And constraining swampland-quintessence or TCC models against CMB/DESI data by modifying standard Boltzmann solvers (CLASS, CAMB) and running MCMC pipelines (Cobaya) is accessible to anyone with a cosmology-data background — arXiv:2307.15060 is a worked example of exactly this pipeline.
 
 **Accessible to reproduce, not to extend.** Modeling Eöt-Wash torsion-balance data to bound Dark Dimension parameters is straightforward to *read and reproduce* but harder to contribute novel limits to than "compute a Yukawa potential" suggests — the micron-scale prediction sits at the current experimental frontier and the systematics modeling is the actual difficulty.
 
@@ -136,20 +138,44 @@ Most of this literature is formalism-bound, requiring Calabi-Yau geometry, flux 
 
 ## F. Verification Ledger
 
-**Verified (identifier resolved, authorship and camp placement confirmed):** 1412.5702 (Michel et al.); 1901.02022 (Kallosh-Linde-McDonough-Scalisi); 1908.04788 (Kachru-Kim-McAllister-Zimet); 1206.6369 (Bena et al.); 1707.08678 (Moritz-Retolaza-Westphal); 1804.01120 (Danielsson-Van Riet); 1707.01095 (Gallego-Marsh-Vercnocke-Wrase); 2201.03572 (Junghans); 2202.04087 (Gao-Hebecker-Schreyer-Venken); 1806.08362 (Obied-Ooguri-Spodyneiko-Vafa); 1810.05506 (Ooguri-Palti-Shiu-Vafa); 1807.05193 (Garg-Krishnan); 1808.09440 (Akrami-Kallosh-Linde-Vardanyan); 2205.12293 (Montero-Vafa-Valenzuela); 2208.01057 (Blumenhagen-Brinkmann-Makridou); 1906.05225 (Lüst-Palti-Vafa); 1806.09718 (Agrawal-Obied-Steinhardt-Vafa); 1808.02877 (Heisenberg-Bartelmann-Brandenberger-Refregier); 1909.11063 (Bedroya-Vafa, TCC). The OOSV-vs-OPSV distinction the prior ledger flagged is resolved: 1806.08362 is the four-author OOSV origin paper, 1810.05506 the OPSV refinement — distinct papers, both correctly placed.
+**Status at Revision 2: all twenty-four arXiv identifiers cited in this map have been independently resolved. No [SOURCED] tags remain.**
 
-**Author-attribution corrections made during synthesis (now confirmed against the literature):** arXiv:2208.01057 reassigned from Obied-Ooguri-Vafa to Blumenhagen-Brinkmann-Makridou (confirmed); arXiv:2307.11048 reassigned to Law-Smith-Obied-Prabhu-Vafa.
+*Counting note.* Twenty-six arXiv identifiers appear in the text; twenty-four are citations in their own right, and two — hep-th/0301240 (KKLT) and hep-th/0502058 (LVS) — belong to [FOUNDATIONAL] works cited by journal reference, with their identifiers given for the reader's convenience. Twenty-seven distinct works are cited in total: twenty-four [VERIFIED] plus three [FOUNDATIONAL].
+
+**Verified in Revision 1 (identifier resolved, authorship and camp placement confirmed):** 1412.5702 (Michel et al.); 1901.02022 (Kallosh-Linde-McDonough-Scalisi); 1908.04788 (Kachru-Kim-McAllister-Zimet); 1206.6369 (Bena et al.); 1707.08678 (Moritz-Retolaza-Westphal); 1804.01120 (Danielsson-Van Riet); 1707.01095 (Gallego-Marsh-Vercnocke-Wrase); 2201.03572 (Junghans); 2202.04087 (Gao-Hebecker-Schreyer-Venken); 1806.08362 (Obied-Ooguri-Spodyneiko-Vafa); 1810.05506 (Ooguri-Palti-Shiu-Vafa); 1807.05193 (Garg-Krishnan); 1808.09440 (Akrami-Kallosh-Linde-Vardanyan); 2205.12293 (Montero-Vafa-Valenzuela); 2208.01057 (Blumenhagen-Brinkmann-Makridou); 1906.05225 (Lüst-Palti-Vafa); 1806.09718 (Agrawal-Obied-Steinhardt-Vafa); 1808.02877 (Heisenberg-Bartelmann-Brandenberger-Refregier); 1909.11063 (Bedroya-Vafa, TCC). The OOSV-vs-OPSV distinction the prior ledger flagged is resolved: 1806.08362 is the four-author OOSV origin paper, 1810.05506 the OPSV refinement — distinct papers, both correctly placed.
+
+**Verified in Revision 2 (the five former [SOURCED] identifiers):**
+
+| Identifier | Resolved title | Authorship | Outcome |
+|---|---|---|---|
+| arXiv:1203.1750 | De Sitter String Vacua from Dilaton-dependent Non-perturbative Effects (JHEP 06 (2012) 011) | Cicoli, Maharana, Quevedo, Burgess | Confirmed; camp placement (LVS proponents, non-anti-brane uplift) correct. Authorship now stated in-text, which it was not in Revision 1. |
+| arXiv:2307.11048 | Astrophysical Constraints on Decaying Dark Gravitons (JHEP 06 (2024) 047) | Law-Smith, Obied, Prabhu, Vafa | Confirmed, including the Revision 1 synthesis-stage reassignment. Journal reference added. |
+| arXiv:2002.11761 | New Test of the Gravitational 1/r² Law at Separations down to 52 μm (PRL 124, 101101 (2020)) | Lee, Adelberger, Cook, Fleischer, Heckel | Confirmed; cited without authorship in Revision 1, now attributed. Eöt-Wash lead-figure line extended to include Gundlach. |
+| hep-ph/0611184 | Tests of the Gravitational Inverse-Square Law below the Dark-Energy Length Scale (PRL 98, 021101 (2007)) | Kapner, Cook, Adelberger, Gundlach, Heckel, Hoyle, Swanson | Confirmed; "Kapner et al." was correct, full author list now given. |
+| arXiv:2307.15060 | News from the Swampland — constraining string theory with astrophysics and cosmology (JCAP 2023(10), 039; doi:10.1088/1475-7516/2023/10/039) | Schöneberg, Vacher, Dias, Carvalho, Martins | Identifier, authorship, and full journal reference confirmed; **camp placement corrected**: Revision 1 filed it under Problem 5 skeptics alongside 1808.02877 and implicitly under the Heisenberg/Brandenberger attribution. Its stated finding is that newer data *allows slightly more freedom* in the Swampland criteria rather than tightening the tension. It is now listed as a separate data-side reassessment with its own authorship. |
+
+**Author-attribution corrections made during synthesis (confirmed against the literature):** arXiv:2208.01057 reassigned from Obied-Ooguri-Vafa to Blumenhagen-Brinkmann-Makridou (confirmed); arXiv:2307.11048 reassigned to Law-Smith-Obied-Prabhu-Vafa (confirmed in Revision 2).
 
 **Foundational, cited by journal reference (pre-arXiv or field-defining):** hep-th/0301240 (KKLT); hep-th/0502058 (LVS); Phys. Lett. B 162 (1985) 299 (Dine-Seiberg).
 
-**Sourced but not independently re-resolved (high-confidence, standard works):** 1203.1750; 2307.11048; 2002.11761; hep-ph/0611184; 2307.15060.
+**Name and affiliation checks completed in Revision 2:**
 
-**Remaining before publication:**
-1. Resolve the five [SOURCED] identifiers above against arXiv/INSPIRE to complete the upgrade to [VERIFIED]. These are the short-range-gravity experimental papers (2002.11761, hep-ph/0611184) and three recent preprints; none is conjecture-defining, so the residual risk is low.
-2. Confirm the first-name rendering of G. Venken in the Problem 2 skeptic attribution.
-3. Spot-check affiliations (Marsh, Shiu), which drift over time and were not the focus of citation verification.
-4. Final human read.
+1. **Venken first-name rendering — resolved.** arXiv:2202.04087 is by Xin Gao, Arthur Hebecker, Simon Schreyer, and Gerben Venken. The Revision 1 caveat note has been removed and the full first names are given in-text.
+2. **Marsh — updated.** The Marsh of arXiv:1707.01095 is M. C. David Marsh, now a senior lecturer at Fysikum, Stockholm University (Cambridge/DAMTP at the time of the cited work). Revision 1 gave no affiliation; Stockholm is now stated.
+3. **Shiu — confirmed.** Gary Shiu, Professor of Physics, University of Wisconsin–Madison. Unchanged.
+4. **Heisenberg — disambiguated.** Revision 1's "Heisenberg, Brandenberger (McGill)" could be read as placing both at McGill. Lavinia Heisenberg is at Heidelberg (ETH Zürich at the time of arXiv:1808.02877); Brandenberger is at McGill.
+
+**Closed before publication:**
+
+1. **Final human read — completed** by the architect, 26 July 2026.
+2. **Journal references — complete.** Every journal reference cited in this map is now given in full. The last outstanding one, arXiv:2307.15060, is *JCAP* 2023(10), 039, doi:10.1088/1475-7516/2023/10/039.
+
+**Standing caveats (not defects, but limits on what the verification claims):**
+
+1. Affiliations drift. The four checks above are current as of July 2026 and should be read as time-stamped rather than permanent.
+2. Two author lists were verified as to identity, lead author, and camp placement but not recorded in full: arXiv:1412.5702 ("Michel et al.") and arXiv:1206.6369 ("Bena et al."). The citation exports render these as *and others*.
+3. Verification is not endorsement. That a citation resolves and is correctly placed says nothing about whether its argument is right — most of the works cited here disagree with one another, which is the subject of the map.
 
 ## Note on the use of this map
 
-This is a non-peer-reviewed synthesis of a contested literature, produced to orient a reader in the structure of an active debate. It is reliable as a map of *who argues what and where the fault lines run*; it is not a substitute for the primary papers. Nearly all citations have been independently resolved against arXiv/INSPIRE-HEP (see Ledger); the remaining handful of [SOURCED] tags mark the five non-conjecture-defining identifiers a reader should resolve before relying on them in their own work.
+This is a non-peer-reviewed synthesis of a contested literature, produced to orient a reader in the structure of an active debate. It is reliable as a map of *who argues what and where the fault lines run*; it is not a substitute for the primary papers. As of Revision 2 every arXiv identifier cited here has been independently resolved against arXiv/INSPIRE-HEP and its camp placement checked against what the paper actually argues — one placement was corrected on that basis (see Ledger). The three foundational works are cited by journal reference, and every journal reference given is complete. The architect's final read was completed on 26 July 2026.

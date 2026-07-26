@@ -16,6 +16,7 @@ import RunawayBifurcation from '@/components/RunawayBifurcation';
 import { getPaperReferences } from '@/lib/paper-references';
 import { getBibtex, getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
+import { getAtlasForPaper } from '@/lib/atlas/de-sitter';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 const ORG_URL = 'https://www.mahastrategies.com';
@@ -169,7 +170,7 @@ const PAPER_DATES: Record<string, { published: string; modified: string }> = {
   'the_perturber_question': { published: '2026-06-08', modified: '2026-06-11' },
   'readout_plasticity_paper': { published: '2026-06-07', modified: '2026-06-11' },
   'machine_learning_g2_betti': { published: '2026-06-10', modified: '2026-06-11' },
-  'de_sitter_swampland_map': { published: '2026-06-10', modified: '2026-06-11' },
+  'de_sitter_swampland_map': { published: '2026-07-26', modified: '2026-07-26' },
   'retrograde_p9': { published: '2026-06-09', modified: '2026-06-11' },
 };
 
@@ -279,6 +280,7 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
   const workingPaper = getWorkingPaper(resolvedParams.slug);
   const references = getPaperReferences(resolvedParams.slug);
   const zenodo = getZenodoRecord(resolvedParams.slug);
+  const atlas = getAtlasForPaper(resolvedParams.slug);
   const dates = PAPER_DATES[resolvedParams.slug] ?? { published: '2026-06-01', modified: '2026-06-11' };
   const url = `${SITE_URL}/papers/${resolvedParams.slug}`;
   const ogImage = `${SITE_URL}/og/${resolvedParams.slug}.png`;
@@ -335,6 +337,19 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
               <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Version {workingPaper.version}<br />{workingPaper.versionDate}</div>
             </div>
             <p className="mt-4 text-xs leading-relaxed text-zinc-500">This is a citable public working-paper edition. It is not a peer-reviewed journal article; consult the version history, source ledger, and stated limitations before relying on it.</p>
+          </section>
+        )}
+
+        {atlas && (
+          <section className="mb-10 border border-indigo-400/30 bg-indigo-400/5 p-5" aria-label="Companion atlas">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-indigo-300">[ Companion atlas ]</p>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-300">{atlas.blurb}</p>
+            <Link
+              href={atlas.href}
+              className="mt-4 inline-block border border-zinc-700 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-zinc-300 transition-colors hover:border-white hover:text-white"
+            >
+              Open {atlas.title} →
+            </Link>
           </section>
         )}
 

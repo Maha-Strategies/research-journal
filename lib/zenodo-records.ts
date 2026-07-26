@@ -10,6 +10,13 @@ export type ZenodoRecord = {
 // reader can reach the exact archived object; the concept DOI remains available
 // for a citation that should always resolve to the newest Zenodo version.
 export const ZENODO_RECORDS: Record<string, ZenodoRecord> = {
+  'de_sitter_swampland_map': {
+    doi: '10.5281/zenodo.21603961',
+    conceptDoi: '10.5281/zenodo.21603960',
+    recordUrl: 'https://zenodo.org/records/21603961',
+    doiUrl: 'https://doi.org/10.5281/zenodo.21603961',
+    archiveLabel: 'Zenodo preprint archive',
+  },
   'the_perturber_question': {
     doi: '10.5281/zenodo.20719485',
     conceptDoi: '10.5281/zenodo.20719484',

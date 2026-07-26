@@ -9,6 +9,12 @@
 - [The Volcanic Engine thesis](https://research.mahastrategies.com/papers/the-volcanic-engine-thesis): a clearly labelled working thesis connected to the Mayon educational project.
 - [Maha Strategies](https://www.mahastrategies.com/): organization and decision-research practice.
 
+## Interactive atlases
+
+Atlases are navigation layers over a published paper, not separate research. They carry no DOI of their own; cite the underlying paper.
+
+- [The de Sitter / String Swampland Atlas](https://research.mahastrategies.com/atlas/de-sitter-swampland): a source-first concept map, epistemic legend, and claim ledger derived entirely from the verified citation set of [the de Sitter working paper](https://research.mahastrategies.com/papers/de_sitter_swampland_map). Machine-readable record at `/atlas/de-sitter-swampland/metadata.json`. It is an educational, non-peer-reviewed orientation tool and explicitly does not adjudicate whether string theory admits metastable de Sitter vacua — that question is open and contested. Every claim carries one of four status labels (established result, active research, conjecture, speculative interpretation) and a caution; preserve both when summarizing. Do not describe string theory or M-theory as experimentally confirmed.
+
 ## Citation and status
 
 - Cite individual paper URLs, titles, dates, versions, and their stated status.
@@ -25,3 +31,4 @@ The following public works have version-specific Zenodo records. Cite the versio
 - [A Monte Carlo Forecast for the Detection of Planet Nine](https://research.mahastrategies.com/papers/planet-nine-forecast): archived version DOI [10.5281/zenodo.20689349](https://doi.org/10.5281/zenodo.20689349); concept DOI [10.5281/zenodo.20621055](https://doi.org/10.5281/zenodo.20621055).
 - [A Reproducible N-Body Pipeline for Retrograde Planet Nine Configurations](https://research.mahastrategies.com/papers/retrograde_p9): archived version DOI [10.5281/zenodo.20756443](https://doi.org/10.5281/zenodo.20756443); concept DOI [10.5281/zenodo.20756442](https://doi.org/10.5281/zenodo.20756442).
 - [The M·A·H·A Framework](https://research.mahastrategies.com/papers/the-maha-framework): archived version DOI [10.5281/zenodo.20746123](https://doi.org/10.5281/zenodo.20746123); concept DOI [10.5281/zenodo.20746122](https://doi.org/10.5281/zenodo.20746122).
+- [The de Sitter Problem in the String Swampland](https://research.mahastrategies.com/papers/de_sitter_swampland_map): archived version DOI [10.5281/zenodo.21603961](https://doi.org/10.5281/zenodo.21603961); concept DOI [10.5281/zenodo.21603960](https://doi.org/10.5281/zenodo.21603960). Revision 2 is a non-peer-reviewed, CC BY 4.0 literature map of a contested field; it does not adjudicate the debate.

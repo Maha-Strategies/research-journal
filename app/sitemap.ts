@@ -15,8 +15,13 @@ const papers: { slug: string; lastModified: string }[] = [
   { slug: 'the_perturber_question', lastModified: '2026-06-08' },
   { slug: 'readout_plasticity_paper', lastModified: '2026-06-07' },
   { slug: 'machine_learning_g2_betti', lastModified: '2026-06-10' },
-  { slug: 'de_sitter_swampland_map', lastModified: '2026-06-10' },
+  { slug: 'de_sitter_swampland_map', lastModified: '2026-07-26' },
   { slug: 'retrograde_p9', lastModified: '2026-06-09' },
+];
+
+// Interactive research surfaces that sit alongside a paper rather than in it.
+const atlases: { path: string; lastModified: string }[] = [
+  { path: '/atlas/de-sitter-swampland', lastModified: '2026-07-26' },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -34,5 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [home, ...paperEntries];
+  const atlasEntries = atlases.map((a) => ({
+    url: `${SITE_URL}${a.path}`,
+    lastModified: new Date(a.lastModified),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  return [home, ...paperEntries, ...atlasEntries];
 }
