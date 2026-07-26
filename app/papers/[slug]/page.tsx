@@ -28,6 +28,12 @@ const PAPER_META: Record<
     abstract: string;
   }
 > = {
+  'the-volcanic-engine-thesis': {
+    title: 'The Volcanic Engine: Eruption as a Precondition for Sustained Planetary Habitability',
+    description: 'A structural thesis on volcanism, the carbonate–silicate cycle, and the conditions for sustained planetary habitability. A labelled synthesis and hypothesis, not peer-reviewed research.',
+    about: ['Volcanism', 'Carbonate–silicate cycle', 'Planetary habitability', 'Plate tectonics', 'Geochemistry', 'Volcanic hazards'],
+    abstract: 'This structural thesis argues that sustained planetary habitability is not merely compatible with volcanism but may be downstream of the full tectonic carbon cycle: volcanic outgassing coupled to temperature-dependent silicate weathering and a subduction return path. It is published as a synthesis and organizing hypothesis, not as a finding or peer-reviewed conclusion, and explicitly records its incomplete verification status.',
+  },
   'the-maha-framework': {
     title: 'The M·A·H·A Framework: An Integrative Architecture for Resisting Systemic Metabolic, Attentional, and Relational Extraction',
     description: 'A formalization of the M·A·H·A (Mindfulness, Authenticity, Health, Action) framework as an integrative socio-biological model designed to resist modern metabolic, attentional, and relational pathologies.',
@@ -150,6 +156,7 @@ const PAPER_META: Record<
 
 // ---- SEO/AIO helpers: valid ISO dates + entity linking (additive, does not alter PAPER_META) ----
 const PAPER_DATES: Record<string, { published: string; modified: string }> = {
+  'the-volcanic-engine-thesis': { published: '2026-07-26', modified: '2026-07-26' },
   'the-maha-framework': { published: '2026-06-01', modified: '2026-06-11' },
   'planet-nine-forecast': { published: '2026-06-05', modified: '2026-06-11' },
   'thermodynamic-isomorphism': { published: '2026-06-03', modified: '2026-06-11' },
@@ -164,6 +171,12 @@ const PAPER_DATES: Record<string, { published: string; modified: string }> = {
 };
 
 const ABOUT_SAMEAS: Record<string, string> = {
+  Volcanism: 'https://en.wikipedia.org/wiki/Volcanism',
+  'Carbonate–silicate cycle': 'https://en.wikipedia.org/wiki/Carbonate%E2%80%93silicate_cycle',
+  'Planetary habitability': 'https://en.wikipedia.org/wiki/Planetary_habitability',
+  'Plate tectonics': 'https://en.wikipedia.org/wiki/Plate_tectonics',
+  Geochemistry: 'https://en.wikipedia.org/wiki/Geochemistry',
+  'Volcanic hazards': 'https://en.wikipedia.org/wiki/Volcanic_hazard',
   'Planet Nine': 'https://www.wikidata.org/wiki/Q19893910',
   'Trans-Neptunian objects': 'https://en.wikipedia.org/wiki/Trans-Neptunian_object',
   'Vera C. Rubin Observatory': 'https://www.wikidata.org/wiki/Q472095',

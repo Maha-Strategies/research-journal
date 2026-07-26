@@ -5,6 +5,7 @@ const SITE_URL = 'https://research.mahastrategies.com';
 // Publication dates from each paper's schema (datePublished).
 // Update lastModified when a paper's content materially changes.
 const papers: { slug: string; lastModified: string }[] = [
+  { slug: 'the-volcanic-engine-thesis', lastModified: '2026-07-26' },
   { slug: 'planet-nine-forecast', lastModified: '2026-06-01' },
   { slug: 'thermodynamic-isomorphism', lastModified: '2026-06-01' },
   { slug: 'dissolving-self-ocean-planet', lastModified: '2026-06-01' },

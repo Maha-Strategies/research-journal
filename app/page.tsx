@@ -105,6 +105,7 @@ export const researchHomeLd = {
         sameAs: 'https://en.wikipedia.org/wiki/Interdisciplinarity',
       },
       hasPart: [
+        { '@id': `${SITE_URL}/papers/the-volcanic-engine-thesis#article` },
         { '@id': `${SITE_URL}/papers/the-maha-framework#article` },
         { '@id': `${SITE_URL}/papers/planet-nine-forecast#article` },
         { '@id': `${SITE_URL}/papers/the_perturber_question#article` },
@@ -128,20 +129,38 @@ export const researchHomeLd = {
       '@id': `${SITE_URL}/#paper-list`,
       name: 'Published Research Papers',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, url: `${SITE_URL}/papers/the-maha-framework`, name: 'The M·A·H·A Framework' },
-        { '@type': 'ListItem', position: 2, url: `${SITE_URL}/papers/planet-nine-forecast`, name: 'A Monte Carlo Forecast for the Detection of Planet Nine' },
-        { '@type': 'ListItem', position: 3, url: `${SITE_URL}/papers/the_perturber_question`, name: 'The Perturber Question Under Audit' },
-        { '@type': 'ListItem', position: 4, url: `${SITE_URL}/papers/readout_plasticity_paper`, name: 'Evolving Local Synaptic Plasticity Rules to Track Representational Drift' },
-        { '@type': 'ListItem', position: 5, url: `${SITE_URL}/papers/machine_learning_g2_betti`, name: 'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data' },
-        { '@type': 'ListItem', position: 6, url: `${SITE_URL}/papers/de_sitter_swampland_map`, name: 'The de Sitter Problem in the String Swampland' },
-        { '@type': 'ListItem', position: 7, url: `${SITE_URL}/papers/retrograde_p9`, name: 'A Reproducible N-Body Pipeline for Retrograde Planet Nine Configurations' },
-        { '@type': 'ListItem', position: 8, url: `${SITE_URL}/papers/thermodynamic-isomorphism`, name: 'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway' },
-        { '@type': 'ListItem', position: 9, url: `${SITE_URL}/papers/dissolving-self-ocean-planet`, name: 'Why the Dissolving Self Is Imagined as an Ocean Planet' },
-        { '@type': 'ListItem', position: 10, url: `${SITE_URL}/papers/chronobiological-entrainment`, name: 'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis' },
-        { '@type': 'ListItem', position: 11, url: `${SITE_URL}/papers/commercial-fusion-viability`, name: 'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power' },
+        { '@type': 'ListItem', position: 1, url: `${SITE_URL}/papers/the-volcanic-engine-thesis`, name: 'The Volcanic Engine: Eruption as a Precondition for Sustained Planetary Habitability' },
+        { '@type': 'ListItem', position: 2, url: `${SITE_URL}/papers/the-maha-framework`, name: 'The M·A·H·A Framework' },
+        { '@type': 'ListItem', position: 3, url: `${SITE_URL}/papers/planet-nine-forecast`, name: 'A Monte Carlo Forecast for the Detection of Planet Nine' },
+        { '@type': 'ListItem', position: 4, url: `${SITE_URL}/papers/the_perturber_question`, name: 'The Perturber Question Under Audit' },
+        { '@type': 'ListItem', position: 5, url: `${SITE_URL}/papers/readout_plasticity_paper`, name: 'Evolving Local Synaptic Plasticity Rules to Track Representational Drift' },
+        { '@type': 'ListItem', position: 6, url: `${SITE_URL}/papers/machine_learning_g2_betti`, name: 'Machine Learning G2 Betti Numbers from Orientifold Calabi-Yau Data' },
+        { '@type': 'ListItem', position: 7, url: `${SITE_URL}/papers/de_sitter_swampland_map`, name: 'The de Sitter Problem in the String Swampland' },
+        { '@type': 'ListItem', position: 8, url: `${SITE_URL}/papers/retrograde_p9`, name: 'A Reproducible N-Body Pipeline for Retrograde Planet Nine Configurations' },
+        { '@type': 'ListItem', position: 9, url: `${SITE_URL}/papers/thermodynamic-isomorphism`, name: 'A Unified Nonlinear Dynamical Model of Thermodynamic Runaway' },
+        { '@type': 'ListItem', position: 10, url: `${SITE_URL}/papers/dissolving-self-ocean-planet`, name: 'Why the Dissolving Self Is Imagined as an Ocean Planet' },
+        { '@type': 'ListItem', position: 11, url: `${SITE_URL}/papers/chronobiological-entrainment`, name: 'Chronobiological Entrainment as a Primary Modality for Endocrine Homeostasis' },
+        { '@type': 'ListItem', position: 12, url: `${SITE_URL}/papers/commercial-fusion-viability`, name: 'Bridging the Chasm: From Scientific Break-Even to Commercial Fusion Power' },
       ],
     },
     // --- ScholarlyArticles: full ISO dates, entity-linked about, license, image ---
+    {
+      '@type': 'ScholarlyArticle',
+      '@id': `${SITE_URL}/papers/the-volcanic-engine-thesis#article`,
+      headline: 'The Volcanic Engine: Eruption as a Precondition for Sustained Planetary Habitability',
+      url: `${SITE_URL}/papers/the-volcanic-engine-thesis`,
+      isPartOf: { '@id': `${SITE_URL}/#collection` },
+      datePublished: '2026-07-26',
+      dateModified: '2026-07-26',
+      inLanguage: 'en',
+      author: { '@id': `${SITE_URL}/#architect` },
+      publisher: { '@id': `${SITE_URL}/#org` },
+      isAccessibleForFree: true,
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      creativeWorkStatus: 'Preprint',
+      keywords: 'Volcanism, carbonate–silicate cycle, planetary habitability, plate tectonics, geochemistry, volcanic hazards',
+      abstract: 'A structural thesis on volcanism, the carbonate–silicate cycle, and the conditions for sustained planetary habitability. Published as a labelled synthesis and hypothesis, not peer-reviewed research.',
+    },
     {
       '@type': 'ScholarlyArticle',
       '@id': `${SITE_URL}/papers/the-maha-framework#article`,
@@ -380,6 +399,43 @@ export default function ResearchHomepage() {
           <div className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-8">
             Vol. 1 — Inaugural Synthesis
           </div>
+
+          <article className="group relative border border-indigo-500/25 bg-[#121214] p-8 mb-6 hover:border-indigo-500/50 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-indigo-400 uppercase tracking-widest">
+                  Planetary Science / Geochemistry / Working Thesis
+                </div>
+                <Link href="/papers/the-volcanic-engine-thesis">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-indigo-300 transition-colors">
+                    The Volcanic Engine: Eruption as a Precondition for Sustained Planetary Habitability
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                July 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A structural thesis on how the full tectonic carbon cycle—volcanic outgassing, silicate weathering, and subduction—may help sustain a liquid-water planet over geological time. Explicitly a synthesis and hypothesis: not peer-reviewed, with an incomplete verification pass documented in the manuscript.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Synthesis Instrument</span>
+                <span className="text-xs text-zinc-300">Claude (Anthropic, agentic model)</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Architected By</span>
+                <span className="text-xs text-zinc-300">Mayone Maha Rajan</span>
+              </div>
+            </div>
+
+            <Link href="/papers/the-volcanic-engine-thesis" className="absolute top-8 right-8 text-zinc-500 group-hover:text-indigo-400 transition-colors" aria-label="Read The Volcanic Engine">
+              &#8599;
+            </Link>
+          </article>
 
           {/* Lead Paper Item — The M·A·H·A Framework */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
