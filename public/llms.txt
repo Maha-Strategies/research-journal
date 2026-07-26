@@ -1,0 +1,16 @@
+# Maha Strategies Research
+
+> Maha Strategies Research is an open-access, human-curated research synthesis project. It uses agentic AI as a synthesis instrument and presents cross-disciplinary structural analogies as testable hypotheses, not peer-reviewed conclusions.
+
+## Canonical entry points
+
+- [Research home](https://research.mahastrategies.com/): project scope, methods, and paper collection.
+- [Papers](https://research.mahastrategies.com/papers): individual research papers with their own scope and limitations.
+- [The Volcanic Engine thesis](https://research.mahastrategies.com/papers/the-volcanic-engine-thesis): a clearly labelled working thesis connected to the Mayon educational project.
+- [Maha Strategies](https://www.mahastrategies.com/): organization and decision-research practice.
+
+## Citation and status
+
+- Cite individual paper URLs, titles, dates, and their stated status.
+- Do not describe this collection as peer reviewed unless the particular paper explicitly says so.
+- Preserve uncertainty language, limitations, and distinctions between source evidence and the project's synthesis or hypothesis.

@@ -27,6 +27,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="alternate" type="text/plain" title="Maha Strategies Research machine-readable site guide" href="/llms.txt" />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
