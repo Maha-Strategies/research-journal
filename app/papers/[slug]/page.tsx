@@ -353,6 +353,7 @@ const bibtexKey = `rajan2026${resolvedParams.slug.replace(/-/g, '')}`;
             <p className="mt-4 text-zinc-600 text-xs italic">
               Note: If citing a specific version archived on Zenodo, please append the relevant DOI to the formats above.
             </p>
+            <p className="mt-4 text-zinc-500 text-xs leading-relaxed">Published by <a href="https://www.mahastrategies.com/about" className="text-indigo-300 underline">Maha Strategies</a> under the direction of <a href="https://www.mayonemaharajan.com" className="text-indigo-300 underline">Mayone Maha Rajan</a>. This archive presents open research syntheses and preprints, not peer-reviewed conclusions unless explicitly stated.</p>
           </div>
         )}
 

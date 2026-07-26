@@ -351,6 +351,9 @@ export default function ResearchHomepage() {
             Maha Strategies <span className="text-indigo-400">///</span> Research & Architecture
           </div>
           <div className="flex gap-6">
+            <a href="https://www.mahastrategies.com/about" target="_blank" rel="noreferrer" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
+              [ Publisher ]
+            </a>
             <a href="#manifesto" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
               [ The Manifesto ]
             </a>
