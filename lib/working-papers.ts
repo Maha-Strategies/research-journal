@@ -32,9 +32,14 @@ export function getWorkingPaper(slug: string) {
 
 export function getBibtex(paper: WorkingPaper, siteUrl: string) {
   const key = `rajan${paper.versionDate.slice(0, 4)}${paper.slug.replace(/[-_]/g, '')}`;
-  return `@article{${key},\n  author = {Rajan, Mayone Maha},\n  title = {${paper.title}},\n  journal = {Maha Strategies Research},\n  year = {${paper.versionDate.slice(0, 4)}},\n  version = {${paper.version}},\n  url = {${siteUrl}/papers/${paper.slug}},\n  note = {${paper.status}; ${paper.reviewStatus.toLowerCase()}}\n}`;
+  const zenodo = getZenodoRecord(paper.slug);
+  const doi = zenodo ? `\n  doi = {${zenodo.doi}},\n  archive_url = {${zenodo.recordUrl}},` : '';
+  return `@article{${key},\n  author = {Rajan, Mayone Maha},\n  title = {${paper.title}},\n  journal = {Maha Strategies Research},\n  year = {${paper.versionDate.slice(0, 4)}},\n  version = {${paper.version}},${doi}\n  url = {${siteUrl}/papers/${paper.slug}},\n  note = {${paper.status}; ${paper.reviewStatus.toLowerCase()}}\n}`;
 }
 
 export function getCitationCff(paper: WorkingPaper, siteUrl: string) {
-  return `cff-version: 1.2.0\nmessage: "If you use this working paper, please cite the version you consulted."\ntitle: "${paper.title.replace(/"/g, '\\\"')}"\ntype: article\nauthors:\n  - family-names: Rajan\n    given-names: Mayone Maha\n    orcid: https://orcid.org/0009-0006-8135-5306\nversion: ${paper.version}\ndate-released: ${paper.versionDate}\nurl: ${siteUrl}/papers/${paper.slug}\nlicense: CC-BY-4.0\nkeywords:\n  - working paper\n  - Maha Strategies Research\nabstract: "${paper.statusDetail.replace(/"/g, '\\\"')}"\n`;
+  const zenodo = getZenodoRecord(paper.slug);
+  const identifiers = zenodo ? `identifiers:\n  - type: doi\n    value: ${zenodo.doi}\n    description: Version-specific Zenodo archive\n` : '';
+  return `cff-version: 1.2.0\nmessage: "If you use this working paper, please cite the version you consulted."\ntitle: "${paper.title.replace(/"/g, '\\\"')}"\ntype: article\nauthors:\n  - family-names: Rajan\n    given-names: Mayone Maha\n    orcid: https://orcid.org/0009-0006-8135-5306\nversion: ${paper.version}\ndate-released: ${paper.versionDate}\nurl: ${siteUrl}/papers/${paper.slug}\nlicense: CC-BY-4.0\n${identifiers}keywords:\n  - working paper\n  - Maha Strategies Research\nabstract: "${paper.statusDetail.replace(/"/g, '\\\"')}"\n`;
 }
+import { getZenodoRecord } from '@/lib/zenodo-records';

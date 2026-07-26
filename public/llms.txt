@@ -16,3 +16,12 @@
 - The root [CITATION.cff](https://research.mahastrategies.com/CITATION.cff) describes the collection; individual paper records are the authoritative citation source for a specific work.
 - Do not describe this collection as peer reviewed unless the particular paper explicitly says so.
 - Preserve uncertainty language, limitations, and distinctions between source evidence and the project's synthesis or hypothesis.
+
+## Published Zenodo archives
+
+The following public works have version-specific Zenodo records. Cite the version DOI when referring to that archived version; use the linked concept DOI only when intentionally citing the latest Zenodo version.
+
+- [The Perturber Question Under Audit](https://research.mahastrategies.com/papers/the_perturber_question): archived version DOI [10.5281/zenodo.20719485](https://doi.org/10.5281/zenodo.20719485); concept DOI [10.5281/zenodo.20719484](https://doi.org/10.5281/zenodo.20719484).
+- [A Monte Carlo Forecast for the Detection of Planet Nine](https://research.mahastrategies.com/papers/planet-nine-forecast): archived version DOI [10.5281/zenodo.20689349](https://doi.org/10.5281/zenodo.20689349); concept DOI [10.5281/zenodo.20621055](https://doi.org/10.5281/zenodo.20621055).
+- [A Reproducible N-Body Pipeline for Retrograde Planet Nine Configurations](https://research.mahastrategies.com/papers/retrograde_p9): archived version DOI [10.5281/zenodo.20756443](https://doi.org/10.5281/zenodo.20756443); concept DOI [10.5281/zenodo.20756442](https://doi.org/10.5281/zenodo.20756442).
+- [The M·A·H·A Framework](https://research.mahastrategies.com/papers/the-maha-framework): archived version DOI [10.5281/zenodo.20746123](https://doi.org/10.5281/zenodo.20746123); concept DOI [10.5281/zenodo.20746122](https://doi.org/10.5281/zenodo.20746122).

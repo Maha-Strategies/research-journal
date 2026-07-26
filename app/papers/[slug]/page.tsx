@@ -15,6 +15,7 @@ import MonteCarloChart from '@/components/MonteCarloChart';
 import RunawayBifurcation from '@/components/RunawayBifurcation';
 import { getPaperReferences } from '@/lib/paper-references';
 import { getBibtex, getWorkingPaper } from '@/lib/working-papers';
+import { getZenodoRecord } from '@/lib/zenodo-records';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 const ORG_URL = 'https://www.mahastrategies.com';
@@ -277,6 +278,7 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
   const meta = (PAPER_META as any)[resolvedParams.slug] as any;
   const workingPaper = getWorkingPaper(resolvedParams.slug);
   const references = getPaperReferences(resolvedParams.slug);
+  const zenodo = getZenodoRecord(resolvedParams.slug);
   const dates = PAPER_DATES[resolvedParams.slug] ?? { published: '2026-06-01', modified: '2026-06-11' };
   const url = `${SITE_URL}/papers/${resolvedParams.slug}`;
   const ogImage = `${SITE_URL}/og/${resolvedParams.slug}.png`;
@@ -296,7 +298,7 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
           { '@type': 'Person', '@id': `${SITE_URL}/#architect`, name: 'Mayone Maha Rajan', url: AUTHOR_URL, jobTitle: 'Research Architect and Curator', affiliation: { '@id': `${SITE_URL}/#org` }, sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan'] },
           { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumbs`, itemListElement: [ { '@type': 'ListItem', position: 1, name: 'Research Home', item: SITE_URL }, { '@type': 'ListItem', position: 2, name: meta.title, item: url } ] },
           { '@type': 'WebPage', '@id': url, url, name: meta.title, isPartOf: { '@id': `${SITE_URL}/#website` }, primaryImageOfPage: { '@type': 'ImageObject', contentUrl: ogImage }, inLanguage: 'en', isAccessibleForFree: true },
-          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': `${SITE_URL}/#architect` }, publisher: { '@id': `${SITE_URL}/#org` }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: workingPaper?.status ?? 'Working paper', version: workingPaper?.version, citation: references.map((reference) => reference.text), encoding: [{ '@type': 'MediaObject', encodingFormat: 'application/pdf', contentUrl: `${url}.pdf` }, { '@type': 'MediaObject', encodingFormat: 'application/x-bibtex', contentUrl: `${url}/citation.bib` }, { '@type': 'MediaObject', encodingFormat: 'text/yaml', contentUrl: `${url}/citation.cff` }], speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
+          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': `${SITE_URL}/#architect` }, publisher: { '@id': `${SITE_URL}/#org` }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: workingPaper?.status ?? 'Working paper', version: workingPaper?.version, ...(zenodo ? { sameAs: zenodo.doiUrl, identifier: [{ '@type': 'PropertyValue', propertyID: 'DOI', value: zenodo.doi, url: zenodo.doiUrl }, { '@type': 'PropertyValue', propertyID: 'Zenodo concept DOI', value: zenodo.conceptDoi, url: `https://doi.org/${zenodo.conceptDoi}` }] } : {}), citation: references.map((reference) => reference.text), encoding: [{ '@type': 'MediaObject', encodingFormat: 'application/pdf', contentUrl: `${url}.pdf` }, { '@type': 'MediaObject', encodingFormat: 'application/x-bibtex', contentUrl: `${url}/citation.bib` }, { '@type': 'MediaObject', encodingFormat: 'text/yaml', contentUrl: `${url}/citation.cff` }], speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
         ]
       }
     : null;
@@ -356,6 +358,16 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
             <h3 className="text-zinc-300 font-mono text-xs uppercase tracking-widest mb-6 border-b border-zinc-800 pb-2">
               Cite This Work
             </h3>
+            {zenodo && (
+              <div className="mb-6 border border-indigo-400/30 bg-indigo-400/5 p-4 text-sm leading-relaxed text-zinc-400">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-indigo-300">[ Archived record ]</p>
+                <p className="mt-2">This public edition has a version-specific archive at Zenodo. Cite the DOI for the archived version you consulted; use the concept DOI only when you intend to cite the latest Zenodo version.</p>
+                <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                  <a href={zenodo.doiUrl} target="_blank" rel="noreferrer" className="text-indigo-300 underline">DOI: {zenodo.doi} ↗</a>
+                  <a href={`https://doi.org/${zenodo.conceptDoi}`} target="_blank" rel="noreferrer" className="text-indigo-300 underline">Concept DOI: {zenodo.conceptDoi} ↗</a>
+                </div>
+              </div>
+            )}
             
             <div className="mb-6">
               <h4 className="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">APA Format</h4>
