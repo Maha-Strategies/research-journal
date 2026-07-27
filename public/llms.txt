@@ -5,6 +5,7 @@
 ## Canonical entry points
 
 - [Research Context Registry](https://research.mahastrategies.com/registry): the index of reusable research artifacts — atlases, context packs, and working papers — with status, machine-readable endpoints, DOIs, and explicit exclusions for each. Machine-readable at `/registry.json`. **Start here** if you need to know what is available and what each artifact does and does not establish. The registry is not a journal, not a peer-review system, and not a scientific authority; nothing listed in it is peer reviewed, and inclusion does not imply scientific consensus.
+- [The Maha Provenance Standard](https://research.mahastrategies.com/standards/maha-provenance-standard): the claim-level provenance framework these artifacts are built to — fourteen clauses covering citation provenance, epistemic status labels, stable claim identifiers, exclusions as structured content, versioning, and machine-readable parity, each linking to where it is enforced. Machine-readable at `/standards/maha-provenance-standard/metadata.json`. Self-published and self-assessed; not an accredited standard and not peer reviewed.
 - [Research home](https://research.mahastrategies.com/): project scope, methods, and paper collection.
 - [Papers](https://research.mahastrategies.com/papers): individual research papers with their own scope and limitations.
 - [The Volcanic Engine thesis](https://research.mahastrategies.com/papers/the-volcanic-engine-thesis): a clearly labelled working thesis connected to the Mayon educational project.

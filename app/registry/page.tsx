@@ -253,6 +253,15 @@ export default function RegistryPage() {
               provenance, status, and boundaries have been made explicit and can be checked — nothing more. Several
               registered artifacts describe debates the field has not settled, and they say so.
             </p>
+
+            <p>
+              The rules those properties are held to are written down in{' '}
+              <Link href="/standards/maha-provenance-standard" className="text-indigo-300 underline">
+                the Maha Provenance Standard
+              </Link>
+              , which is itself registered here. It is self-published and self-assessed, and each of its clauses
+              links to the artifact where the practice can be checked.
+            </p>
           </div>
         </section>
 

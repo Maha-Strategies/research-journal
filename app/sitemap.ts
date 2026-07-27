@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_PATH } from '@/lib/atlas/de-sitter';
 import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
+import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 
@@ -41,6 +42,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1,
   };
 
+  const standard = {
+    url: `${SITE_URL}${STANDARD_PATH}`,
+    lastModified: new Date(STANDARD_META.dateModified),
+    changeFrequency: 'yearly' as const,
+    priority: 0.6,
+  };
+
   const registry = {
     url: `${SITE_URL}${REGISTRY_PATH}`,
     lastModified: new Date(REGISTRY_META.lastUpdated),
@@ -62,5 +70,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [home, registry, ...paperEntries, ...atlasEntries];
+  return [home, registry, standard, ...paperEntries, ...atlasEntries];
 }

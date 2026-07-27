@@ -20,6 +20,7 @@ import {
   getSourceCards,
 } from '@/lib/atlas/de-sitter';
 import { CONTEXT_PACK_PATH, EXCLUSIONS, INTENDED_USES } from '@/lib/atlas/context-pack';
+import { STANDARD_CLAUSES, STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 import { getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
 
@@ -69,7 +70,7 @@ export const ARTIFACT_TYPES: ArtifactTypeDescriptor[] = [
     id: 'methodology',
     label: 'Methodology or standard',
     definition:
-      'A document specifying how research artifacts are produced, versioned, sourced, or audited. No methodology document is currently registered as a standalone artifact.',
+      'A document specifying how research artifacts are produced, versioned, sourced, or audited. It carries no scientific findings of its own, and self-published methodology is not an accredited standard.',
   },
 ];
 
@@ -276,6 +277,62 @@ export const REGISTRY_ARTIFACTS: RegistryArtifact[] = [
     lastUpdated: atlasPaper?.versionDate ?? '2026-07-26',
     features: ['Provenance-tagged citations', 'Verification ledger', 'Machine-readable metadata', 'Archived with DOI'],
   },
+  {
+    id: 'maha-provenance-standard',
+    title: STANDARD_META.title,
+    shortTitle: STANDARD_META.shortTitle,
+    type: 'methodology',
+    status: STANDARD_META.status,
+    statusNote: STANDARD_META.statusNote,
+    description:
+      'A claim-level provenance framework specifying how an assertion is given a stable identifier, an epistemic status, a traceable source, and an explicit statement of what it does not establish — and how those properties survive packaging, export, and reuse by an AI system. Fourteen clauses across provenance, claim structure, separation of judgement from fact, versioning, and machine reuse, each linking to where it is enforced. Descriptive of practice already in use, not proposed for adoption.',
+    canonicalPath: STANDARD_PATH,
+    machineReadable: [
+      {
+        label: 'Standard record',
+        path: `${STANDARD_PATH}/metadata.json`,
+        format: 'application/json',
+        note: 'Clauses with rules, rationale, and evidence URLs; conformance levels and self-assessed conformance.',
+      },
+    ],
+    relatedLinks: [
+      { label: 'Applied in the de Sitter Atlas', href: ATLAS_PATH },
+      { label: 'Applied in the source working paper', href: PAPER_PATH },
+    ],
+    license: CC_BY,
+    licenseLabel: 'CC BY 4.0',
+    intendedUse: [
+      'Readers assessing how far a Maha artifact can be trusted, who want the rule stated rather than inferred from the output.',
+      'Anyone building self-published or AI-assisted research who wants a worked example of attaching provenance and epistemic status at the level of the individual claim.',
+    ],
+    exclusions: [
+      'Not a peer-reviewed standard and not issued by any standards body.',
+      'Not adopted or in use outside Maha Strategies Research, and not proposed for anyone else to adopt.',
+      'Conformance is self-assessed. No external body has audited the level assignments; the evidence links exist so a reader can check them.',
+      'Descriptive rather than prescriptive: where a clause and the codebase disagree, the codebase is the fact and the clause is the error.',
+      'It is not a general research methodology and not a substitute for peer review.',
+      'It has no DOI. Cite it by URL and version.',
+    ],
+    keywords: [
+      'Claim-level provenance',
+      'Epistemic status labels',
+      'Citation verification',
+      'Research versioning',
+      'Machine-readable provenance',
+      'AI-assisted research disclosure',
+    ],
+    topics: ['Research methodology', 'Provenance'],
+    version: STANDARD_META.version,
+    reviewDate: STANDARD_META.dateModified,
+    lastUpdated: STANDARD_META.dateModified,
+    features: [
+      `Clauses (${STANDARD_CLAUSES.length})`,
+      'Evidence links per clause',
+      'Conformance levels',
+      'Machine-readable JSON',
+      'No DOI',
+    ],
+  },
 ];
 
 /**
@@ -283,14 +340,7 @@ export const REGISTRY_ARTIFACTS: RegistryArtifact[] = [
  * specific metadata that is missing. Published on the registry page so the
  * absence is legible rather than silent.
  */
-export const PENDING_ARTIFACTS: { title: string; type: ArtifactType; missing: string }[] = [
-  {
-    title: 'Maha Provenance Standard',
-    type: 'methodology',
-    missing:
-      'No canonical public page and no DOI for this artifact exist in the repository. The citable-working-paper standard it would describe is currently implemented as repository infrastructure — the citation endpoints, the working-paper status model, and an internal deposit-readiness note — rather than as a published, versioned document. It will be listed once it has a public URL and its own record.',
-  },
-];
+export const PENDING_ARTIFACTS: { title: string; type: ArtifactType; missing: string }[] = [];
 
 export function getArtifact(id: string): RegistryArtifact | undefined {
   return REGISTRY_ARTIFACTS.find((artifact) => artifact.id === id);
