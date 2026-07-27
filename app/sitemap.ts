@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
+import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
 import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 
@@ -40,6 +41,21 @@ const atlases: { path: string; lastModified: string }[] = [
   })),
   ...ATLAS_CLAIMS.map((claim) => ({
     path: `${ATLAS_PATH}/claims/${claim.ref}`,
+    lastModified: claim.reviewDate,
+  })),
+  { path: '/atlas/synthetic-intelligence', lastModified: SI_PUBLIC_META.dateModified },
+  { path: '/atlas/synthetic-intelligence/concepts', lastModified: SI_PUBLIC_META.dateModified },
+  { path: '/atlas/synthetic-intelligence/sources', lastModified: SI_PUBLIC_META.dateModified },
+  ...SI_PUBLIC_CONCEPTS.map((concept) => ({
+    path: `/atlas/synthetic-intelligence/concepts/${concept.id}`,
+    lastModified: SI_PUBLIC_META.lastReviewed,
+  })),
+  ...SI_PUBLIC_SOURCES.map((source) => ({
+    path: `/atlas/synthetic-intelligence/sources/${source.id}`,
+    lastModified: source.verifiedOn,
+  })),
+  ...SI_PUBLIC_CLAIMS.map((claim) => ({
+    path: `/atlas/synthetic-intelligence/claims/${claim.id}`,
     lastModified: claim.reviewDate,
   })),
 ];

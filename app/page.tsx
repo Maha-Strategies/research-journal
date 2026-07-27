@@ -630,6 +630,44 @@ export default function ResearchHomepage() {
             </Link>
           </article>
 
+          {/* Synthetic Intelligence Atlas */}
+          <article className="group relative border border-cyan-500/25 bg-[#121214] p-8 mb-6 hover:border-cyan-400/60 transition-all duration-300">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-cyan-300 uppercase tracking-widest">
+                  Artificial Intelligence / Evaluation / Agentic Systems
+                </div>
+                <Link href="/atlas/synthetic-intelligence">
+                  <h2 className="text-2xl text-white font-medium leading-snug group-hover:text-cyan-200 transition-colors">
+                    Synthetic Intelligence Atlas: Claims, Sources, and Limits
+                  </h2>
+                </Link>
+              </div>
+              <div className="font-mono text-[10px] text-zinc-500 uppercase whitespace-nowrap">
+                July 2026
+              </div>
+            </div>
+
+            <p className="text-sm text-zinc-400 font-light leading-relaxed mb-6">
+              A source-bounded educational map of large language models, agent systems, evaluation, construct validity, and forecasting limits. It publishes only claims supported by content-verified public sources; every claim carries an epistemic label and explicit limitation. It deliberately excludes leaderboard recaps, speculative capability timelines, and quantum-computing claims.
+            </p>
+
+            <div className="flex flex-wrap gap-x-8 gap-y-2 pt-4 border-t border-zinc-800/50">
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Public evidence set</span>
+                <span className="text-xs text-zinc-300">22 claims · 33 verified sources</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-600 mb-1">Machine-readable</span>
+                <span className="text-xs text-zinc-300">Claim and source JSON records</span>
+              </div>
+            </div>
+
+            <Link href="/atlas/synthetic-intelligence" className="absolute top-8 right-8 text-zinc-500 group-hover:text-cyan-300 transition-colors">
+              &#8599;
+            </Link>
+          </article>
+
           {/* de Sitter Swampland Map */}
           <article className="group relative border border-zinc-800/50 bg-[#121214] p-8 mb-6 hover:border-indigo-500/30 transition-all duration-300">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">

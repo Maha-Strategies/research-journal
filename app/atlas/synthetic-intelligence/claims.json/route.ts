@@ -1,0 +1,5 @@
+import { SI_PUBLIC_CLAIMS, SI_PUBLIC_META, getSiStatus } from '@/lib/atlas/synthetic-intelligence';
+import { SYNTHETIC_ATLAS_PATH } from '@/components/SyntheticAtlas';
+
+const SITE_URL = 'https://research.mahastrategies.com';
+export async function GET() { const url = `${SITE_URL}${SYNTHETIC_ATLAS_PATH}`; return Response.json({ atlas: { title: SI_PUBLIC_META.title, url, version: SI_PUBLIC_META.version, evidenceCutoff: SI_PUBLIC_META.evidenceCutoff, lastReviewed: SI_PUBLIC_META.lastReviewed, license: SI_PUBLIC_META.license, note: 'First public edition: established and active-research claims only. Forecast scenarios and local-audit artifacts are intentionally not exposed.' }, count: SI_PUBLIC_CLAIMS.length, claims: SI_PUBLIC_CLAIMS.map((claim) => ({ id: claim.id, slug: claim.slug, claim: claim.claim, status: claim.status, statusLabel: getSiStatus(claim.status).label, explanation: claim.explanation, limitations: claim.limitations, conceptIds: claim.conceptIds, sourceIds: claim.sourceIds, reviewDate: claim.reviewDate, canonicalUrl: `${url}/claims/${claim.id}` })) }, { headers: { 'Cache-Control': 'public, max-age=3600' } }); }

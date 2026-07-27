@@ -18,7 +18,10 @@
 // resolution date and evidence cutoff are different things and are recorded
 // separately.
 //
-// This file is data only. No public Atlas route is built on it yet.
+// This file is the audited source layer behind the public Atlas. Publication
+// eligibility is intentionally narrower than the complete audit record: its
+// forecasting scenarios and local-only confabulation exhibit stay out of the
+// first public edition.
 
 export const SI_EVIDENCE_CUTOFF = '2026-06-14';
 export const SI_SOURCES_RESOLVED_ON = '2026-07-27';
@@ -757,6 +760,49 @@ export const SI_EXCLUDED_REPORT_ASSERTIONS: { assertion: string; reason: string 
   { assertion: 'Claims that Suno/Udio reached near-human pop music generation ("Industry tracking, 2024").', reason: 'No source. Excluded entirely.' },
 ];
 
+/**
+ * First-public-edition gate. A public claim must be an established result or
+ * active research claim, must not rely on a local-only methodological artifact,
+ * and must cite only content-verified sources. Forecast scenarios remain in the
+ * audit record until they have a separately reviewed presentation.
+ */
+export const SI_PUBLIC_CLAIMS: SiClaim[] = SI_CLAIMS.filter(
+  (claim) =>
+    (claim.status === 'established' || claim.status === 'active') &&
+    !claim.sourceIds.includes('draftReport2026') &&
+    claim.sourceIds.every((id) => SI_SOURCES[id]?.verification === 'content-verified'),
+);
+
+export const SI_PUBLIC_SOURCES: SiSource[] = Object.values(SI_SOURCES).filter(
+  (source) =>
+    source.verification === 'content-verified' &&
+    source.sourceType !== 'methodological-artifact' &&
+    (SI_PUBLIC_CLAIMS.some((claim) => claim.sourceIds.includes(source.id)) ||
+      SI_CONCEPTS.some((concept) => concept.sources.includes(source.id))),
+);
+
+export const SI_PUBLIC_CONCEPTS: SiConcept[] = SI_CONCEPTS.filter((concept) =>
+  concept.sources.every((id) => SI_SOURCES[id]?.verification === 'content-verified'),
+);
+
+export const SI_PUBLIC_META = {
+  title: 'Synthetic Intelligence Atlas',
+  shortTitle: 'Synthetic Intelligence Atlas',
+  description:
+    'A source-bounded map of large language models, agents, evaluation, and forecasting limits. Each public claim carries sources, a status, and limitations.',
+  version: '1.0.0',
+  datePublished: '2026-07-27',
+  dateModified: '2026-07-27',
+  lastReviewed: SI_REVIEW_DATE,
+  evidenceCutoff: SI_EVIDENCE_CUTOFF,
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+  licenseLabel: 'CC BY 4.0',
+  statusBadge: 'First edition · 22 source-bounded claims',
+  scope:
+    'LLM mechanisms and scaling, post-training and inference-time reasoning, tool use and agents, benchmarks, construct validity, evaluation, and the limits of forecasting.',
+  outOfScope: 'Quantum computing, headline benchmark leaderboards, price trajectories, and unreviewed capability forecasts.',
+} as const;
+
 export function getSiSource(id: string): SiSource | undefined { return SI_SOURCES[id]; }
 export function getSiConcept(id: string): SiConcept | undefined { return SI_CONCEPTS.find((c) => c.id === id); }
 export function getSiClaim(idOrSlug: string): SiClaim | undefined {
@@ -764,6 +810,18 @@ export function getSiClaim(idOrSlug: string): SiClaim | undefined {
 }
 export function getSiStatus(id: SiStatus): SiStatusDescriptor {
   return SI_STATUSES.find((s) => s.id === id) ?? SI_STATUSES[1];
+}
+
+export function getPublicSiClaim(idOrSlug: string): SiClaim | undefined {
+  return SI_PUBLIC_CLAIMS.find((claim) => claim.id === idOrSlug || claim.slug === idOrSlug);
+}
+
+export function getPublicSiConcept(id: string): SiConcept | undefined {
+  return SI_PUBLIC_CONCEPTS.find((concept) => concept.id === id);
+}
+
+export function getPublicSiSource(id: string): SiSource | undefined {
+  return SI_PUBLIC_SOURCES.find((source) => source.id === id);
 }
 
 /** JSON-ready record, mirroring the de Sitter atlas endpoint conventions. */
