@@ -89,12 +89,16 @@ export const ATLAS_META = {
   description:
     'A source-first concept map and claim ledger for the de Sitter problem in the string/M-theory swampland program, built from a citation-verified literature map. An educational orientation tool that separates established results from active research, conjecture, and speculative interpretation.',
   statusBadge: 'Educational research map · non-peer-reviewed orientation tool',
-  version: '1.1.0',
+  version: '1.2.0',
   datePublished: '2026-07-26',
   dateModified: '2026-07-27',
-  /** Date of the most recent full curator review pass over claims and sources. */
+  /**
+   * Date of the most recent full curator review pass over claims and sources.
+   * The 1.2.0 release added a packaging layer and changed no claim wording, so
+   * this deliberately does not advance with the version.
+   */
   lastReviewed: '2026-07-27',
-  releaseName: 'Source Trail and Versioned Claim Ledger',
+  releaseName: 'Atlas Context Pack',
   license: 'https://creativecommons.org/licenses/by/4.0/',
   licenseLabel: 'CC BY 4.0',
   reuseNotes:

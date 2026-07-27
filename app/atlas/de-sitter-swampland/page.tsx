@@ -226,6 +226,12 @@ export default function DeSitterAtlasPage() {
                 Zenodo record ↗
               </a>
             )}
+            <Link
+              href={`${ATLAS_PATH}/context-pack`}
+              className="border border-zinc-700 px-4 py-2 text-zinc-300 transition-colors hover:border-white hover:text-white"
+            >
+              Context pack →
+            </Link>
             <a
               href={`${ATLAS_PATH}/metadata.json`}
               className="border border-zinc-700 px-4 py-2 text-zinc-300 transition-colors hover:border-white hover:text-white"
@@ -621,7 +627,7 @@ export default function DeSitterAtlasPage() {
               )}
               <div>
                 <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Machine-readable</dt>
-                <dd className="mt-1 flex flex-wrap gap-x-4 text-sm">
+                <dd className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                   <a href={`${ATLAS_PATH}/metadata.json`} className="text-indigo-300 underline">
                     metadata.json
                   </a>
@@ -631,6 +637,21 @@ export default function DeSitterAtlasPage() {
                   <a href={`${ATLAS_PATH}/sources.json`} className="text-indigo-300 underline">
                     sources.json
                   </a>
+                  <a href={`${ATLAS_PATH}/context-pack.json`} className="text-indigo-300 underline">
+                    context-pack.json
+                  </a>
+                  <a href={`${ATLAS_PATH}/context.txt`} className="text-indigo-300 underline">
+                    context.txt
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Portable package</dt>
+                <dd className="mt-1 text-sm">
+                  <Link href={`${ATLAS_PATH}/context-pack`} className="text-indigo-300 underline">
+                    Atlas Context Pack
+                  </Link>{' '}
+                  <span className="text-zinc-500">— downloadable, citable, with exclusions stated</span>
                 </dd>
               </div>
             </dl>

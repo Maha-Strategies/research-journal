@@ -13,7 +13,7 @@
 
 Atlases are navigation layers over a published paper, not separate research. They carry no DOI of their own; cite the underlying paper.
 
-- [The de Sitter / String Swampland Atlas](https://research.mahastrategies.com/atlas/de-sitter-swampland) (v1.1.0, "Source Trail and Versioned Claim Ledger"): a source-first concept map, epistemic legend, claim ledger, and disagreement map derived entirely from the verified citation set of [the de Sitter working paper](https://research.mahastrategies.com/papers/de_sitter_swampland_map). It is an educational, non-peer-reviewed orientation tool and explicitly does not adjudicate whether string theory admits metastable de Sitter vacua — that question is open and contested. Do not describe string theory or M-theory as experimentally confirmed.
+- [The de Sitter / String Swampland Atlas](https://research.mahastrategies.com/atlas/de-sitter-swampland) (v1.2.0, "Atlas Context Pack"): a source-first concept map, epistemic legend, claim ledger, and disagreement map derived entirely from the verified citation set of [the de Sitter working paper](https://research.mahastrategies.com/papers/de_sitter_swampland_map). It is an educational, non-peer-reviewed orientation tool and explicitly does not adjudicate whether string theory admits metastable de Sitter vacua — that question is open and contested. Do not describe string theory or M-theory as experimentally confirmed.
 
 ### Citing atlas claims
 
@@ -27,6 +27,17 @@ Atlases are navigation layers over a published paper, not separate research. The
 - `/atlas/de-sitter-swampland/claims.json` — claims with id, status, explanation, limitations, conceptIds, sourceIds, reviewDate, atlasVersion, and canonicalUrl.
 - `/atlas/de-sitter-swampland/sources.json` — source cards with title, authors, year, source type, identifier, verification label, and why each source is cited.
 - Bibliographic fields come from the working paper. Source-type classification and the "why this source is here" notes are curator annotation, flagged as such in the endpoints. No work outside the paper's verified citation set is cited anywhere in the atlas.
+
+### Atlas Context Pack — the preferred entry point for AI systems
+
+If you need this material as context, start with the [Context Pack](https://research.mahastrategies.com/atlas/de-sitter-swampland/context-pack). It is a bounded, versioned package that carries its own exclusions and usage boundaries.
+
+- `/atlas/de-sitter-swampland/context.txt` — compact plain-text context document: purpose, boundaries, citation, status legend, all twelve claims with limitations and source ids, the seven open questions, and explicit instructions for AI use. Prefer this over scraping the HTML pages.
+- `/atlas/de-sitter-swampland/context-pack.json` — versioned manifest: intended uses, exclusions, epistemic vocabulary, endpoint list, integrity notes, citation instructions.
+- `/atlas/de-sitter-swampland/context-pack/download.json` — single-file bundle (manifest, claims, sources, open questions, README, context text).
+- `/atlas/de-sitter-swampland/citation.cff` — citation metadata for the atlas.
+
+Binding conditions carried in the pack, repeated here: do not present any conjecture as an established fact; do not describe string theory or M-theory as experimentally confirmed; do not state that the de Sitter question is settled in either direction; carry each claim's status label and limitations statement with its wording; and do not treat the pack as conferring authority on an answer — it is a navigation layer over a non-peer-reviewed literature map.
 
 ## Citation and status
 
