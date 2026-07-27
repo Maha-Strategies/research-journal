@@ -28,6 +28,7 @@ const papers: { slug: string; lastModified: string }[] = [
 // Claim routes are derived from the atlas data so the two cannot drift.
 const atlases: { path: string; lastModified: string }[] = [
   { path: ATLAS_PATH, lastModified: ATLAS_META.dateModified },
+  { path: '/atlas', lastModified: '2026-07-27' },
   { path: `${ATLAS_PATH}/context-pack`, lastModified: ATLAS_META.dateModified },
   { path: `${ATLAS_PATH}/concepts`, lastModified: ATLAS_META.dateModified },
   { path: `${ATLAS_PATH}/sources`, lastModified: ATLAS_META.dateModified },

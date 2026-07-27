@@ -20,6 +20,15 @@ import {
   getSourceCards,
 } from '@/lib/atlas/de-sitter';
 import { CONTEXT_PACK_PATH, EXCLUSIONS, INTENDED_USES } from '@/lib/atlas/context-pack';
+import { ATLAS_CATALOG_PATH } from '@/lib/atlas/catalog';
+import {
+  SI_PUBLIC_ATLAS_PATH,
+  SI_PUBLIC_CLAIMS,
+  SI_PUBLIC_CONCEPTS,
+  SI_PUBLIC_META,
+  SI_PUBLIC_SOURCES,
+  SI_SOURCES_RESOLVED_ON,
+} from '@/lib/atlas/synthetic-intelligence';
 import { STANDARD_CLAUSES, STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 import { getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
@@ -137,6 +146,8 @@ const PAPER_PATH = `/papers/${ATLAS_PAPER_SLUG}`;
 
 const SHARED_TOPICS = ['String theory', 'Quantum gravity', 'Cosmology'];
 
+const SI_TOPICS = ['Artificial intelligence', 'Machine learning', 'Evaluation'];
+
 const CC_BY = 'https://creativecommons.org/licenses/by/4.0/';
 
 export const REGISTRY_META = {
@@ -214,6 +225,67 @@ export const REGISTRY_ARTIFACTS: RegistryArtifact[] = [
       'Machine-readable JSON',
       'Downloadable context pack',
       'Stable claim URLs',
+    ],
+  },
+  {
+    id: 'synthetic-intelligence-atlas',
+    title: SI_PUBLIC_META.title,
+    shortTitle: SI_PUBLIC_META.shortTitle,
+    type: 'atlas',
+    status: 'Public educational orientation tool',
+    statusNote:
+      'Not peer reviewed. Reports no benchmark scores and makes no capability forecast. Evidence cutoff ' +
+      `${SI_PUBLIC_META.evidenceCutoff}; nothing here asserts a fact after that date.`,
+    description:
+      'A source-bounded map of large language models, agents, evaluation, and the limits of capability forecasting. Every public claim carries content-verified sources, an epistemic status, and a limitations statement. The map makes structural claims about what benchmarks measure rather than reproducing leaderboard scores, and separates model capability from scaffolding capability throughout.',
+    canonicalPath: SI_PUBLIC_ATLAS_PATH,
+    machineReadable: [
+      { label: 'Atlas metadata', path: `${SI_PUBLIC_ATLAS_PATH}/metadata.json`, format: 'application/json', note: 'Concepts, claims, sources, and the scope statement.' },
+      { label: 'Claim ledger', path: `${SI_PUBLIC_ATLAS_PATH}/claims.json`, format: 'application/json', note: 'Public claims with status, limitations, concept ids, source ids, and review date.' },
+      { label: 'Source trail', path: `${SI_PUBLIC_ATLAS_PATH}/sources.json`, format: 'application/json', note: 'Content-verified sources with identifier, canonical URL, type, and why each is cited.' },
+      { label: 'Plain-text context', path: `${SI_PUBLIC_ATLAS_PATH}/context.txt`, format: 'text/plain', note: 'Compact context document for AI-assisted workflows.' },
+    ],
+    relatedLinks: [
+      { label: 'Atlas catalog', href: ATLAS_CATALOG_PATH },
+      { label: 'Concepts', href: `${SI_PUBLIC_ATLAS_PATH}/concepts` },
+      { label: 'Sources', href: `${SI_PUBLIC_ATLAS_PATH}/sources` },
+    ],
+    license: SI_PUBLIC_META.license,
+    licenseLabel: SI_PUBLIC_META.licenseLabel,
+    intendedUse: [
+      'Readers orienting themselves in the literature on language models, agents, and evaluation, who need to know which statements are settled and which are contested.',
+      'Educators teaching the difference between a benchmark score and a capability claim.',
+      'AI-assisted research workflows that need bounded context carrying its own sources, status labels, and limitations.',
+    ],
+    exclusions: [
+      'Not peer reviewed and not an authority. It is an educational orientation layer assembled by a non-specialist curator.',
+      'Reports no benchmark scores, leaderboard positions, model rankings, price trajectories, or compute estimates. It makes structural claims about what benchmarks measure instead.',
+      'Makes no capability forecast. Conditional scenarios are held in the audit record and are not part of this public edition.',
+      'Quantum computing is out of scope by design and requires a separate atlas with different primary literature.',
+      'Provider technical reports and model cards are recorded as self-reports, never as independent measurements.',
+      `Evidence cutoff is ${SI_PUBLIC_META.evidenceCutoff}. Nothing in the map asserts a fact after that date, and sources were resolved on ${SI_SOURCES_RESOLVED_ON}.`,
+      'It has no DOI. Cite it by URL, atlas version, and claim identifier.',
+    ],
+    keywords: [
+      'Large language models',
+      'Scaling laws',
+      'Inference-time compute',
+      'Coding agents',
+      'Benchmark contamination',
+      'Construct validity',
+      'AI evaluation',
+    ],
+    topics: SI_TOPICS,
+    version: SI_PUBLIC_META.version,
+    reviewDate: SI_PUBLIC_META.lastReviewed,
+    lastUpdated: SI_PUBLIC_META.dateModified,
+    features: [
+      `Claim ledger (${SI_PUBLIC_CLAIMS.length})`,
+      `Concept registry (${SI_PUBLIC_CONCEPTS.length})`,
+      `Source trail (${SI_PUBLIC_SOURCES.length})`,
+      'Machine-readable JSON',
+      'Stable claim URLs',
+      'No DOI',
     ],
   },
   {

@@ -23,6 +23,9 @@
 // forecasting scenarios and local-only confabulation exhibit stay out of the
 // first public edition.
 
+/** Canonical route for the public Synthetic Intelligence Atlas. */
+export const SI_PUBLIC_ATLAS_PATH = '/atlas/synthetic-intelligence';
+
 export const SI_EVIDENCE_CUTOFF = '2026-06-14';
 export const SI_SOURCES_RESOLVED_ON = '2026-07-27';
 export const SI_ATLAS_VERSION = '0.1.0';
