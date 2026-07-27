@@ -995,9 +995,25 @@ export function getClaimUrl(claim: AtlasClaim): string {
   return `${ATLAS_PATH}/claims/${claim.ref}`;
 }
 
+export function getConceptUrl(conceptId: string): string {
+  return `${ATLAS_PATH}/concepts/${conceptId}`;
+}
+
+export function getSourceUrl(sourceId: string): string {
+  return `${ATLAS_PATH}/sources/${sourceId}`;
+}
+
 /** Claims that bear on a given concept node, for cross-navigation. */
 export function getClaimsForConcept(conceptId: string): AtlasClaim[] {
   return ATLAS_CLAIMS.filter((claim) => claim.conceptIds.includes(conceptId));
+}
+
+export function getClaimsForSource(sourceId: string): AtlasClaim[] {
+  return ATLAS_CLAIMS.filter((claim) => claim.sources.includes(sourceId));
+}
+
+export function getConceptsForSource(sourceId: string): AtlasNode[] {
+  return ATLAS_NODES.filter((node) => node.sources.includes(sourceId));
 }
 
 export function getNode(id: string): AtlasNode | undefined {

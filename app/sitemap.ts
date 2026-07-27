@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { ATLAS_CLAIMS, ATLAS_META, ATLAS_PATH } from '@/lib/atlas/de-sitter';
+import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 
@@ -28,6 +28,16 @@ const papers: { slug: string; lastModified: string }[] = [
 const atlases: { path: string; lastModified: string }[] = [
   { path: ATLAS_PATH, lastModified: ATLAS_META.dateModified },
   { path: `${ATLAS_PATH}/context-pack`, lastModified: ATLAS_META.dateModified },
+  { path: `${ATLAS_PATH}/concepts`, lastModified: ATLAS_META.dateModified },
+  { path: `${ATLAS_PATH}/sources`, lastModified: ATLAS_META.dateModified },
+  ...ATLAS_NODES.map((node) => ({
+    path: `${ATLAS_PATH}/concepts/${node.id}`,
+    lastModified: ATLAS_META.lastReviewed,
+  })),
+  ...getSourceCards().map((source) => ({
+    path: `${ATLAS_PATH}/sources/${source.id}`,
+    lastModified: ATLAS_META.lastReviewed,
+  })),
   ...ATLAS_CLAIMS.map((claim) => ({
     path: `${ATLAS_PATH}/claims/${claim.ref}`,
     lastModified: claim.reviewDate,

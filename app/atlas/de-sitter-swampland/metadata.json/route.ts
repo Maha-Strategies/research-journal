@@ -7,6 +7,8 @@ import {
   ATLAS_PATH,
   EPISTEMIC_STATUSES,
   getCitedSources,
+  getConceptUrl,
+  getSourceUrl,
 } from '@/lib/atlas/de-sitter';
 import { getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
@@ -72,6 +74,7 @@ export async function GET() {
       epistemicStatuses: EPISTEMIC_STATUSES.map(({ id, label, definition }) => ({ id, label, definition })),
       conceptNodes: ATLAS_NODES.map((node) => ({
         id: node.id,
+        canonicalUrl: `${SITE_URL}${getConceptUrl(node.id)}`,
         label: node.label,
         epistemicStatus: node.status,
         definition: node.definition,
@@ -99,6 +102,7 @@ export async function GET() {
       })),
       sources: sources.map((source) => ({
         id: source.id,
+        recordUrl: `${SITE_URL}${getSourceUrl(source.id)}`,
         label: source.label,
         authors: source.authors ?? null,
         identifier: source.identifier ?? null,

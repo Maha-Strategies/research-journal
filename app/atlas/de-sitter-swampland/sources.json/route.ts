@@ -45,6 +45,7 @@ export async function GET() {
       count: cards.length,
       sources: cards.map((card) => ({
         id: card.id,
+        recordUrl: `${atlasUrl}/sources/${card.id}`,
         title: card.label,
         titleRecordedInSourcePaper: !card.titleNotRecorded,
         authors: card.authors ?? null,

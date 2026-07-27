@@ -1,4 +1,6 @@
 import type { AtlasSourceCard as SourceCard } from '@/lib/atlas/de-sitter';
+import Link from 'next/link';
+import { getSourceUrl } from '@/lib/atlas/de-sitter';
 
 const VERIFICATION_CLASS: Record<SourceCard['verification'], string> = {
   Verified: 'border-emerald-400/40 bg-emerald-400/10 text-emerald-200',
@@ -61,6 +63,10 @@ export default function AtlasSourceCard({ card }: { card: SourceCard }) {
         <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Why this source is here — </span>
         {card.whyHere}
       </p>
+
+      <Link href={getSourceUrl(card.id)} className="mt-4 inline-block font-mono text-[10px] uppercase tracking-widest text-zinc-500 underline transition-colors hover:text-indigo-300">
+        View source record →
+      </Link>
 
       {(card.titleNotRecorded || card.yearBasis !== 'arXiv identifier') && (
         <p className="mt-3 text-[11px] leading-relaxed text-zinc-600">

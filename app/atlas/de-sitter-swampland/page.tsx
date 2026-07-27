@@ -240,6 +240,18 @@ export default function DeSitterAtlasPage() {
             >
               Context pack →
             </Link>
+            <Link
+              href={`${ATLAS_PATH}/concepts`}
+              className="border border-zinc-700 px-4 py-2 text-zinc-300 transition-colors hover:border-white hover:text-white"
+            >
+              Concept library →
+            </Link>
+            <Link
+              href={`${ATLAS_PATH}/sources`}
+              className="border border-zinc-700 px-4 py-2 text-zinc-300 transition-colors hover:border-white hover:text-white"
+            >
+              Source library →
+            </Link>
             <a
               href={`${ATLAS_PATH}/metadata.json`}
               className="border border-zinc-700 px-4 py-2 text-zinc-300 transition-colors hover:border-white hover:text-white"

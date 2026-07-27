@@ -20,6 +20,8 @@ Atlases are navigation layers over a published paper, not separate research. The
 ### Citing atlas claims
 
 - Each claim has a stable identifier (`ds-001` … `ds-012`) and its own page at `/atlas/de-sitter-swampland/claims/{id}`. Cite the identifier together with the atlas version; identifiers are never reassigned to a different claim.
+- The Atlas Concept Library is at `/atlas/de-sitter-swampland/concepts`, with one source-bounded record per concept at `/atlas/de-sitter-swampland/concepts/{id}`. Treat definitions and “why it matters” notes as curator orientation, not primary results.
+- The Atlas Source Library is at `/atlas/de-sitter-swampland/sources`, with one annotated source record at `/atlas/de-sitter-swampland/sources/{id}`. A verification label means the identifier and placement were checked; it is not endorsement of the paper’s conclusion.
 - Every claim carries one of four epistemic status labels (established result, active research, conjecture, speculative interpretation), a scope-and-limitations statement, and a last-reviewed date. The status and the limitations are part of the claim — reproducing the wording without them misrepresents it.
 - The atlas has no DOI of its own. Cite the paper's DOI [10.5281/zenodo.21603961](https://doi.org/10.5281/zenodo.21603961) for the research, and the claim identifier plus atlas version for a specific formulation.
 
