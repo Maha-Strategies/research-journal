@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_PATH } from '@/lib/atlas/de-sitter';
+import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 
@@ -40,6 +41,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1,
   };
 
+  const registry = {
+    url: `${SITE_URL}${REGISTRY_PATH}`,
+    lastModified: new Date(REGISTRY_META.lastUpdated),
+    changeFrequency: 'monthly' as const,
+    priority: 0.9,
+  };
+
   const paperEntries = papers.map((p) => ({
     url: `${SITE_URL}/papers/${p.slug}`,
     lastModified: new Date(p.lastModified),
@@ -54,5 +62,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [home, ...paperEntries, ...atlasEntries];
+  return [home, registry, ...paperEntries, ...atlasEntries];
 }

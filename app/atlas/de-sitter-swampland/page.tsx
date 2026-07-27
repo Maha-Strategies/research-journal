@@ -185,12 +185,20 @@ export default function DeSitterAtlasPage() {
           >
             ← Return to Index
           </Link>
-          <Link
-            href={PAPER_PATH}
-            className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 transition-colors hover:text-indigo-400"
-          >
-            [ Source paper ]
-          </Link>
+          <span className="flex flex-wrap gap-6">
+            <Link
+              href="/registry"
+              className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 transition-colors hover:text-indigo-400"
+            >
+              [ Registry ]
+            </Link>
+            <Link
+              href={PAPER_PATH}
+              className="font-mono text-[10px] uppercase tracking-widest text-zinc-400 transition-colors hover:text-indigo-400"
+            >
+              [ Source paper ]
+            </Link>
+          </span>
         </nav>
 
         {/* HERO */}

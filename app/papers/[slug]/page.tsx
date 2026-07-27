@@ -344,12 +344,20 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
           <section className="mb-10 border border-indigo-400/30 bg-indigo-400/5 p-5" aria-label="Companion atlas">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-indigo-300">[ Companion atlas ]</p>
             <p className="mt-2 text-sm leading-relaxed text-zinc-300">{atlas.blurb}</p>
-            <Link
-              href={atlas.href}
-              className="mt-4 inline-block border border-zinc-700 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-zinc-300 transition-colors hover:border-white hover:text-white"
-            >
-              Open {atlas.title} →
-            </Link>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href={atlas.href}
+                className="inline-block border border-zinc-700 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-zinc-300 transition-colors hover:border-white hover:text-white"
+              >
+                Open {atlas.title} →
+              </Link>
+              <Link
+                href="/registry"
+                className="inline-block border border-zinc-700 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-zinc-300 transition-colors hover:border-white hover:text-white"
+              >
+                Research Context Registry →
+              </Link>
+            </div>
           </section>
         )}
 
