@@ -13,7 +13,20 @@
 
 Atlases are navigation layers over a published paper, not separate research. They carry no DOI of their own; cite the underlying paper.
 
-- [The de Sitter / String Swampland Atlas](https://research.mahastrategies.com/atlas/de-sitter-swampland): a source-first concept map, epistemic legend, and claim ledger derived entirely from the verified citation set of [the de Sitter working paper](https://research.mahastrategies.com/papers/de_sitter_swampland_map). Machine-readable record at `/atlas/de-sitter-swampland/metadata.json`. It is an educational, non-peer-reviewed orientation tool and explicitly does not adjudicate whether string theory admits metastable de Sitter vacua — that question is open and contested. Every claim carries one of four status labels (established result, active research, conjecture, speculative interpretation) and a caution; preserve both when summarizing. Do not describe string theory or M-theory as experimentally confirmed.
+- [The de Sitter / String Swampland Atlas](https://research.mahastrategies.com/atlas/de-sitter-swampland) (v1.1.0, "Source Trail and Versioned Claim Ledger"): a source-first concept map, epistemic legend, claim ledger, and disagreement map derived entirely from the verified citation set of [the de Sitter working paper](https://research.mahastrategies.com/papers/de_sitter_swampland_map). It is an educational, non-peer-reviewed orientation tool and explicitly does not adjudicate whether string theory admits metastable de Sitter vacua — that question is open and contested. Do not describe string theory or M-theory as experimentally confirmed.
+
+### Citing atlas claims
+
+- Each claim has a stable identifier (`ds-001` … `ds-012`) and its own page at `/atlas/de-sitter-swampland/claims/{id}`. Cite the identifier together with the atlas version; identifiers are never reassigned to a different claim.
+- Every claim carries one of four epistemic status labels (established result, active research, conjecture, speculative interpretation), a scope-and-limitations statement, and a last-reviewed date. The status and the limitations are part of the claim — reproducing the wording without them misrepresents it.
+- The atlas has no DOI of its own. Cite the paper's DOI [10.5281/zenodo.21603961](https://doi.org/10.5281/zenodo.21603961) for the research, and the claim identifier plus atlas version for a specific formulation.
+
+### Machine-readable atlas endpoints
+
+- `/atlas/de-sitter-swampland/metadata.json` — atlas record, concept nodes, edges, and claim ledger.
+- `/atlas/de-sitter-swampland/claims.json` — claims with id, status, explanation, limitations, conceptIds, sourceIds, reviewDate, atlasVersion, and canonicalUrl.
+- `/atlas/de-sitter-swampland/sources.json` — source cards with title, authors, year, source type, identifier, verification label, and why each source is cited.
+- Bibliographic fields come from the working paper. Source-type classification and the "why this source is here" notes are curator annotation, flagged as such in the endpoints. No work outside the paper's verified citation set is cited anywhere in the atlas.
 
 ## Citation and status
 

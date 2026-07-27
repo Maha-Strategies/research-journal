@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+import AtlasClaimArticle from '@/components/AtlasClaimArticle';
 import AtlasConceptMap from '@/components/AtlasConceptMap';
+import AtlasSourceCard from '@/components/AtlasSourceCard';
 import {
   ATLAS_CLAIMS,
   ATLAS_META,
@@ -9,10 +11,12 @@ import {
   ATLAS_PAPER_SLUG,
   ATLAS_PATH,
   EPISTEMIC_STATUSES,
+  VERIFICATION_DEFINITIONS,
   getCitedSources,
-  getSource,
-  getStatus,
+  getSourceCard,
+  getSourceCards,
 } from '@/lib/atlas/de-sitter';
+import { DEBATE_PROBLEMS } from '@/lib/atlas/de-sitter-debate';
 import { getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
 
@@ -65,6 +69,7 @@ export default function DeSitterAtlasPage() {
   const paper = getWorkingPaper(ATLAS_PAPER_SLUG);
   const zenodo = getZenodoRecord(ATLAS_PAPER_SLUG);
   const citedSources = getCitedSources();
+  const sourceCards = getSourceCards();
 
   const atlasLd = {
     '@context': 'https://schema.org',
@@ -153,7 +158,17 @@ export default function DeSitterAtlasPage() {
         })),
         encoding: [
           { '@type': 'MediaObject', encodingFormat: 'application/json', contentUrl: `${ATLAS_URL}/metadata.json` },
+          { '@type': 'MediaObject', encodingFormat: 'application/json', contentUrl: `${ATLAS_URL}/claims.json` },
+          { '@type': 'MediaObject', encodingFormat: 'application/json', contentUrl: `${ATLAS_URL}/sources.json` },
         ],
+        hasPart: ATLAS_CLAIMS.map((claim) => ({
+          '@type': 'Claim',
+          '@id': `${ATLAS_URL}/claims/${claim.ref}#claim`,
+          identifier: claim.ref,
+          url: `${ATLAS_URL}/claims/${claim.ref}`,
+          text: claim.claim,
+          dateModified: new Date(claim.reviewDate).toISOString(),
+        })),
       },
     ],
   };
@@ -298,75 +313,136 @@ export default function DeSitterAtlasPage() {
             Claim ledger — {ATLAS_CLAIMS.length} claims
           </h2>
           <p className="mb-8 max-w-2xl text-xs leading-relaxed text-zinc-500">
-            Each claim is stated in careful language, labelled, explained, sourced to the working paper&rsquo;s
-            verified citation set, and paired with the limitation that keeps it honest. Read the caution before
-            quoting the claim.
+            Each claim carries a stable identifier, an epistemic status, a sourced explanation, and the limitation
+            that keeps it honest. Every claim is separately linkable — cite the identifier, not the wording alone.
+            Machine-readable at{' '}
+            <a href={`${ATLAS_PATH}/claims.json`} className="text-indigo-300 underline">
+              claims.json
+            </a>
+            .
           </p>
 
           <ol className="space-y-4">
-            {ATLAS_CLAIMS.map((claim, index) => {
-              const status = getStatus(claim.status);
-              return (
-                <li key={claim.id} className="border border-zinc-800 bg-[#121214] p-5 md:p-7">
-                  <div className="mb-4 flex flex-wrap items-center gap-3">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className={`border px-2 py-1 font-mono text-[10px] uppercase tracking-widest ${status.badgeClass}`}>
-                      {status.label}
-                      {claim.statusNote ? ` · ${claim.statusNote}` : ''}
-                    </span>
+            {ATLAS_CLAIMS.map((claim) => (
+              <li
+                key={claim.ref}
+                id={`claim-${claim.ref}`}
+                className="scroll-mt-6 border border-zinc-800 bg-[#121214] p-5 md:p-7"
+              >
+                <AtlasClaimArticle claim={claim} variant="ledger" />
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* DISAGREEMENT MAP */}
+        <section className="mb-20" aria-labelledby="disagreement-heading">
+          <h2
+            id="disagreement-heading"
+            className="mb-4 border-b border-zinc-800 pb-2 font-mono text-[10px] uppercase tracking-widest text-zinc-500"
+          >
+            Disagreement map — {DEBATE_PROBLEMS.length} open problems
+          </h2>
+          <p className="mb-8 max-w-2xl text-xs leading-relaxed text-zinc-500">
+            The seven open problems from the source paper, each separated into four layers: the technical language
+            both sides share, the specific point actually in dispute, what rests on unproved conjecture, and what
+            would move the problem. Competing positions are stated as their proponents argue them. Neither side is
+            presented as settled, because neither is.
+          </p>
+
+          <ol className="space-y-4">
+            {DEBATE_PROBLEMS.map((problem) => (
+              <li
+                key={problem.id}
+                id={`problem-${problem.id}`}
+                className="scroll-mt-6 border border-zinc-800 bg-[#121214] p-5 md:p-7"
+              >
+                <div className="mb-4 flex flex-wrap items-baseline gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">
+                    Problem {problem.number}
+                  </span>
+                  <h3 className="text-lg font-light leading-snug text-white">{problem.title}</h3>
+                </div>
+                <p className="mb-6 border-l border-indigo-500/30 pl-4 text-sm font-light leading-relaxed text-zinc-300">
+                  {problem.question}
+                </p>
+
+                <dl className="space-y-4 text-sm leading-relaxed text-zinc-400">
+                  <div>
+                    <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-emerald-300">
+                      Common technical language
+                    </dt>
+                    <dd>{problem.commonLanguage}</dd>
                   </div>
+                  <div>
+                    <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-sky-300">
+                      Actively debated
+                    </dt>
+                    <dd>{problem.debated}</dd>
+                  </div>
+                  <div>
+                    <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-amber-300">
+                      Conjectural
+                    </dt>
+                    <dd>{problem.conjectural}</dd>
+                  </div>
+                  <div>
+                    <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-zinc-500">
+                      What would count as progress
+                    </dt>
+                    <dd>
+                      {problem.whatWouldCount}{' '}
+                      <span className="text-zinc-600">(Curator inference, not a claim from the source paper.)</span>
+                    </dd>
+                  </div>
+                </dl>
 
-                  <p className="mb-4 text-base font-light leading-relaxed text-zinc-100">{claim.claim}</p>
+                <div className="mt-6 grid gap-3 md:grid-cols-2">
+                  {problem.camps.map((camp) => (
+                    <div key={camp.label} className="border border-zinc-800 bg-[#0d0d10] p-4">
+                      <h4 className="mb-2 font-mono text-[10px] uppercase tracking-widest text-indigo-300">
+                        {camp.label}
+                      </h4>
+                      <p className="text-xs leading-relaxed text-zinc-400">{camp.position}</p>
+                      <ul className="mt-3 space-y-1">
+                        {camp.sources.map((id) => {
+                          const card = getSourceCard(id);
+                          if (!card) return null;
+                          return (
+                            <li key={id} className="text-[11px] leading-relaxed text-zinc-500">
+                              {card.url ? (
+                                <a href={card.url} target="_blank" rel="noreferrer" className="text-indigo-300/80 underline">
+                                  {card.identifier ?? card.label} ↗
+                                </a>
+                              ) : (
+                                <span>{card.identifier ?? card.label}</span>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
 
-                  <dl className="space-y-4 text-sm leading-relaxed text-zinc-400">
-                    <div>
-                      <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-                        Why it is stated this way
-                      </dt>
-                      <dd>{claim.explanation}</dd>
-                    </div>
-                    <div>
-                      <dt className="mb-1 font-mono text-[10px] uppercase tracking-widest text-amber-300">
-                        Caution
-                      </dt>
-                      <dd className="border-l border-amber-400/40 pl-4">{claim.caution}</dd>
-                    </div>
-                    <div>
-                      <dt className="mb-2 font-mono text-[10px] uppercase tracking-widest text-zinc-500">Sources</dt>
-                      <dd>
-                        <ul className="space-y-1.5">
-                          {claim.sources.map((id) => {
-                            const source = getSource(id);
-                            if (!source) return null;
-                            return (
-                              <li key={id} className="text-xs leading-relaxed">
-                                {source.url ? (
-                                  <a
-                                    href={source.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-indigo-300 underline"
-                                  >
-                                    {source.label} ↗
-                                  </a>
-                                ) : (
-                                  <span className="text-zinc-300">{source.label}</span>
-                                )}
-                                {source.authors && <span> · {source.authors}</span>}
-                                {source.identifier && <span> · {source.identifier}</span>}
-                                {source.journal && <span> · {source.journal}</span>}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </dd>
-                    </div>
-                  </dl>
-                </li>
-              );
-            })}
+                {problem.claimRefs.length > 0 && (
+                  <p className="mt-5 flex flex-wrap items-center gap-2 border-t border-zinc-800 pt-4">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-600">
+                      Related claims
+                    </span>
+                    {problem.claimRefs.map((ref) => (
+                      <Link
+                        key={ref}
+                        href={`${ATLAS_PATH}/claims/${ref}`}
+                        className="border border-zinc-700 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-zinc-300 transition-colors hover:border-indigo-400 hover:text-white"
+                      >
+                        {ref}
+                      </Link>
+                    ))}
+                  </p>
+                )}
+              </li>
+            ))}
           </ol>
         </section>
 
@@ -435,41 +511,183 @@ export default function DeSitterAtlasPage() {
           </div>
         </section>
 
-        {/* SOURCES */}
+        {/* SOURCE TRAIL */}
         <section className="mb-20" aria-labelledby="sources-heading">
           <h2
             id="sources-heading"
             className="mb-4 border-b border-zinc-800 pb-2 font-mono text-[10px] uppercase tracking-widest text-zinc-500"
           >
-            Source set — {citedSources.length} works
+            Source trail — {sourceCards.length} works
           </h2>
           <p className="mb-6 max-w-2xl text-xs leading-relaxed text-zinc-500">
-            Every work cited on this page, drawn without exception from the working paper. Entries marked
-            foundational are cited there by journal reference or identifier only; where the paper records no
-            title, none is supplied here.
+            Every work cited on this page, drawn without exception from the working paper. Bibliographic fields come
+            from that paper; the source-type classification and the &ldquo;why this source is here&rdquo; note are
+            curator annotation. Machine-readable at{' '}
+            <a href={`${ATLAS_PATH}/sources.json`} className="text-indigo-300 underline">
+              sources.json
+            </a>
+            .
           </p>
-          <ul className="space-y-2">
-            {citedSources.map((source) => (
-              <li key={source.id} className="border-l border-zinc-800 py-1 pl-4 text-xs leading-relaxed text-zinc-400">
-                <span className="mr-2 font-mono text-[9px] uppercase tracking-widest text-zinc-600">
-                  {source.provenance}
-                </span>
-                {source.url ? (
-                  <a href={source.url} target="_blank" rel="noreferrer" className="text-indigo-300 underline">
-                    {source.label} ↗
-                  </a>
-                ) : (
-                  <span className="text-zinc-300">{source.label}</span>
-                )}
-                {source.authors && <span> · {source.authors}</span>}
-                {source.identifier && <span> · {source.identifier}</span>}
-                {source.journal && <span> · {source.journal}</span>}
-                {source.titleNotRecorded && (
-                  <span className="text-zinc-600"> · title not recorded in the source map</span>
-                )}
-              </li>
+
+          <dl className="mb-8 grid gap-3 sm:grid-cols-3">
+            {VERIFICATION_DEFINITIONS.map((entry) => (
+              <div key={entry.label} className="border border-zinc-800 bg-[#0d0d10] p-4">
+                <dt className="mb-2 font-mono text-[10px] uppercase tracking-widest text-zinc-300">{entry.label}</dt>
+                <dd className="text-xs leading-relaxed text-zinc-500">{entry.definition}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
+
+          <div className="grid gap-4">
+            {sourceCards.map((card) => (
+              <AtlasSourceCard key={card.id} card={card} />
+            ))}
+          </div>
+        </section>
+
+        {/* VERSION AND METHODOLOGY */}
+        <section className="mb-20" aria-labelledby="version-heading">
+          <h2
+            id="version-heading"
+            className="mb-8 border-b border-zinc-800 pb-2 font-mono text-[10px] uppercase tracking-widest text-zinc-500"
+          >
+            Version and methodology
+          </h2>
+
+          <div className="border border-indigo-400/25 bg-indigo-400/5 p-5 md:p-7">
+            <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Atlas version</dt>
+                <dd className="mt-1 text-sm text-zinc-200">
+                  {ATLAS_META.version} — {ATLAS_META.releaseName}
+                </dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Last updated</dt>
+                <dd className="mt-1 text-sm text-zinc-200">
+                  {ATLAS_META.dateModified} (first published {ATLAS_META.datePublished})
+                </dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Claims last reviewed</dt>
+                <dd className="mt-1 text-sm text-zinc-200">{ATLAS_META.lastReviewed}</dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">License</dt>
+                <dd className="mt-1 text-sm text-zinc-200">{ATLAS_META.licenseLabel}</dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Associated paper</dt>
+                <dd className="mt-1 text-sm">
+                  <Link href={PAPER_PATH} className="text-indigo-300 underline">
+                    {PAPER_URL}
+                  </Link>
+                </dd>
+              </div>
+              {zenodo && (
+                <>
+                  <div>
+                    <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
+                      Published archive
+                    </dt>
+                    <dd className="mt-1 text-sm">
+                      <a href={zenodo.recordUrl} target="_blank" rel="noreferrer" className="text-indigo-300 underline">
+                        {zenodo.recordUrl} ↗
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Zenodo DOI</dt>
+                    <dd className="mt-1 text-sm">
+                      <a href={zenodo.doiUrl} target="_blank" rel="noreferrer" className="text-indigo-300 underline">
+                        {zenodo.doi} ↗
+                      </a>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Concept DOI</dt>
+                    <dd className="mt-1 text-sm">
+                      <a
+                        href={`https://doi.org/${zenodo.conceptDoi}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-indigo-300 underline"
+                      >
+                        {zenodo.conceptDoi} ↗
+                      </a>
+                    </dd>
+                  </div>
+                </>
+              )}
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">Machine-readable</dt>
+                <dd className="mt-1 flex flex-wrap gap-x-4 text-sm">
+                  <a href={`${ATLAS_PATH}/metadata.json`} className="text-indigo-300 underline">
+                    metadata.json
+                  </a>
+                  <a href={`${ATLAS_PATH}/claims.json`} className="text-indigo-300 underline">
+                    claims.json
+                  </a>
+                  <a href={`${ATLAS_PATH}/sources.json`} className="text-indigo-300 underline">
+                    sources.json
+                  </a>
+                </dd>
+              </div>
+            </dl>
+
+            <p className="mt-6 border-t border-indigo-400/20 pt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-amber-300">
+              {ATLAS_META.statusBadge}
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-300">
+              This atlas is an educational, non-peer-reviewed orientation tool. It is not peer-reviewed research, not
+              expert advice, and not a statement of scientific consensus. On the central question it maps — whether
+              string theory admits controlled metastable de Sitter vacua — there is no consensus to state.
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-5 text-sm leading-relaxed text-zinc-400">
+            <div>
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-widest text-indigo-400">
+                How claims are curated
+              </h3>
+              <p>
+                A claim enters the ledger only if it can be stated in language the cited sources support, and only
+                if it bears on the structure of the debate rather than decorating it. Each is written to be quotable
+                without its context misleading anyone: the epistemic status and the limitations statement are part
+                of the claim, not commentary on it. Claims are numbered <span className="font-mono">ds-001</span>{' '}
+                onward, and an identifier is never reassigned to a different claim.
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-widest text-indigo-400">
+                How claims are sourced
+              </h3>
+              <p>
+                Every citation is drawn from the working paper&rsquo;s verified set, whose ledger records that all
+                twenty-four arXiv identifiers were independently resolved against arXiv and INSPIRE-HEP. No
+                identifier, title, or author list has been added from any other source. Where the paper records only
+                an identifier for a foundational work, this atlas repeats that rather than supplying a title the
+                paper does not record. Where a claim would benefit from a citation outside that set, the gap is
+                stated on the claim instead of being filled — see{' '}
+                <Link href={`${ATLAS_PATH}/claims/ds-001`} className="text-indigo-300 underline">
+                  ds-001
+                </Link>
+                .
+              </p>
+            </div>
+            <div>
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-widest text-indigo-400">
+                How claims are revised
+              </h3>
+              <p>
+                Each claim carries the date it was last reviewed. Wording changes that alter what a claim asserts
+                produce a new atlas version; corrections are made in place and the review date advances. If the
+                underlying working paper is revised, the atlas version follows it. The atlas has no DOI of its own —
+                cite the paper&rsquo;s DOI for the research, and the claim identifier plus atlas version for the
+                specific formulation you are quoting.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* PROVENANCE FOOTER */}

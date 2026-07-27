@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import {
   ATLAS_EDGES,
   ATLAS_NODES,
+  getClaimUrl,
+  getClaimsForConcept,
   getNode,
   getSource,
   getStatus,
@@ -26,6 +29,35 @@ const toY = (percent: number) => (percent / 100) * VIEW_H;
 export default function AtlasConceptMap() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = selectedId ? getNode(selectedId) : undefined;
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Deep links of the form #concept-<id> open that concept. Claim pages link
+  // back into the map this way, so the two directions stay connected.
+  useEffect(() => {
+    const openFromHash = () => {
+      const match = window.location.hash.match(/^#concept-(.+)$/);
+      if (!match) return;
+      const node = getNode(decodeURIComponent(match[1]));
+      if (!node) return;
+      setSelectedId(node.id);
+      rootRef.current?.scrollIntoView({ block: 'start' });
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+    return () => window.removeEventListener('hashchange', openFromHash);
+  }, []);
+
+  // Escape closes the panel wherever focus happens to be. Deep links open the
+  // panel with focus still on the document, so scoping this to the widget would
+  // leave the key doing nothing in exactly that case.
+  useEffect(() => {
+    if (!selectedId) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedId(null);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [selectedId]);
 
   const toggle = (id: string) => setSelectedId((current) => (current === id ? null : id));
 
@@ -38,14 +70,7 @@ export default function AtlasConceptMap() {
     );
 
   return (
-    <div
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && selectedId) {
-          event.stopPropagation();
-          setSelectedId(null);
-        }
-      }}
-    >
+    <div ref={rootRef}>
       <p className="mb-6 text-xs leading-relaxed text-zinc-500">
         Select a concept to open its definition, epistemic status, and sources. Arrows show the direction of
         dependence or derivation, not agreement — several of them mark exactly where the field disagrees.
@@ -158,6 +183,7 @@ function NodeButton({
   return (
     <button
       type="button"
+      id={positioned ? `concept-${node.id}` : undefined}
       onClick={() => onSelect(node.id)}
       aria-expanded={selected}
       aria-controls="atlas-node-detail"
@@ -239,7 +265,7 @@ function ConceptDetail({
         <button
           type="button"
           onClick={onClose}
-          className="border border-zinc-700 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-zinc-400 transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+          className="inline-flex min-h-11 items-center border border-zinc-700 px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest text-zinc-400 transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
         >
           Close
         </button>
@@ -273,12 +299,39 @@ function ConceptDetail({
                   key={id}
                   type="button"
                   onClick={() => onSelect(id)}
-                  className="border border-zinc-700 px-2 py-1 text-xs text-zinc-300 transition-colors hover:border-indigo-400 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  className="inline-flex min-h-11 items-center border border-zinc-700 px-3 py-1 text-xs text-zinc-300 transition-colors hover:border-indigo-400 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                 >
                   {related.label}
                 </button>
               );
             })}
+          </dd>
+        </div>
+        <div>
+          <dt className="mb-2 font-mono text-[10px] uppercase tracking-widest text-zinc-500">
+            Claims bearing on this concept
+          </dt>
+          <dd>
+            {getClaimsForConcept(node.id).length === 0 ? (
+              <p className="text-xs text-zinc-500">No ledger claim is filed against this concept.</p>
+            ) : (
+              <ul className="space-y-1.5">
+                {getClaimsForConcept(node.id).map((claim) => {
+                  const claimStatus = getStatus(claim.status);
+                  return (
+                    <li key={claim.ref} className="text-xs leading-relaxed">
+                      <Link href={getClaimUrl(claim)} className="text-indigo-300 underline">
+                        {claim.ref}
+                      </Link>
+                      <span className={`ml-2 border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-widest ${claimStatus.badgeClass}`}>
+                        {claimStatus.label}
+                      </span>
+                      <span className="mt-1 block text-zinc-400">{claim.claim}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </dd>
         </div>
         <div>

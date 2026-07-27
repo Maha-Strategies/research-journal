@@ -28,7 +28,7 @@ export type AtlasSource = {
   identifier?: string;
   journal?: string;
   url?: string;
-  provenance: 'verified' | 'foundational';
+  provenance: 'verified' | 'foundational' | 'contextual';
   /** Set when the source map records no title for the work. */
   titleNotRecorded?: boolean;
 };
@@ -60,14 +60,22 @@ export type AtlasEdge = {
 };
 
 export type AtlasClaim = {
+  /** Human-readable slug. Stable, but `ref` is the citable identifier. */
   id: string;
+  /** Stable citable identifier, e.g. "ds-001". Never reassigned once published. */
+  ref: string;
+  /** Concept nodes this claim bears on, for cross-navigation. */
+  conceptIds: string[];
+  /** Date of the most recent curator review of this claim's wording and sources. */
+  reviewDate: string;
   claim: string;
   status: EpistemicStatus;
   /** Optional refinement of the status label, e.g. "observational framework". */
   statusNote?: string;
   explanation: string;
   sources: string[];
-  caution: string;
+  /** Scope and limitations — what the claim does not license. */
+  limitations: string;
 };
 
 export const ATLAS_PATH = '/atlas/de-sitter-swampland';
@@ -81,9 +89,12 @@ export const ATLAS_META = {
   description:
     'A source-first concept map and claim ledger for the de Sitter problem in the string/M-theory swampland program, built from a citation-verified literature map. An educational orientation tool that separates established results from active research, conjecture, and speculative interpretation.',
   statusBadge: 'Educational research map · non-peer-reviewed orientation tool',
-  version: '1.0.0',
+  version: '1.1.0',
   datePublished: '2026-07-26',
-  dateModified: '2026-07-26',
+  dateModified: '2026-07-27',
+  /** Date of the most recent full curator review pass over claims and sources. */
+  lastReviewed: '2026-07-27',
+  releaseName: 'Source Trail and Versioned Claim Ledger',
   license: 'https://creativecommons.org/licenses/by/4.0/',
   licenseLabel: 'CC BY 4.0',
   reuseNotes:
@@ -644,6 +655,9 @@ export const ATLAS_EDGES: AtlasEdge[] = [
 export const ATLAS_CLAIMS: AtlasClaim[] = [
   {
     id: 'lambda-modeling',
+    ref: 'ds-001',
+    conceptIds: ['cosmological-constant', 'observational-cosmology', 'de-sitter'],
+    reviewDate: '2026-07-27',
     claim:
       'The observed late-time acceleration of the universe is standardly modeled with a small positive cosmological constant, and current data place the dark-energy equation of state near w = −1.',
     status: 'established',
@@ -651,121 +665,154 @@ export const ATLAS_CLAIMS: AtlasClaim[] = [
     explanation:
       'This is the empirical anchor of the debate. Both camps accept it: the landscape side tries to reproduce a small positive vacuum energy from string constructions, and the swampland side has to explain the same observation without a stable de Sitter vacuum.',
     sources: ['heisenberg2018', 'schoneberg2023'],
-    caution:
+    limitations:
       'A successful model is not a proof of mechanism. Whether the vacuum energy is truly constant or slowly rolling is not settled by current bounds. Note also that the discovery-era supernova papers are outside the source map’s verified citation set, so they are not cited here; the sources listed are the in-set works that constrain the equation of state.',
   },
   {
     id: 'no-consensus',
+    ref: 'ds-002',
+    conceptIds: ['de-sitter', 'string-theory', 'm-theory', 'swampland'],
+    reviewDate: '2026-07-27',
     claim:
       'Whether string/M-theory admits stable or metastable de Sitter vacua remains an open question, and there is no community consensus.',
     status: 'active',
     explanation:
       'The source map is explicit that the disagreement is technical and genuine, turning on the validity of four-dimensional effective actions, the control of higher-dimensional backreaction, and the trustworthiness of asymptotic regimes. Both camps maintain mathematically sophisticated positions.',
-    sources: ['kachru2019', 'danielsson2018'],
-    caution:
+    sources: ['kachru2019', 'danielsson2018', 'deSitterPaper'],
+    limitations:
       'Neither this atlas nor its source paper adjudicates the question. Any presentation of either side as settled misrepresents the state of the field.',
   },
   {
     id: 'kklt-proposal',
+    ref: 'ds-003',
+    conceptIds: ['kklt', 'anti-de-sitter', 'flux-compactification', 'moduli'],
+    reviewDate: '2026-07-27',
     claim:
       'KKLT is a specific, well-defined proposal for obtaining a de Sitter vacuum: flux and non-perturbative stabilization into a supersymmetric anti-de Sitter minimum, followed by an anti-D3-brane uplift.',
     status: 'established',
     explanation:
       'The construction exists as a definite recipe in the literature and has been the reference point for the field for two decades. Describing what it proposes is uncontroversial.',
     sources: ['kklt2003'],
-    caution:
+    limitations:
       'That the construction is well-defined does not establish that it works. Its validity is the subject of the next two claims.',
   },
   {
     id: 'kklt-control',
+    ref: 'ds-004',
+    conceptIds: ['kklt', 'moduli', 'de-sitter'],
+    reviewDate: '2026-07-27',
     claim:
       'Whether the KKLT anti-brane uplift is under parametric ten-dimensional supergravity control is actively debated.',
     status: 'active',
     explanation:
       'Defenders argue that supersymmetry breaking is localized on the anti-D3-brane and that an explicit ten-dimensional analysis reproduces the four-dimensional result. Skeptics argue that explicit ten-dimensional treatments show infrared singularities in the anti-brane backreaction, and that the integrated ten-dimensional equations obstruct the uplift.',
     sources: ['kachru2019', 'kallosh2019', 'bena2012', 'moritz2017', 'danielsson2018'],
-    caution:
+    limitations:
       'This is a live technical dispute between established groups — not a fringe objection to a settled result, and not a refutation either. The existence of a singularity in a given approximation is not the same as its being physical; defenders argue brane polarization resolves it. Citing only one side misrepresents the literature.',
   },
   {
     id: 'lvs-large-volume',
+    ref: 'ds-005',
+    conceptIds: ['large-volume-scenario', 'moduli', 'compactification'],
+    reviewDate: '2026-07-27',
     claim:
       'The Large Volume Scenario stabilizes Kähler moduli at exponentially large volume, which nominally suppresses α′ and loop corrections.',
     status: 'established',
     explanation:
       'The stabilization mechanism and its large-volume scaling are a definite result of the construction, and the suppression of leading corrections at large volume follows from that scaling.',
     sources: ['lvs2005', 'cicoli2012', 'gallego2017'],
-    caution:
+    limitations:
       'Nominal suppression of the leading corrections is not the same as parametric control of all of them. That stronger statement is contested.',
   },
   {
     id: 'lvs-tadpole',
+    ref: 'ds-006',
+    conceptIds: ['large-volume-scenario', 'compactification', 'moduli'],
+    reviewDate: '2026-07-27',
     claim:
       'It has been argued that keeping LVS de Sitter constructions under control requires a negative D3-tadpole exceeding known Calabi-Yau bounds.',
     status: 'active',
     explanation:
       'This is the sharpest quantitative form of the LVS control objection: rather than disputing the scheme in principle, it derives a numerical requirement and compares it with what the known geometries supply.',
     sources: ['gao2022', 'junghans2022'],
-    caution:
+    limitations:
       'A parametric constraint against currently known Calabi-Yau bounds is not a no-go theorem. The bound is on what has been catalogued, and the argument is contested by LVS proponents.',
   },
   {
     id: 'ds-conjecture',
+    ref: 'ds-007',
+    conceptIds: ['ds-conjecture', 'swampland', 'de-sitter'],
+    reviewDate: '2026-07-27',
     claim:
       'The de Sitter swampland conjecture proposes that scalar potentials in consistent quantum-gravity effective theories obey a gradient bound |∇V| ≥ c·V, with c of order one.',
     status: 'conjecture',
     explanation:
       'Stating the conjecture is a statement about the literature, not about nature. Its advocates motivate it from the distance conjecture and de Sitter thermodynamics, and it would forbid stable de Sitter minima if correct.',
     sources: ['obied2018', 'garg2018'],
-    caution:
+    limitations:
       'The conjecture has no derivation from a ten-dimensional construction and no proof. It is a proposal under active test, and a refined form was introduced precisely because the original was in tension with known physics.',
   },
   {
     id: 'c-tension',
+    ref: 'ds-008',
+    conceptIds: ['ds-conjecture', 'cosmological-constant', 'observational-cosmology'],
+    reviewDate: '2026-07-27',
     claim:
       'An order-one value of c has been argued to be in tension with slow-roll inflation and with the observed value of the cosmological constant.',
     status: 'active',
     explanation:
       'This is the main cosmological objection from the landscape side: the same order-one constant that makes the conjecture powerful also makes it hard to reconcile with inflationary phenomenology and with the observed dark-energy sector.',
     sources: ['akrami2018'],
-    caution:
+    limitations:
       'The tension depends on which version of the conjecture is used and on assumptions about the inflationary sector. It is an argument in a live dispute, not a refutation.',
   },
   {
     id: 'tcc',
+    ref: 'ds-009',
+    conceptIds: ['de-sitter', 'swampland', 'ds-conjecture'],
+    reviewDate: '2026-07-27',
     claim:
       'The Trans-Planckian Censorship Conjecture proposes that sub-Planckian fluctuations never cross the Hubble horizon and freeze, which bounds the lifetime of a de Sitter phase.',
     status: 'conjecture',
     explanation:
       'TCC gives an independent route to swampland-like constraints, replacing "no de Sitter" with "no long-lived de Sitter". It has become central to the post-2019 debate and is treated as its own thread in the source map.',
     sources: ['bedroya2019'],
-    caution:
+    limitations:
       'TCC is a conjecture. Skeptics note that the resulting bound forces a low inflation scale, which makes the observed amplitude of primordial perturbations hard to generate without fine-tuning.',
   },
   {
     id: 'quintessence',
+    ref: 'ds-010',
+    conceptIds: ['cosmological-constant', 'observational-cosmology', 'de-sitter', 'swampland'],
+    reviewDate: '2026-07-27',
     claim:
       'If metastable de Sitter vacua are excluded, dark energy would have to be dynamical — a rolling scalar field rather than a constant.',
     status: 'active',
     explanation:
       'Quintessence is the standard fallback if the swampland position is correct, and it is where the conjectures make contact with data that can actually be measured.',
     sources: ['agrawal2018', 'heisenberg2018', 'schoneberg2023'],
-    caution:
+    limitations:
       'This is a conditional claim, not a claim that dark energy is dynamical. Bounds near w = −1 constrain rolling models; one 2023 reanalysis in the source set finds newer data allows slightly more freedom in the criteria rather than tightening the tension, while raising a separate fine-tuning problem from constraints on moduli-electromagnetic couplings.',
   },
   {
     id: 'dark-dimension',
+    ref: 'ds-011',
+    conceptIds: ['extra-dimensions', 'cosmological-constant', 'swampland'],
+    reviewDate: '2026-07-27',
     claim:
       'The Dark Dimension scenario ties the dark-energy scale to a Kaluza-Klein scale via the AdS distance conjecture, predicting a single extra dimension of roughly micron size.',
     status: 'speculative',
     explanation:
       'It is one of the few places in this debate that yields a concrete, near-term testable number, which is why it attracts attention out of proportion to its epistemic footing.',
     sources: ['montero2022', 'lust2019', 'blumenhagen2022', 'lawSmith2023'],
-    caution:
+    limitations:
       'The scenario is built on the AdS distance conjecture — itself unproved — combined with phenomenological input. A testable prediction is not evidence for the premises that generated it.',
   },
   {
     id: 'eotwash',
+    ref: 'ds-012',
+    conceptIds: ['extra-dimensions', 'observational-cosmology'],
+    reviewDate: '2026-07-27',
     claim:
       'Torsion-balance experiments report no deviation from the gravitational inverse-square law down to separations of about 52 micrometres.',
     status: 'established',
@@ -773,20 +820,195 @@ export const ATLAS_CLAIMS: AtlasClaim[] = [
     explanation:
       'This is a direct laboratory measurement, published in Physical Review Letters, and one of the few genuinely settled empirical inputs on this map. It constrains any scenario predicting a mesoscopic extra dimension.',
     sources: ['lee2020', 'kapner2007'],
-    caution:
+    limitations:
       'A null result bounds the parameter space; it does not exclude the Dark Dimension scenario, whose predicted scale sits near the current experimental frontier. Systematics modeling, not the raw sensitivity, is the practical limit.',
   },
 ];
+
+// ---------------------------------------------------------------------------
+// SOURCE CARD ANNOTATIONS
+//
+// Deliberately kept separate from ATLAS_SOURCES above. That table holds
+// bibliographic facts taken from the working paper and must not drift from it.
+// What follows is curator annotation: a source-type classification and a note
+// on why each work appears here. Publication years are decoded from the arXiv
+// identifier the paper records (YYMM.NNNNN and the archive/YYMMNNN forms),
+// which is derivation rather than new bibliographic data; the one work with no
+// identifier takes its year from the journal reference the paper records.
+// Where a journal year differs from the arXiv year, the journal string in
+// ATLAS_SOURCES carries it.
+// ---------------------------------------------------------------------------
+
+export type SourceType = 'primary' | 'review' | 'observational' | 'educational';
+
+export type SourceTypeDescriptor = { id: SourceType; label: string; definition: string };
+
+export const SOURCE_TYPES: SourceTypeDescriptor[] = [
+  {
+    id: 'primary',
+    label: 'Primary paper',
+    definition: 'A research paper presenting a construction, calculation, or argument of its own.',
+  },
+  {
+    id: 'review',
+    label: 'Review',
+    definition:
+      'A survey of a body of work rather than a new result. No work in the current source set is classified this way.',
+  },
+  {
+    id: 'observational',
+    label: 'Observational or experimental result',
+    definition:
+      'A laboratory measurement, or an analysis whose conclusion is driven by astrophysical or cosmological data.',
+  },
+  {
+    id: 'educational',
+    label: 'Educational context',
+    definition:
+      'An orientation or synthesis work, included for framing rather than as evidence for a physics claim.',
+  },
+];
+
+export type VerificationLabel = 'Verified' | 'Foundational' | 'Contextual';
+
+export type SourceAnnotation = {
+  year: number;
+  yearBasis: 'arXiv identifier' | 'journal reference' | 'publication date';
+  sourceType: SourceType;
+  whyHere: string;
+};
+
+export const SOURCE_ANNOTATIONS: Record<string, SourceAnnotation> = {
+  kklt2003: { year: 2003, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The construction the entire de Sitter debate is organized around. Cited wherever the atlas describes what KKLT proposes.' },
+  lvs2005: { year: 2005, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The founding Large Volume Scenario paper, cited for the large-volume stabilization mechanism itself.' },
+  dineSeiberg1985: { year: 1985, yearBasis: 'journal reference', sourceType: 'primary', whyHere: 'The original observation that string compactifications are controlled only asymptotically, which frames why any stabilized minimum is contested.' },
+  michel2014: { year: 2014, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'Cited on the defenders’ side of the anti-brane dispute, for the brane-dynamics argument that the singularity is resolved.' },
+  kallosh2019: { year: 2019, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'A defence of KKLT against swampland objections, cited so the defenders’ strongest argument is represented in its own words.' },
+  kachru2019: { year: 2019, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The explicit ten-dimensional analysis defenders cite as reproducing the four-dimensional uplift result.' },
+  bena2012: { year: 2012, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The sharpest statement of the anti-brane singularity objection, cited on the skeptics’ side of the same dispute.' },
+  moritz2017: { year: 2017, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'A ten-dimensional treatment arguing the integrated equations obstruct the uplift.' },
+  danielsson2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'A prominent statement of the position that string theory may have no de Sitter vacua at all, cited for the shape of the skeptical case.' },
+  gallego2017: { year: 2017, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'An LVS de Sitter construction cited on the proponents’ side of the Large Volume Scenario question.' },
+  cicoli2012: { year: 2012, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'An LVS uplift route that avoids anti-branes, cited to show the proponents’ case does not rest on the KKLT mechanism.' },
+  junghans2022: { year: 2022, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The control objection to LVS de Sitter vacua, cited on the skeptics’ side.' },
+  gao2022: { year: 2022, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The parametric tadpole constraint, cited as the sharpest quantitative form of the LVS control objection.' },
+  obied2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The paper that introduced the de Sitter swampland conjecture. Cited wherever the atlas states the conjecture.' },
+  ooguri2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The refined form of the conjecture, cited for the Hessian condition that replaced the strict gradient bound.' },
+  garg2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The slow-roll bound cited among the arguments motivating the conjecture.' },
+  akrami2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'observational', whyHere: 'The cosmological critique of the conjecture, cited so the landscape side of the objection is represented.' },
+  montero2022: { year: 2022, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The paper proposing the Dark Dimension scenario, cited wherever the atlas describes it.' },
+  blumenhagen2022: { year: 2022, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'A string-theoretic realization of the Dark Dimension, cited to show the scenario has been embedded in a construction.' },
+  lawSmith2023: { year: 2023, yearBasis: 'arXiv identifier', sourceType: 'observational', whyHere: 'Astrophysical constraints bearing on the Dark Dimension’s dark-matter interpretation.' },
+  lee2020: { year: 2020, yearBasis: 'arXiv identifier', sourceType: 'observational', whyHere: 'The torsion-balance measurement that sets the current short-range gravity bound. One of the few genuinely settled empirical inputs on this map.' },
+  kapner2007: { year: 2006, yearBasis: 'arXiv identifier', sourceType: 'observational', whyHere: 'The earlier Eot-Wash inverse-square-law test, cited alongside the 2020 result for the experimental record.' },
+  agrawal2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The paper drawing out what the conjectures imply for cosmology, cited as the origin of the quintessence branch of the debate.' },
+  heisenberg2018: { year: 2018, yearBasis: 'arXiv identifier', sourceType: 'observational', whyHere: 'Equation-of-state bounds constraining swampland quintessence, cited wherever the atlas refers to w near minus one.' },
+  schoneberg2023: { year: 2023, yearBasis: 'arXiv identifier', sourceType: 'observational', whyHere: 'A data-side reassessment that runs against the expected direction, finding newer data allows slightly more freedom in the criteria. Cited so the atlas does not present the observational trend as one-way.' },
+  lust2019: { year: 2019, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The AdS distance conjecture, cited as the premise the Dark Dimension scenario is built on.' },
+  bedroya2019: { year: 2019, yearBasis: 'arXiv identifier', sourceType: 'primary', whyHere: 'The founding Trans-Planckian Censorship paper, cited wherever the atlas states the lifetime bound.' },
+  deSitterPaper: { year: 2026, yearBasis: 'publication date', sourceType: 'educational', whyHere: 'The working paper this atlas is derived from. Cited where a claim rests on the paper’s own framing of the field rather than on a physics result — most directly the statement that no consensus exists.' },
+};
+
+/**
+ * The source paper itself, exposed as a source card. It is the authority for
+ * every other entry, and it is the correct citation for claims that rest on its
+ * survey of the field rather than on any single physics paper.
+ */
+export const ATLAS_SOURCE_PAPER: AtlasSource = {
+  id: 'deSitterPaper',
+  label: 'The de Sitter Problem in the String Swampland: A Verified Literature Map (Revision 2)',
+  authors: 'Rajan, Mayone Maha (architect and curator)',
+  journal: 'Maha Strategies Research; Zenodo DOI 10.5281/zenodo.21603961',
+  url: 'https://research.mahastrategies.com/papers/de_sitter_swampland_map',
+  provenance: 'contextual',
+};
+
+export type AtlasSourceCard = AtlasSource &
+  SourceAnnotation & {
+    verification: VerificationLabel;
+    sourceTypeLabel: string;
+  };
+
+const VERIFICATION_LABELS: Record<AtlasSource['provenance'], VerificationLabel> = {
+  verified: 'Verified',
+  foundational: 'Foundational',
+  contextual: 'Contextual',
+};
+
+export const VERIFICATION_DEFINITIONS: { label: VerificationLabel; definition: string }[] = [
+  {
+    label: 'Verified',
+    definition:
+      'The identifier was independently resolved against arXiv or INSPIRE-HEP during production of the source paper, and its placement in the debate was checked against what the paper argues. Verification is not endorsement.',
+  },
+  {
+    label: 'Foundational',
+    definition:
+      'A pre-arXiv or field-defining work that the source paper cites by journal reference or identifier alone. Where the paper records no title, none is supplied here.',
+  },
+  {
+    label: 'Contextual',
+    definition:
+      'Included for framing rather than as evidence for a physics claim. Currently this applies to the source working paper itself.',
+  },
+];
+
+function buildSourceCard(source: AtlasSource): AtlasSourceCard | undefined {
+  const annotation = SOURCE_ANNOTATIONS[source.id];
+  if (!annotation) return undefined;
+  return {
+    ...source,
+    ...annotation,
+    verification: VERIFICATION_LABELS[source.provenance],
+    sourceTypeLabel: SOURCE_TYPES.find((type) => type.id === annotation.sourceType)?.label ?? annotation.sourceType,
+  };
+}
+
+export function getSourceCard(id: string): AtlasSourceCard | undefined {
+  const source = id === ATLAS_SOURCE_PAPER.id ? ATLAS_SOURCE_PAPER : ATLAS_SOURCES[id];
+  return source ? buildSourceCard(source) : undefined;
+}
+
+/** Every cited source as a full card, source paper last. */
+export function getSourceCards(): AtlasSourceCard[] {
+  const cards = getCitedSources()
+    .map(buildSourceCard)
+    .filter((card): card is AtlasSourceCard => Boolean(card));
+  const paperCard = buildSourceCard(ATLAS_SOURCE_PAPER);
+  return paperCard ? [...cards, paperCard] : cards;
+}
+
+// ---------------------------------------------------------------------------
+// CLAIM ACCESS
+// ---------------------------------------------------------------------------
+
+/** Resolves a claim by its stable ref ("ds-001") or its slug. */
+export function getClaim(idOrRef: string): AtlasClaim | undefined {
+  return ATLAS_CLAIMS.find((claim) => claim.ref === idOrRef || claim.id === idOrRef);
+}
+
+export function getClaimUrl(claim: AtlasClaim): string {
+  return `${ATLAS_PATH}/claims/${claim.ref}`;
+}
+
+/** Claims that bear on a given concept node, for cross-navigation. */
+export function getClaimsForConcept(conceptId: string): AtlasClaim[] {
+  return ATLAS_CLAIMS.filter((claim) => claim.conceptIds.includes(conceptId));
+}
 
 export function getNode(id: string): AtlasNode | undefined {
   return ATLAS_NODES.find((node) => node.id === id);
 }
 
 export function getSource(id: string): AtlasSource | undefined {
-  return ATLAS_SOURCES[id];
+  return id === ATLAS_SOURCE_PAPER.id ? ATLAS_SOURCE_PAPER : ATLAS_SOURCES[id];
 }
 
-/** Every source actually referenced by a node or claim, in declaration order. */
+/**
+ * Every source actually referenced by a node or claim, in declaration order.
+ * The source paper is excluded here and appended by getSourceCards, so it
+ * always reads last rather than sorting into the physics literature.
+ */
 export function getCitedSources(): AtlasSource[] {
   const cited = new Set<string>();
   ATLAS_NODES.forEach((node) => node.sources.forEach((id) => cited.add(id)));

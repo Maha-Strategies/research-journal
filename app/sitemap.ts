@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next';
 
+import { ATLAS_CLAIMS, ATLAS_META, ATLAS_PATH } from '@/lib/atlas/de-sitter';
+
 const SITE_URL = 'https://research.mahastrategies.com';
 
 // Publication dates from each paper's schema (datePublished).
@@ -20,8 +22,13 @@ const papers: { slug: string; lastModified: string }[] = [
 ];
 
 // Interactive research surfaces that sit alongside a paper rather than in it.
+// Claim routes are derived from the atlas data so the two cannot drift.
 const atlases: { path: string; lastModified: string }[] = [
-  { path: '/atlas/de-sitter-swampland', lastModified: '2026-07-26' },
+  { path: ATLAS_PATH, lastModified: ATLAS_META.dateModified },
+  ...ATLAS_CLAIMS.map((claim) => ({
+    path: `${ATLAS_PATH}/claims/${claim.ref}`,
+    lastModified: claim.reviewDate,
+  })),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

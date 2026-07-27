@@ -62,6 +62,13 @@ export async function GET() {
             },
           }
         : {}),
+      release: ATLAS_META.releaseName,
+      lastReviewed: ATLAS_META.lastReviewed,
+      endpoints: {
+        metadata: `${url}/metadata.json`,
+        claims: `${url}/claims.json`,
+        sources: `${url}/sources.json`,
+      },
       epistemicStatuses: EPISTEMIC_STATUSES.map(({ id, label, definition }) => ({ id, label, definition })),
       conceptNodes: ATLAS_NODES.map((node) => ({
         id: node.id,
@@ -76,13 +83,19 @@ export async function GET() {
       })),
       conceptEdges: ATLAS_EDGES.map((edge) => ({ from: edge.from, to: edge.to, relation: edge.label })),
       claimLedger: ATLAS_CLAIMS.map((claim) => ({
-        id: claim.id,
+        id: claim.ref,
+        slug: claim.id,
         claim: claim.claim,
         epistemicStatus: claim.status,
         statusNote: claim.statusNote ?? null,
         explanation: claim.explanation,
-        caution: claim.caution,
+        limitations: claim.limitations,
+        /** @deprecated v1.0.0 key, retained so existing consumers keep working. */
+        caution: claim.limitations,
+        conceptIds: claim.conceptIds,
         sources: claim.sources,
+        reviewDate: claim.reviewDate,
+        canonicalUrl: `${url}/claims/${claim.ref}`,
       })),
       sources: sources.map((source) => ({
         id: source.id,
