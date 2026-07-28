@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
+import { QC_ATLAS_PATH, QC_CLAIMS, QC_CONCEPTS, QC_META, QC_SOURCES } from '@/lib/atlas/quantum-computing';
 import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 import { LEARNING_MODULES, getAllLessons } from '@/lib/library/registry';
@@ -34,6 +35,13 @@ const papers: { slug: string; lastModified: string }[] = [
 // Interactive research surfaces that sit alongside a paper rather than in it.
 // Claim routes are derived from the atlas data so the two cannot drift.
 const atlases: { path: string; lastModified: string }[] = [
+  { path: QC_ATLAS_PATH, lastModified: QC_META.dateModified },
+  { path: `${QC_ATLAS_PATH}/concepts`, lastModified: QC_META.dateModified },
+  { path: `${QC_ATLAS_PATH}/sources`, lastModified: QC_META.dateModified },
+  { path: `${QC_ATLAS_PATH}/methodology`, lastModified: QC_META.dateModified },
+  ...QC_CONCEPTS.map((concept) => ({ path: `${QC_ATLAS_PATH}/concepts/${concept.id}`, lastModified: QC_META.lastReviewed })),
+  ...QC_SOURCES.map((source) => ({ path: `${QC_ATLAS_PATH}/sources/${source.id}`, lastModified: source.verifiedOn })),
+  ...QC_CLAIMS.map((claim) => ({ path: `${QC_ATLAS_PATH}/claims/${claim.id}`, lastModified: claim.reviewDate })),
   { path: ATLAS_PATH, lastModified: ATLAS_META.dateModified },
   { path: '/atlas', lastModified: '2026-07-27' },
   { path: `${ATLAS_PATH}/context-pack`, lastModified: ATLAS_META.dateModified },

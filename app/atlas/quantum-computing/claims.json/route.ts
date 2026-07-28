@@ -1,0 +1,3 @@
+import { QC_CLAIMS, QC_META, getQcStatus } from '@/lib/atlas/quantum-computing'; import { QUANTUM_ATLAS_PATH } from '@/components/QuantumAtlas';
+const base = `https://research.mahastrategies.com${QUANTUM_ATLAS_PATH}`;
+export async function GET() { return Response.json({ atlas: { title: QC_META.title, canonicalUrl: base, version: QC_META.version, evidenceCutoff: QC_META.evidenceCutoff, lastReviewed: QC_META.lastReviewed, methodology: `${base}/methodology` }, count: QC_CLAIMS.length, claims: QC_CLAIMS.map((c) => ({ ...c, statusLabel: getQcStatus(c.status).label, canonicalUrl: `${base}/claims/${c.id}` })) }, { headers: { 'Cache-Control': 'public, max-age=3600' } }); }

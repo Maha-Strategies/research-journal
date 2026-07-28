@@ -1,5 +1,6 @@
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
+import { QC_ATLAS_PATH, QC_CLAIMS, QC_CONCEPTS, QC_META, QC_SOURCES } from '@/lib/atlas/quantum-computing';
 
 export const ATLAS_CATALOG_PATH = '/atlas';
 
@@ -21,6 +22,27 @@ export type AtlasCatalogEntry = {
 };
 
 export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
+  {
+    id: 'quantum-computing',
+    title: QC_META.title,
+    shortTitle: QC_META.shortTitle,
+    canonicalPath: QC_ATLAS_PATH,
+    description: QC_META.description,
+    scope: 'Quantum computing concepts, hardware modalities, error correction, algorithms, limitations, and near-term applications.',
+    exclusions: ['No technology forecasts, vendor rankings, investment advice, or unverified performance leaderboards.', 'No claim that current devices can run large-scale Shor factoring or general-purpose fault-tolerant algorithms.'],
+    status: QC_META.statusBadge,
+    version: QC_META.version,
+    lastReviewed: QC_META.lastReviewed,
+    evidenceCutoff: QC_META.evidenceCutoff,
+    counts: { claims: QC_CLAIMS.length, concepts: QC_CONCEPTS.length, sources: QC_SOURCES.length },
+    endpoints: [
+      { label: 'Metadata', path: `${QC_ATLAS_PATH}/metadata.json`, format: 'application/json' },
+      { label: 'Claim ledger', path: `${QC_ATLAS_PATH}/claims.json`, format: 'application/json' },
+      { label: 'Source trail', path: `${QC_ATLAS_PATH}/sources.json`, format: 'application/json' },
+      { label: 'Plain-text context', path: `${QC_ATLAS_PATH}/context.txt`, format: 'text/plain' },
+    ],
+    expansionCandidates: ['Add a claim only after primary or authoritative source resolution, status assignment, limitation writing, and review.', 'Do not turn platform announcements, raw qubit counts, or roadmap targets into standalone evidence records.'],
+  },
   {
     id: 'de-sitter-swampland',
     title: ATLAS_META.title,
