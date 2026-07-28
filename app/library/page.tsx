@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { MAHA_ORGANIZATION_ID, SITE_URL } from '@/lib/entity';
+import {
+  MAHA_ORGANIZATION_ID,
+  MAYON_EXHIBIT_ID,
+  MAYON_EXHIBIT_NAME,
+  MAYON_EXHIBIT_URL,
+  SITE_URL,
+} from '@/lib/entity';
 import {
   AUDIENCE_ROLES,
   AUDIENCE_ROLE_DESCRIPTORS,
@@ -36,6 +42,17 @@ export default function LibraryHubPage() {
     description: LIBRARY_DESCRIPTION,
     isPartOf: { '@type': 'WebSite', '@id': `${SITE_URL}/#website` },
     publisher: { '@id': MAHA_ORGANIZATION_ID },
+    // The exhibit is a related work, not part of this library and not the same
+    // entity. `mentions` mirrors the relation the Mayon side declares, and the
+    // `@id` matches the exhibit node so the two merge across domains.
+    mentions: {
+      '@type': ['SoftwareApplication', 'LearningResource'],
+      '@id': MAYON_EXHIBIT_ID,
+      name: MAYON_EXHIBIT_NAME,
+      url: MAYON_EXHIBIT_URL,
+      applicationCategory: 'EducationalApplication',
+      isAccessibleForFree: true,
+    },
     hasPart: LEARNING_MODULES.map((m) => ({
       '@type': 'Course',
       '@id': `${SITE_URL}${modulePath(m.slug)}#module`,
@@ -165,6 +182,37 @@ export default function LibraryHubPage() {
               );
             })}
           </ul>
+        </section>
+
+        {/* Return link to the exhibit the library is named after. Restrained by
+            design: one card, clearly an educational visualization rather than
+            live guidance, so it cannot be mistaken for a monitoring tool. */}
+        <section aria-labelledby="exhibit" className="mt-16">
+          <h2
+            id="exhibit"
+            className="border-b border-zinc-800 pb-3 font-mono text-[10px] uppercase tracking-widest text-zinc-500"
+          >
+            The exhibit this library is named for
+          </h2>
+
+          <a
+            href={MAYON_EXHIBIT_URL}
+            target="_blank"
+            rel="noopener"
+            className="mt-6 block border border-zinc-800 bg-[#121214] p-6 hover:border-amber-500"
+          >
+            <p className="font-mono text-[10px] uppercase tracking-widest text-amber-300">
+              Educational visualization · opens in a new tab
+            </p>
+            <h3 className="mt-3 text-xl font-light text-white">Explore Mayon in 3D ↗</h3>
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-zinc-400">
+              {MAYON_EXHIBIT_NAME} renders the volcano at true scale from real terrain and
+              satellite data, with historical eruption eras and illustrative hazard
+              overlays. It is a teaching instrument — <strong className="font-medium text-zinc-200">not
+              a live monitoring, warning, forecast, or evacuation tool</strong>. For current
+              status and instructions, follow PHIVOLCS and your local authorities.
+            </p>
+          </a>
         </section>
 
         <footer className="mt-16 border-t border-zinc-800 pt-6 text-xs leading-relaxed text-zinc-600">
