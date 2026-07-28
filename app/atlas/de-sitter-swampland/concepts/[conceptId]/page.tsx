@@ -10,7 +10,7 @@ export async function generateStaticParams() { return ATLAS_NODES.map((node) => 
 
 export async function generateMetadata({ params }: { params: Promise<{ conceptId: string }> }): Promise<Metadata> {
   const node = getNode((await params).conceptId);
-  if (!node) return { title: 'Concept not found | Maha Strategies Research' };
+  if (!node) return { title: 'Concept not found' };
   const url = `${SITE_URL}${getConceptUrl(node.id)}`;
   return { title: `${node.label} | ${ATLAS_META.shortTitle}`, description: `${node.definition} Educational context with an explicit epistemic-status boundary.`, alternates: { canonical: getConceptUrl(node.id) }, robots: { index: true, follow: true }, openGraph: { type: 'article', url, title: `${node.label} | ${ATLAS_META.shortTitle}`, description: node.definition } };
 }

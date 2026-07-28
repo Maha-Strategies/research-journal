@@ -4,17 +4,27 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import {
+  MAHA_ORGANIZATION,
+  MAHA_ORGANIZATION_ID,
+  MAYON_RAJAN,
+  MAYON_RAJAN_PERSON_ID,
+  PERSON_SITE_URL,
+  SITE_URL,
+} from '@/lib/entity';
 
-const SITE_URL = 'https://research.mahastrategies.com';
-const ORG_URL = 'https://www.mahastrategies.com';
-const AUTHOR_URL = 'https://www.mayonemaharajan.com';
+// Identity constants now come from lib/entity.ts. The former local SITE_URL,
+// ORG_URL, and AUTHOR_URL duplicated them and were free to drift — which is
+// exactly how this page ended up defining the organization under a different
+// `@id` than every other page on the site.
+const AUTHOR_URL = PERSON_SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: 'Maha Strategies Research | Human-AI Synthesis Lab',
-    template: '%s | Maha Strategies Research',
-  },
+  // A leaf page's own title. The `template` that used to live here did nothing
+  // — templates apply to child segments and page.tsx is a leaf. It now lives in
+  // app/layout.tsx, where it actually takes effect.
+  title: 'Maha Strategies Research | Human-AI Synthesis Lab',
   description:
     'Open-access research project using agentic AI as a synthesis instrument under human curation. Cross-disciplinary structural analogies presented as testable hypotheses, not peer-reviewed conclusions.',
   authors: [{ name: 'Mayone Maha Rajan', url: AUTHOR_URL }],
@@ -38,14 +48,20 @@ export const metadata: Metadata = {
     title: 'Maha Strategies Research & Architecture',
     description:
       'Human-AI collaborative synthesis: cross-disciplinary structural analogies presented as testable hypotheses under human curation.',
-    images: [{ url: `${SITE_URL}/og-research.png`, width: 1200, height: 630, alt: 'Maha Strategies Research & Architecture - Human-AI Synthesis Lab' }],
+    // `images` removed: /og-research.png does not exist in public/. An og:image
+    // pointing at a 404 is worse than none — the card renders blank and
+    // crawlers cache the failure. Restore this line once the asset is added:
+    //   images: [{ url: `${SITE_URL}/og-research.png`, width: 1200, height: 630,
+    //     alt: 'Maha Strategies Research & Architecture' }],
     locale: 'en_US',
   },
   twitter: {
-    card: 'summary_large_image',
+    // `summary`, not `summary_large_image`: the large-image card requires an
+    // image and renders as a blank slab without one. Promote back to
+    // 'summary_large_image' together with the `images` field above.
+    card: 'summary',
     title: 'Maha Strategies Research & Architecture',
     description: 'Human-AI collaborative synthesis of cross-disciplinary structural analogies.',
-    images: [`${SITE_URL}/og-research.png`],
     creator: '@mayon_rajan',
   },
 };
@@ -55,28 +71,29 @@ export const metadata: Metadata = {
 export const researchHomeLd = {
   '@context': 'https://schema.org',
   '@graph': [
+    // This page is where the Organization and Person nodes are DEFINED. Every
+    // other page on the site — papers, atlases, registry, standard, and the
+    // whole learning library — references them by `@id` alone. Both are spread
+    // from lib/entity.ts so the definition cannot drift from the references.
     {
-      '@type': 'Organization',
-      '@id': `${SITE_URL}/#org`,
-      name: 'Maha Strategies',
-      url: ORG_URL,
+      ...MAHA_ORGANIZATION,
       logo: {
         '@type': 'ImageObject',
         url: `${SITE_URL}/logo.png`,
         width: 512,
         height: 512,
-        caption: 'Maha Strategies',
+        caption: MAHA_ORGANIZATION.name,
       },
-      sameAs: [ORG_URL],
     },
     {
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#architect`,
-      name: 'Mayone Maha Rajan',
-      url: AUTHOR_URL,
+      ...MAYON_RAJAN,
       jobTitle: 'Research Architect and Curator',
-      affiliation: { '@id': `${SITE_URL}/#org` },
-      sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan', 'https://x.com/mayon_rajan'],
+      affiliation: { '@id': MAHA_ORGANIZATION_ID },
+      sameAs: [
+        ...MAYON_RAJAN.sameAs,
+        'https://www.linkedin.com/in/mayonemaharajan',
+        'https://x.com/mayon_rajan',
+      ],
     },
     {
       '@type': 'WebSite',
@@ -85,7 +102,7 @@ export const researchHomeLd = {
       name: 'Maha Strategies Research & Architecture',
       description:
         'An open-access research project applying agentic AI, under human curation, to surface cross-disciplinary structural analogies as testable hypotheses.',
-      publisher: { '@id': `${SITE_URL}/#org` },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       inLanguage: 'en',
       isAccessibleForFree: true,
     },
@@ -153,8 +170,8 @@ export const researchHomeLd = {
       datePublished: '2026-07-26',
       dateModified: '2026-07-26',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
       creativeWorkStatus: 'Preprint',
@@ -171,8 +188,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-01',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/the-maha-framework.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -192,8 +209,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-05',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/planet-nine-forecast.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -212,8 +229,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-08',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/the_perturber_question.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -228,8 +245,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-07',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/readout_plasticity_paper.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -244,8 +261,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-10',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/machine_learning_g2_betti.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -260,8 +277,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-10',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/de_sitter_swampland_map.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -276,8 +293,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-09',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/retrograde_p9.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -292,8 +309,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-03',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/thermodynamic-isomorphism.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -313,8 +330,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-04',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/dissolving-self-ocean-planet.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -329,8 +346,8 @@ export const researchHomeLd = {
       datePublished: '2026-02-15',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/chronobiological-entrainment.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -345,8 +362,8 @@ export const researchHomeLd = {
       datePublished: '2026-06-02',
       dateModified: '2026-06-11',
       inLanguage: 'en',
-      author: { '@id': `${SITE_URL}/#architect` },
-      publisher: { '@id': `${SITE_URL}/#org` },
+      author: { '@id': MAYON_RAJAN_PERSON_ID },
+      publisher: { '@id': MAHA_ORGANIZATION_ID },
       image: `${SITE_URL}/og/commercial-fusion-viability.png`,
       isAccessibleForFree: true,
       license: 'https://creativecommons.org/licenses/by/4.0/',

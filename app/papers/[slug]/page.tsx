@@ -17,6 +17,7 @@ import { getPaperReferences } from '@/lib/paper-references';
 import { getBibtex, getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
 import { getAtlasForPaper } from '@/lib/atlas/de-sitter';
+import { MAHA_ORGANIZATION_ID, MAYON_RAJAN_PERSON_ID } from '@/lib/entity';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 const ORG_URL = 'https://www.mahastrategies.com';
@@ -208,14 +209,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const meta = (PAPER_META as any)[slug];
   if (!meta) {
-    return { title: 'Paper | Maha Strategies Research' };
+    return { title: 'Paper' };
   }
   const url = `${SITE_URL}/papers/${slug}`;
   const ogImage = `${SITE_URL}/og/${slug}.png`;
   const dates = PAPER_DATES[slug] ?? { published: '2026-06-01', modified: '2026-06-11' };
   return {
     metadataBase: new URL(SITE_URL),
-    title: `${meta.title} | Maha Strategies Research`,
+    title: `${meta.title}`,
     description: meta.description,
     keywords: meta.about,
     authors: [{ name: 'Mayone Maha Rajan', url: AUTHOR_URL }],
@@ -296,11 +297,11 @@ export default async function PaperPage({ params }: { params: Promise<{ slug: st
     ? {
         '@context': 'https://schema.org',
         '@graph': [
-          { '@type': 'Organization', '@id': `${SITE_URL}/#org`, name: 'Maha Strategies', url: ORG_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
-          { '@type': 'Person', '@id': `${SITE_URL}/#architect`, name: 'Mayone Maha Rajan', url: AUTHOR_URL, jobTitle: 'Research Architect and Curator', affiliation: { '@id': `${SITE_URL}/#org` }, sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan'] },
+          { '@type': 'Organization', '@id': MAHA_ORGANIZATION_ID, name: 'Maha Strategies', url: ORG_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
+          { '@type': 'Person', '@id': MAYON_RAJAN_PERSON_ID, name: 'Mayone Maha Rajan', url: AUTHOR_URL, jobTitle: 'Research Architect and Curator', affiliation: { '@id': MAHA_ORGANIZATION_ID }, sameAs: [AUTHOR_URL, 'https://www.linkedin.com/in/mayonemaharajan'] },
           { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumbs`, itemListElement: [ { '@type': 'ListItem', position: 1, name: 'Research Home', item: SITE_URL }, { '@type': 'ListItem', position: 2, name: meta.title, item: url } ] },
           { '@type': 'WebPage', '@id': url, url, name: meta.title, isPartOf: { '@id': `${SITE_URL}/#website` }, primaryImageOfPage: { '@type': 'ImageObject', contentUrl: ogImage }, inLanguage: 'en', isAccessibleForFree: true },
-          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': `${SITE_URL}/#architect` }, publisher: { '@id': `${SITE_URL}/#org` }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: workingPaper?.status ?? 'Working paper', version: workingPaper?.version, ...(zenodo ? { sameAs: zenodo.doiUrl, identifier: [{ '@type': 'PropertyValue', propertyID: 'DOI', value: zenodo.doi, url: zenodo.doiUrl }, { '@type': 'PropertyValue', propertyID: 'Zenodo concept DOI', value: zenodo.conceptDoi, url: `https://doi.org/${zenodo.conceptDoi}` }] } : {}), citation: references.map((reference) => reference.text), encoding: [{ '@type': 'MediaObject', encodingFormat: 'application/pdf', contentUrl: `${url}.pdf` }, { '@type': 'MediaObject', encodingFormat: 'application/x-bibtex', contentUrl: `${url}/citation.bib` }, { '@type': 'MediaObject', encodingFormat: 'text/yaml', contentUrl: `${url}/citation.cff` }], speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
+          { '@type': 'ScholarlyArticle', '@id': `${url}#article`, mainEntityOfPage: { '@type': 'WebPage', '@id': url }, headline: meta.title, alternativeHeadline: meta.description, description: meta.description, abstract: meta.abstract, url, image: ogImage, datePublished: new Date(dates.published).toISOString(), dateModified: new Date(dates.modified).toISOString(), inLanguage: 'en', author: { '@id': MAYON_RAJAN_PERSON_ID }, publisher: { '@id': MAHA_ORGANIZATION_ID }, isAccessibleForFree: true, license: 'https://creativecommons.org/licenses/by/4.0/', keywords: meta.about.join(', '), about: aboutLinked, isPartOf: { '@id': `${SITE_URL}/#collection` }, creativeWorkStatus: workingPaper?.status ?? 'Working paper', version: workingPaper?.version, ...(zenodo ? { sameAs: zenodo.doiUrl, identifier: [{ '@type': 'PropertyValue', propertyID: 'DOI', value: zenodo.doi, url: zenodo.doiUrl }, { '@type': 'PropertyValue', propertyID: 'Zenodo concept DOI', value: zenodo.conceptDoi, url: `https://doi.org/${zenodo.conceptDoi}` }] } : {}), citation: references.map((reference) => reference.text), encoding: [{ '@type': 'MediaObject', encodingFormat: 'application/pdf', contentUrl: `${url}.pdf` }, { '@type': 'MediaObject', encodingFormat: 'application/x-bibtex', contentUrl: `${url}/citation.bib` }, { '@type': 'MediaObject', encodingFormat: 'text/yaml', contentUrl: `${url}/citation.cff` }], speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#tldr','article','h1','h2'] } }
         ]
       }
     : null;

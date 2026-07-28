@@ -42,7 +42,7 @@ export async function generateMetadata({
   const descriptor = AUDIENCE_ROLE_DESCRIPTORS[audienceRole];
 
   return {
-    title: `For ${descriptor.label.toLowerCase()}s · The Mayon Learning Library`,
+    title: `For ${descriptor.label.toLowerCase()}s`,
     description: descriptor.definition,
     alternates: { canonical: `${SITE_URL}${audiencePath(audienceRole)}` },
   };

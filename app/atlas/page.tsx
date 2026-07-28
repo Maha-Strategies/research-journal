@@ -7,7 +7,7 @@ const SITE_URL = 'https://research.mahastrategies.com';
 const URL = `${SITE_URL}${ATLAS_CATALOG_PATH}`;
 
 export const metadata: Metadata = {
-  title: 'Research Atlas Catalog | Maha Strategies Research',
+  title: 'Research Atlas Catalog',
   description: 'Public, source-aware research atlases from Maha Strategies Research, with their claim ledgers, source trails, limitations, and machine-readable records.',
   alternates: { canonical: ATLAS_CATALOG_PATH },
   robots: { index: true, follow: true },

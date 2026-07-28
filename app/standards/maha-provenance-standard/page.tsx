@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { MAHA_ORGANIZATION_ID, MAYON_RAJAN_PERSON_ID } from '@/lib/entity';
 
 import {
   CONDITIONAL_CLAUSES,
@@ -19,7 +20,7 @@ const STANDARD_URL = `${SITE_URL}${STANDARD_PATH}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${STANDARD_META.title} | Maha Strategies Research`,
+  title: `${STANDARD_META.title}`,
   description: STANDARD_META.description,
   keywords: [
     'Research provenance',
@@ -58,17 +59,17 @@ export default function MahaProvenanceStandardPage() {
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': `${SITE_URL}/#org`,
+        '@id': MAHA_ORGANIZATION_ID,
         name: 'Maha Strategies',
         url: ORG_URL,
       },
       {
         '@type': 'Person',
-        '@id': `${SITE_URL}/#architect`,
+        '@id': MAYON_RAJAN_PERSON_ID,
         name: 'Mayone Maha Rajan',
         url: AUTHOR_URL,
         jobTitle: 'Research Architect and Curator',
-        affiliation: { '@id': `${SITE_URL}/#org` },
+        affiliation: { '@id': MAHA_ORGANIZATION_ID },
       },
       {
         '@type': 'BreadcrumbList',
@@ -104,8 +105,8 @@ export default function MahaProvenanceStandardPage() {
         isAccessibleForFree: true,
         license: STANDARD_META.license,
         creativeWorkStatus: STANDARD_META.status,
-        author: { '@id': `${SITE_URL}/#architect` },
-        publisher: { '@id': `${SITE_URL}/#org` },
+        author: { '@id': MAYON_RAJAN_PERSON_ID },
+        publisher: { '@id': MAHA_ORGANIZATION_ID },
         usageInfo: STANDARD_META.statusNote,
         hasDefinedTerm: STANDARD_CLAUSES.map((clause) => ({
           '@type': 'DefinedTerm',

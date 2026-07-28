@@ -34,7 +34,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { claimId } = await params;
   const claim = getClaim(claimId);
-  if (!claim) return { title: 'Claim not found | Maha Strategies Research' };
+  if (!claim) return { title: 'Claim not found' };
 
   const status = getStatus(claim.status);
   const url = `${ATLAS_URL}/claims/${claim.ref}`;

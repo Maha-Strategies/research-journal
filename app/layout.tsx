@@ -23,14 +23,15 @@ const SITE_DESCRIPTION =
  * Site-wide metadata defaults. Any route that does not set its own value
  * inherits these.
  *
- * NO `title.template` HERE — deliberately. Several routes already bake the site
- * name into their own title (app/papers/[slug] appends
- * "| Maha Strategies Research"; the library pages append
- * "· The Mayon Learning Library"). Adding a template would append the suffix a
- * second time and ship "… | Maha Strategies Research | Maha Strategies
- * Research" to search results. `default` covers routes that set no title at all,
- * which is what a root fallback is for. See the note in the handoff about
- * introducing a template properly.
+ * `title.template` is the single place the site name is appended to a page
+ * title. Leaf routes now set only their own subject ("Reading an Alert Level",
+ * "The de Sitter Problem in the String Swampland") and the suffix is added here.
+ * Do NOT re-add "| Maha Strategies Research" to a page's own title — it will be
+ * appended twice.
+ *
+ * Per the Next.js docs, a template applies to CHILD segments only, never to a
+ * `page.tsx` in the same segment. app/page.tsx is the root page, so it sets its
+ * own full title and is unaffected by this template.
  *
  * NO `openGraph.images` HERE — deliberately. The referenced social card
  * (/og-research.png) is not present in public/, and a sitewide og:image
@@ -39,10 +40,10 @@ const SITE_DESCRIPTION =
  */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  // A plain string, not `{ default, template }`: Next's Metadata type requires
-  // `template` whenever the object form is used, and a template is exactly what
-  // must not be set here (see above). A bare string is the fallback title.
-  title: `${SITE_NAME} | Deep Tech & Hazard Literacy`,
+  title: {
+    default: `${SITE_NAME} | Deep Tech & Hazard Literacy`,
+    template: `%s | ${SITE_NAME}`,
+  },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   authors: [{ name: MAYON_RAJAN.name, url: PERSON_SITE_URL }],

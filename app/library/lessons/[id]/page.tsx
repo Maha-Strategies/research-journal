@@ -31,7 +31,7 @@ export async function generateMetadata({
   if (!lesson) return {};
 
   return {
-    title: `${lesson.title} · The Mayon Learning Library`,
+    title: lesson.title,
     description: lesson.description,
     alternates: { canonical: lessonUrl(lesson) },
   };

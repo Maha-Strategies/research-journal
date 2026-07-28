@@ -10,7 +10,7 @@ export async function generateStaticParams() { return getSourceCards().map((sour
 
 export async function generateMetadata({ params }: { params: Promise<{ sourceId: string }> }): Promise<Metadata> {
   const source = getSourceCard((await params).sourceId);
-  if (!source) return { title: 'Source not found | Maha Strategies Research' };
+  if (!source) return { title: 'Source not found' };
   const url = `${SITE_URL}${getSourceUrl(source.id)}`;
   return { title: `${source.label} | Atlas source record`, description: `${source.whyHere} Source record within the de Sitter / String Swampland Atlas.`, alternates: { canonical: getSourceUrl(source.id) }, robots: { index: true, follow: true }, openGraph: { type: 'article', url, title: `${source.label} | Atlas source record`, description: source.whyHere } };
 }

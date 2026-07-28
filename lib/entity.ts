@@ -132,6 +132,8 @@ export type OrganizationNode = {
   '@id': string;
   name: string;
   url: string;
+  /** Other web presences that are the same organization. */
+  sameAs: string[];
   description: string;
 };
 
@@ -147,14 +149,29 @@ export type PersonNode = {
 };
 
 /**
- * The publisher. Cross-domain note: `url` points at this site, which is the
- * organization's own web home.
+ * Canonical origin for the parent organization's own site.
+ *
+ * Distinct from SITE_URL: research.mahastrategies.com is the research
+ * publication, mahastrategies.com is the organization behind it. Carried in
+ * `sameAs` so the two are understood as one organization rather than two.
+ */
+export const ORG_PARENT_URL = 'https://www.mahastrategies.com';
+
+/**
+ * The publisher. `url` points at this site, which is the research practice's
+ * own web home; `sameAs` links the parent organization's site.
+ *
+ * `@id` is anchored here rather than on mahastrategies.com because this is the
+ * site that defines the node. Every page on this site — homepage, papers,
+ * atlases, registry, standard, and the whole library — points `publisher` and
+ * `provider` at this one identifier.
  */
 export const MAHA_ORGANIZATION: OrganizationNode = {
   '@type': 'Organization',
   '@id': MAHA_ORGANIZATION_ID,
   name: 'Maha Strategies Research',
   url: SITE_URL,
+  sameAs: [ORG_PARENT_URL],
   description:
     'An open, human-curated research practice publishing versioned, source-aware artifacts with their provenance, status, and citation boundaries stated up front.',
 };

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { MAHA_ORGANIZATION_ID, MAYON_RAJAN_PERSON_ID } from '@/lib/entity';
 
 import RegistryList from '@/components/RegistryList';
 import {
@@ -21,7 +22,7 @@ const REGISTRY_URL = `${SITE_URL}${REGISTRY_PATH}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${REGISTRY_META.title} | Maha Strategies Research`,
+  title: `${REGISTRY_META.title}`,
   description: REGISTRY_META.description,
   keywords: [
     'Research context registry',
@@ -59,17 +60,17 @@ export default function RegistryPage() {
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': `${SITE_URL}/#org`,
+        '@id': MAHA_ORGANIZATION_ID,
         name: 'Maha Strategies',
         url: ORG_URL,
       },
       {
         '@type': 'Person',
-        '@id': `${SITE_URL}/#architect`,
+        '@id': MAYON_RAJAN_PERSON_ID,
         name: 'Mayone Maha Rajan',
         url: AUTHOR_URL,
         jobTitle: 'Research Architect and Curator',
-        affiliation: { '@id': `${SITE_URL}/#org` },
+        affiliation: { '@id': MAHA_ORGANIZATION_ID },
       },
       {
         '@type': 'BreadcrumbList',
@@ -86,7 +87,7 @@ export default function RegistryPage() {
         name: REGISTRY_META.title,
         description: REGISTRY_META.description,
         isPartOf: { '@id': `${SITE_URL}/#website` },
-        publisher: { '@id': `${SITE_URL}/#org` },
+        publisher: { '@id': MAHA_ORGANIZATION_ID },
         inLanguage: 'en',
         isAccessibleForFree: true,
         license: REGISTRY_META.license,
@@ -116,8 +117,8 @@ export default function RegistryPage() {
             isAccessibleForFree: true,
             creativeWorkStatus: artifact.status,
             keywords: artifact.keywords.join(', '),
-            author: { '@id': `${SITE_URL}/#architect` },
-            publisher: { '@id': `${SITE_URL}/#org` },
+            author: { '@id': MAYON_RAJAN_PERSON_ID },
+            publisher: { '@id': MAHA_ORGANIZATION_ID },
             ...(artifact.doi
               ? {
                   sameAs: artifact.doi.doiUrl,

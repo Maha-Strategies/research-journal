@@ -19,6 +19,7 @@ import {
 import { DEBATE_PROBLEMS } from '@/lib/atlas/de-sitter-debate';
 import { getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
+import { MAHA_ORGANIZATION_ID, MAYON_RAJAN_PERSON_ID } from '@/lib/entity';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 const ORG_URL = 'https://www.mahastrategies.com';
@@ -30,7 +31,7 @@ const PAPER_URL = `${SITE_URL}${PAPER_PATH}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${ATLAS_META.title} | Maha Strategies Research`,
+  title: `${ATLAS_META.title}`,
   description: ATLAS_META.description,
   keywords: [
     'de Sitter problem',
@@ -76,17 +77,17 @@ export default function DeSitterAtlasPage() {
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': `${SITE_URL}/#org`,
+        '@id': MAHA_ORGANIZATION_ID,
         name: 'Maha Strategies',
         url: ORG_URL,
       },
       {
         '@type': 'Person',
-        '@id': `${SITE_URL}/#architect`,
+        '@id': MAYON_RAJAN_PERSON_ID,
         name: 'Mayone Maha Rajan',
         url: AUTHOR_URL,
         jobTitle: 'Research Architect and Curator',
-        affiliation: { '@id': `${SITE_URL}/#org` },
+        affiliation: { '@id': MAHA_ORGANIZATION_ID },
       },
       {
         '@type': 'BreadcrumbList',
@@ -121,8 +122,8 @@ export default function DeSitterAtlasPage() {
         version: ATLAS_META.version,
         datePublished: new Date(ATLAS_META.datePublished).toISOString(),
         dateModified: new Date(ATLAS_META.dateModified).toISOString(),
-        author: { '@id': `${SITE_URL}/#architect` },
-        publisher: { '@id': `${SITE_URL}/#org` },
+        author: { '@id': MAYON_RAJAN_PERSON_ID },
+        publisher: { '@id': MAHA_ORGANIZATION_ID },
         isAccessibleForFree: true,
         license: ATLAS_META.license,
         creativeWorkStatus: 'Non-peer-reviewed educational research map',

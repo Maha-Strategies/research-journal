@@ -16,6 +16,7 @@ import {
 import { ATLAS_META, ATLAS_PAPER_SLUG, ATLAS_PATH, EPISTEMIC_STATUSES } from '@/lib/atlas/de-sitter';
 import { getWorkingPaper } from '@/lib/working-papers';
 import { getZenodoRecord } from '@/lib/zenodo-records';
+import { MAHA_ORGANIZATION_ID, MAYON_RAJAN_PERSON_ID } from '@/lib/entity';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 const ORG_URL = 'https://www.mahastrategies.com';
@@ -25,7 +26,7 @@ const PAPER_PATH = `/papers/${ATLAS_PAPER_SLUG}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${PACK_META.title} | Maha Strategies Research`,
+  title: `${PACK_META.title}`,
   description: PACK_META.description,
   keywords: [
     'de Sitter problem',
@@ -69,17 +70,17 @@ export default function ContextPackPage() {
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': `${SITE_URL}/#org`,
+        '@id': MAHA_ORGANIZATION_ID,
         name: 'Maha Strategies',
         url: ORG_URL,
       },
       {
         '@type': 'Person',
-        '@id': `${SITE_URL}/#architect`,
+        '@id': MAYON_RAJAN_PERSON_ID,
         name: 'Mayone Maha Rajan',
         url: AUTHOR_URL,
         jobTitle: 'Research Architect and Curator',
-        affiliation: { '@id': `${SITE_URL}/#org` },
+        affiliation: { '@id': MAHA_ORGANIZATION_ID },
       },
       {
         '@type': 'BreadcrumbList',
@@ -118,8 +119,8 @@ export default function ContextPackPage() {
         learningResourceType: ['Research context package', 'Annotated bibliography', 'Claim ledger'],
         educationalLevel: 'Advanced undergraduate to graduate',
         educationalUse: INTENDED_USES.map((entry) => entry.audience),
-        creator: { '@id': `${SITE_URL}/#architect` },
-        publisher: { '@id': `${SITE_URL}/#org` },
+        creator: { '@id': MAYON_RAJAN_PERSON_ID },
+        publisher: { '@id': MAHA_ORGANIZATION_ID },
         isBasedOn: [
           { '@type': 'LearningResource', '@id': `${PACK_URLS.atlas}#atlas`, url: PACK_URLS.atlas, name: ATLAS_META.title },
           {
