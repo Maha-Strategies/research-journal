@@ -4,8 +4,15 @@ import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } fro
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
 import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
+import { LEARNING_MODULES, getAllLessons } from '@/lib/library/registry';
+import { AUDIENCE_ROLES, LIBRARY_PATH, audiencePath, lessonPath, modulePath } from '@/lib/library/schema';
 
 const SITE_URL = 'https://research.mahastrategies.com';
+
+// The library has no per-lesson revision dates yet. One honest date for the
+// whole section beats a `new Date()` that would tell crawlers every lesson
+// changed on every build. Bump this when library content materially changes.
+const LIBRARY_LAST_MODIFIED = '2026-07-28';
 
 // Publication dates from each paper's schema (datePublished).
 // Update lastModified when a paper's content materially changes.
@@ -97,5 +104,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [home, registry, standard, ...paperEntries, ...atlasEntries];
+  // Library routes are derived from the registry and the same path helpers the
+  // pages use, so a sitemap URL cannot drift from the route that serves it or
+  // from the canonical URL in the page's JSON-LD.
+  const libraryLastModified = new Date(LIBRARY_LAST_MODIFIED);
+
+  const libraryEntries = [
+    { path: LIBRARY_PATH, priority: 0.9 },
+    ...LEARNING_MODULES.map((m) => ({ path: modulePath(m.slug), priority: 0.8 })),
+    ...getAllLessons().map((lesson) => ({ path: lessonPath(lesson), priority: 0.8 })),
+    ...AUDIENCE_ROLES.map((role) => ({ path: audiencePath(role), priority: 0.6 })),
+  ].map((entry) => ({
+    url: `${SITE_URL}${entry.path}`,
+    lastModified: libraryLastModified,
+    changeFrequency: 'monthly' as const,
+    priority: entry.priority,
+  }));
+
+  return [home, registry, standard, ...paperEntries, ...atlasEntries, ...libraryEntries];
 }
