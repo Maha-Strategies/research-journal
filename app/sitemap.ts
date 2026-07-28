@@ -15,6 +15,9 @@ const SITE_URL = 'https://research.mahastrategies.com';
 // changed on every build. Bump this when library content materially changes.
 const LIBRARY_LAST_MODIFIED = '2026-07-28';
 
+// Keep in step with GATEWAY_UPDATED in app/atlas/page.tsx.
+const ATLAS_GATEWAY_UPDATED = '2026-07-28';
+
 // Publication dates from each paper's schema (datePublished).
 // Update lastModified when a paper's content materially changes.
 const papers: { slug: string; lastModified: string }[] = [
@@ -117,6 +120,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // Gateway aggregate discovery endpoints. Listed so a crawler that reaches
+  // /atlas can find the machine-readable indexes without parsing the HTML.
+  const gatewayEndpoints = [
+    '/atlas/manifest.json',
+    '/atlas/claims.json',
+    '/atlas/concepts.json',
+    '/atlas/sources.json',
+    '/atlas/registry.json',
+  ].map((path) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: new Date(ATLAS_GATEWAY_UPDATED),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
+
   // Library routes are derived from the registry and the same path helpers the
   // pages use, so a sitemap URL cannot drift from the route that serves it or
   // from the canonical URL in the page's JSON-LD.
@@ -134,5 +152,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: entry.priority,
   }));
 
-  return [home, registry, standard, ...paperEntries, ...atlasEntries, ...libraryEntries];
+  return [
+    home,
+    registry,
+    standard,
+    ...paperEntries,
+    ...atlasEntries,
+    ...gatewayEndpoints,
+    ...libraryEntries,
+  ];
 }

@@ -1,4 +1,4 @@
-import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
+import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PAPER_SLUG, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
 import { QC_ATLAS_PATH, QC_CLAIMS, QC_CONCEPTS, QC_META, QC_SOURCES } from '@/lib/atlas/quantum-computing';
 
@@ -19,6 +19,21 @@ export type AtlasCatalogEntry = {
   counts: { claims: number; concepts: number; sources: number };
   endpoints: { label: string; path: string; format: string }[];
   expansionCandidates: string[];
+  /** Who the atlas is written for, in plain language. */
+  intendedReader: string;
+  /**
+   * The human HTML entry points that ACTUALLY EXIST for this atlas.
+   *
+   * The three atlases are deliberately not uniform — de Sitter has no
+   * methodology page and no claims index, Quantum Computing has no context
+   * pack, and only Synthetic Intelligence has a comparisons layer. This list is
+   * written per atlas rather than generated from a template, so the gateway
+   * cannot advertise a page that was never built. Adding a route here without
+   * building it produces a 404, which the post-build crawl audit catches.
+   */
+  pages: { label: string; path: string }[];
+  /** Working paper this atlas sits alongside, where one exists. */
+  relatedPaperSlug?: string;
 };
 
 export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
@@ -42,6 +57,14 @@ export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
       { label: 'Plain-text context', path: `${QC_ATLAS_PATH}/context.txt`, format: 'text/plain' },
     ],
     expansionCandidates: ['Add a claim only after primary or authoritative source resolution, status assignment, limitation writing, and review.', 'Do not turn platform announcements, raw qubit counts, or roadmap targets into standalone evidence records.'],
+    intendedReader:
+      'A technically literate non-specialist trying to separate what quantum hardware demonstrably does today from what is projected, marketed, or still theoretical.',
+    // No context-pack page for this atlas.
+    pages: [
+      { label: 'Concepts', path: `${QC_ATLAS_PATH}/concepts` },
+      { label: 'Sources', path: `${QC_ATLAS_PATH}/sources` },
+      { label: 'Methodology', path: `${QC_ATLAS_PATH}/methodology` },
+    ],
   },
   {
     id: 'de-sitter-swampland',
@@ -69,6 +92,15 @@ export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
       'Add source-backed argument and response records only when the underlying literature map is expanded and re-verified.',
       'Treat new camps, interpretations, and observational links as editorial candidates—not pages—until sources and status labels are reviewed.',
     ],
+    intendedReader:
+      'A reader with some physics background who wants the shape of an unresolved research debate — who argues what, on what evidence — without being told which side is right.',
+    // No methodology page and no claims index for this atlas.
+    pages: [
+      { label: 'Concepts', path: `${ATLAS_PATH}/concepts` },
+      { label: 'Sources', path: `${ATLAS_PATH}/sources` },
+      { label: 'Context pack', path: `${ATLAS_PATH}/context-pack` },
+    ],
+    relatedPaperSlug: ATLAS_PAPER_SLUG,
   },
   {
     id: 'synthetic-intelligence',
@@ -98,6 +130,17 @@ export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
       'Resolve additional primary sources before adding any claim, source, or concept page.',
       'Keep LLM/agent evaluation separate from the Quantum Computing Atlas, while linking only where workload and computing-boundary context is relevant.',
       'Do not convert benchmark leaderboard changes or provider marketing claims into public pages without independently verified primary evidence.',
+    ],
+    intendedReader:
+      'Someone deciding how much weight to put on claims about AI capability — practitioner, educator, or policy reader — who needs the evidence and its limits stated together.',
+    // The only atlas with a claims index and a comparisons decision layer.
+    pages: [
+      { label: 'Claims', path: '/atlas/synthetic-intelligence/claims' },
+      { label: 'Comparisons', path: '/atlas/synthetic-intelligence/comparisons' },
+      { label: 'Concepts', path: '/atlas/synthetic-intelligence/concepts' },
+      { label: 'Sources', path: '/atlas/synthetic-intelligence/sources' },
+      { label: 'Methodology', path: '/atlas/synthetic-intelligence/methodology' },
+      { label: 'Context pack', path: '/atlas/synthetic-intelligence/context-pack' },
     ],
   },
 ];
@@ -133,6 +176,14 @@ export function validateAtlasCatalog(entries = ATLAS_CATALOG): AtlasCatalogValid
     for (const endpoint of atlas.endpoints) {
       if (!endpoint.path.startsWith(atlas.canonicalPath)) errors.push(`${atlas.id}: endpoint ${endpoint.label} is outside its canonical path.`);
       if (!endpoint.format.includes('/')) errors.push(`${atlas.id}: endpoint ${endpoint.label} needs a MIME type.`);
+    }
+    if (!atlas.intendedReader) errors.push(`${atlas.id}: intendedReader is required — the gateway states who each atlas is for.`);
+    if (!atlas.pages.length) errors.push(`${atlas.id}: at least one human entry point is required.`);
+    const pagePaths = new Set<string>();
+    for (const page of atlas.pages) {
+      if (!page.path.startsWith(`${atlas.canonicalPath}/`)) errors.push(`${atlas.id}: page ${page.label} is outside its canonical path.`);
+      if (pagePaths.has(page.path)) errors.push(`${atlas.id}: duplicate page path ${page.path}.`);
+      pagePaths.add(page.path);
     }
   }
   return { valid: errors.length === 0, errors, checkedAt: '2026-07-27' };

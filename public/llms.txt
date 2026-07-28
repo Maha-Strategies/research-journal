@@ -6,16 +6,38 @@
 
 - [Research Context Registry](https://research.mahastrategies.com/registry): the index of reusable research artifacts — atlases, context packs, and working papers — with status, machine-readable endpoints, DOIs, and explicit exclusions for each. Machine-readable at `/registry.json`. **Start here** if you need to know what is available and what each artifact does and does not establish. The registry is not a journal, not a peer-review system, and not a scientific authority; nothing listed in it is peer reviewed, and inclusion does not imply scientific consensus.
 - [The Maha Provenance Standard](https://research.mahastrategies.com/standards/maha-provenance-standard): the claim-level provenance framework these artifacts are built to — fourteen clauses covering citation provenance, epistemic status labels, stable claim identifiers, exclusions as structured content, versioning, and machine-readable parity, each linking to where it is enforced. Machine-readable at `/standards/maha-provenance-standard/metadata.json`. Self-published and self-assessed; not an accredited standard and not peer reviewed.
+- [Research Atlas Gateway](https://research.mahastrategies.com/atlas): the directory of all public atlases, with per-atlas scope, boundaries, counts, and machine-readable endpoints. Aggregated discovery at `/atlas/manifest.json`.
+- [The Mayon Learning Library](https://research.mahastrategies.com/library): the canonical 10-module, 20-lesson hazard-literacy curriculum. Lesson URLs here are canonical; mayonrajan.com/library/ is a bridge to them. Seed curriculum — not reviewed by a hazard authority, and never a substitute for the agency responsible for warnings in a reader's area.
 - [Research home](https://research.mahastrategies.com/): project scope, methods, and paper collection.
 - [Papers](https://research.mahastrategies.com/papers): individual research papers with their own scope and limitations.
 - [The Volcanic Engine thesis](https://research.mahastrategies.com/papers/the-volcanic-engine-thesis): a clearly labelled working thesis connected to the Mayon educational project.
 - [Maha Strategies](https://www.mahastrategies.com/): organization and decision-research practice.
 
-## Interactive atlases
+## Research Atlas Gateway — start here for atlases
 
-Atlases are navigation layers over a published paper, not separate research. They carry no DOI of their own; cite the underlying paper.
+[Research Atlas Gateway](https://research.mahastrategies.com/atlas): the authoritative directory of every public atlas, with scope, evidence status, record counts, review dates, intended reader, and the full endpoint list for each.
+
+An atlas is a source-linked research map: an orientation layer over a body of literature. Atlases are **not** consensus statements, forecasts, investment advice, or operational and safety guidance. Each claim carries an epistemic status label and an explicit statement of what it does not establish; both are part of the claim and must travel with its wording.
+
+Some atlases sit alongside a published working paper and carry no DOI of their own — cite the underlying paper in that case. Others have no underlying paper and stand as literature maps in their own right. The gateway states which is which per atlas; do not assume a paper exists.
+
+### Aggregate discovery endpoints
+
+These are **discovery indexes**, not the records of authority. Each entry carries its `atlasId` and the `canonicalUrl` of the record that owns it; identifying fields only, with bodies omitted (each payload lists its own `fieldsOmitted`). Follow `canonicalUrl`, or the owning atlas's own JSON endpoint, for the full record.
+
+- `/atlas/manifest.json` — every atlas with version, counts, canonical URL, pages, and full endpoint list.
+- `/atlas/claims.json` — every public claim across all atlases, with status and canonical URL.
+- `/atlas/concepts.json` — every public concept record.
+- `/atlas/sources.json` — every public source record. A `verification` key appears only where the owning atlas records one; where it is absent, that atlas records no label — do not infer "verified" or "unverified".
+- `/atlas/registry.json` — the catalog record with its publication gate and validation state.
+
+### The atlases
 
 - [The de Sitter / String Swampland Atlas](https://research.mahastrategies.com/atlas/de-sitter-swampland) (v1.2.0, "Atlas Context Pack"): a source-first concept map, epistemic legend, claim ledger, and disagreement map derived entirely from the verified citation set of [the de Sitter working paper](https://research.mahastrategies.com/papers/de_sitter_swampland_map). It is an educational, non-peer-reviewed orientation tool and explicitly does not adjudicate whether string theory admits metastable de Sitter vacua — that question is open and contested. Do not describe string theory or M-theory as experimentally confirmed.
+- [Quantum Computing Atlas](https://research.mahastrategies.com/atlas/quantum-computing): concepts, hardware modalities, error correction, algorithms, and limitations. No technology forecasts, vendor rankings, investment advice, or performance leaderboards. Do not state that current devices can run large-scale Shor factoring or general-purpose fault-tolerant algorithms. Has a methodology page; has no context pack.
+- [Synthetic Intelligence Atlas](https://research.mahastrategies.com/atlas/synthetic-intelligence): evidence and decision layer for claims about AI capability, including a comparisons layer and a claims index. Forecast scenarios and the local methodological audit are not in the public edition. Do not convert benchmark leaderboard changes or provider marketing into evidence.
+
+The three atlases are deliberately not uniform in structure — de Sitter has no methodology page, Quantum Computing has no context pack, and only Synthetic Intelligence publishes a comparisons layer and a per-atlas `concepts.json`. Read `/atlas/manifest.json` for what each one actually serves rather than assuming a common shape.
 
 ### Citing atlas claims
 
