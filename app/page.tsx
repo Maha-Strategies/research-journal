@@ -12,6 +12,7 @@ import {
   PERSON_SITE_URL,
   SITE_URL,
 } from '@/lib/entity';
+import { getPrimaryNavSurfaces, getPublicSurfaces } from '@/lib/surfaces';
 
 // Identity constants now come from lib/entity.ts. The former local SITE_URL,
 // ORG_URL, and AUTHOR_URL duplicated them and were free to drift — which is
@@ -387,9 +388,17 @@ export default function ResearchHomepage() {
             Maha Strategies <span className="text-indigo-400">///</span> Research & Architecture
           </div>
           <div className="flex flex-wrap gap-6">
-            <Link href="/registry" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
-              [ Registry ]
-            </Link>
+            {/* Derived from lib/surfaces.ts — a new atlas or library appears
+                here without editing this file. */}
+            {getPrimaryNavSurfaces().map((surface) => (
+              <Link
+                key={surface.id}
+                href={surface.path}
+                className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors"
+              >
+                [ {surface.kind === 'library' ? 'Library' : surface.kind === 'catalog' ? 'Atlases' : 'Registry'} ]
+              </Link>
+            ))}
             <a href="https://www.mahastrategies.com/about" target="_blank" rel="noreferrer" className="font-mono text-[10px] tracking-widest text-zinc-400 hover:text-indigo-400 uppercase transition-colors">
               [ Publisher ]
             </a>
@@ -413,6 +422,45 @@ export default function ResearchHomepage() {
             An avant-garde open-access research project dedicated to exploring cross-disciplinary structural analogies. We treat artificial intelligence not as a surrogate author, but as an advanced cognitive instrument for synthesizing complex theoretical frameworks under rigorous human curation.
           </p>
         </header>
+
+        {/* RESEARCH SURFACES — every place a reader can enter, derived from
+            lib/surfaces.ts rather than hardcoded here. Registering a new atlas
+            in ATLAS_CATALOG, or a new module in the learning library, makes it
+            reachable from the homepage automatically. */}
+        <section aria-labelledby="surfaces" className="mb-32">
+          <h2
+            id="surfaces"
+            className="font-mono text-[10px] tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-2 mb-8 font-normal"
+          >
+            Where to start
+          </h2>
+
+          <ul className="grid gap-4 md:grid-cols-2">
+            {getPublicSurfaces().map((surface) => (
+              <li key={surface.id}>
+                <Link
+                  href={surface.path}
+                  className="group block h-full border border-zinc-800 bg-zinc-900/30 p-6 transition-colors hover:border-indigo-500/60"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-mono text-[10px] tracking-widest text-indigo-400 uppercase">
+                      {surface.kindLabel}
+                    </span>
+                    <span className="shrink-0 font-mono text-[10px] tracking-widest text-zinc-600 uppercase">
+                      {surface.meta}
+                    </span>
+                  </div>
+                  <h3 className="mt-3 text-xl font-medium leading-snug text-white transition-colors group-hover:text-indigo-300">
+                    {surface.title}
+                  </h3>
+                  <p className="mt-3 text-sm font-light leading-relaxed text-zinc-400">
+                    {surface.description}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {/* PUBLISHED RESEARCH LIST */}
         <section className="mb-32">
