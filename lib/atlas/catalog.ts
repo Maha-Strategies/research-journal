@@ -89,12 +89,14 @@ export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
     endpoints: [
       { label: 'Metadata', path: '/atlas/synthetic-intelligence/metadata.json', format: 'application/json' },
       { label: 'Claim ledger', path: '/atlas/synthetic-intelligence/claims.json', format: 'application/json' },
+      { label: 'Concept records', path: '/atlas/synthetic-intelligence/concepts.json', format: 'application/json' },
       { label: 'Source trail', path: '/atlas/synthetic-intelligence/sources.json', format: 'application/json' },
+      { label: 'Context pack', path: '/atlas/synthetic-intelligence/context-pack.json', format: 'application/json' },
       { label: 'Plain-text context', path: '/atlas/synthetic-intelligence/context.txt', format: 'text/plain' },
     ],
     expansionCandidates: [
       'Resolve additional primary sources before adding any claim, source, or concept page.',
-      'Keep LLM/agent evaluation separate from a future quantum-computing atlas with its own evidence boundary.',
+      'Keep LLM/agent evaluation separate from the Quantum Computing Atlas, while linking only where workload and computing-boundary context is relevant.',
       'Do not convert benchmark leaderboard changes or provider marketing claims into public pages without independently verified primary evidence.',
     ],
   },

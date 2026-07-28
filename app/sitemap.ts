@@ -60,6 +60,11 @@ const atlases: { path: string; lastModified: string }[] = [
     lastModified: claim.reviewDate,
   })),
   { path: '/atlas/synthetic-intelligence', lastModified: SI_PUBLIC_META.dateModified },
+  { path: '/atlas/synthetic-intelligence/claims', lastModified: SI_PUBLIC_META.dateModified },
+  { path: '/atlas/synthetic-intelligence/comparisons', lastModified: SI_PUBLIC_META.dateModified },
+  ...['llms-vs-agentic-systems', 'retrieval-vs-fine-tuning', 'tool-use-vs-autonomous-execution', 'local-inference-vs-cloud-inference', 'benchmark-performance-vs-real-world-reliability'].map((slug) => ({ path: `/atlas/synthetic-intelligence/comparisons/${slug}`, lastModified: SI_PUBLIC_META.dateModified })),
+  { path: '/atlas/synthetic-intelligence/methodology', lastModified: SI_PUBLIC_META.dateModified },
+  { path: '/atlas/synthetic-intelligence/context-pack', lastModified: SI_PUBLIC_META.dateModified },
   { path: '/atlas/synthetic-intelligence/concepts', lastModified: SI_PUBLIC_META.dateModified },
   { path: '/atlas/synthetic-intelligence/sources', lastModified: SI_PUBLIC_META.dateModified },
   ...SI_PUBLIC_CONCEPTS.map((concept) => ({

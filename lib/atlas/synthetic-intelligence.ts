@@ -793,14 +793,14 @@ export const SI_PUBLIC_META = {
   shortTitle: 'Synthetic Intelligence Atlas',
   description:
     'A source-bounded map of large language models, agents, evaluation, and forecasting limits. Each public claim carries sources, a status, and limitations.',
-  version: '1.0.0',
+  version: '1.1.0',
   datePublished: '2026-07-27',
-  dateModified: '2026-07-27',
-  lastReviewed: SI_REVIEW_DATE,
+  dateModified: '2026-07-28',
+  lastReviewed: '2026-07-28',
   evidenceCutoff: SI_EVIDENCE_CUTOFF,
   license: 'https://creativecommons.org/licenses/by/4.0/',
   licenseLabel: 'CC BY 4.0',
-  statusBadge: 'First edition · 22 source-bounded claims',
+  statusBadge: 'Evidence & Decision Layer · 22 source-bounded claims',
   scope:
     'LLM mechanisms and scaling, post-training and inference-time reasoning, tool use and agents, benchmarks, construct validity, evaluation, and the limits of forecasting.',
   outOfScope: 'Quantum computing, headline benchmark leaderboards, price trajectories, and unreviewed capability forecasts.',
