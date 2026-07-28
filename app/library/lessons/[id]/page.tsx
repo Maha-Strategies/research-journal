@@ -86,6 +86,9 @@ export default async function LessonPage({ params }: { params: Promise<LessonPar
           </p>
 
           <ul className="mt-6 flex flex-wrap gap-2">
+            <li className="border border-amber-400/50 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-amber-200">
+              {lesson.educationalLevel}
+            </li>
             {lesson.audience.map((role) => (
               <li
                 key={role}
@@ -159,6 +162,43 @@ export default async function LessonPage({ params }: { params: Promise<LessonPar
             </div>
           </section>
         )}
+
+        <section aria-labelledby="sources" className="mt-12">
+          <h2
+            id="sources"
+            className="border-b border-zinc-800 pb-3 font-mono text-[10px] uppercase tracking-widest text-zinc-500"
+          >
+            Sources · {lesson.verifiedSources.length}
+          </h2>
+
+          <ul className="mt-5 space-y-4">
+            {lesson.verifiedSources.map((source) => (
+              <li key={source.url} className="text-sm leading-relaxed">
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-amber-200/90 underline decoration-zinc-700 underline-offset-4 hover:text-white"
+                >
+                  {source.label} ↗
+                </a>
+                <p className="mt-1 text-zinc-500">{source.publisher}</p>
+                <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-zinc-600">
+                  {source.verification === 'url-resolved'
+                    ? `URL resolved ${source.checkedOn}`
+                    : 'Authority named · URL not re-resolved'}
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-6 border-l border-amber-400/40 pl-4 text-xs leading-relaxed text-zinc-500">
+            The tag under each source states what was actually checked. “Authority named ·
+            URL not re-resolved” means the issuing body and document are named, but the
+            link was not re-resolved for this lesson. It is not a claim of verification,
+            and the authority’s own current bulletin always supersedes anything here.
+          </p>
+        </section>
 
         <footer className="mt-12 border-t border-zinc-800 pt-6 text-xs leading-relaxed text-zinc-600">
           Seed curriculum: illustrative teaching material written to exercise the library

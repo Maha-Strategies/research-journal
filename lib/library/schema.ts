@@ -133,6 +133,72 @@ const slug = nonEmptyString.regex(
   'must be lowercase alphanumeric words separated by single hyphens',
 );
 
+/**
+ * Who a lesson is pitched at. Distinct from `audience`: audience is the ROLE a
+ * reader occupies, this is the DEPTH the material is written to. A responder
+ * and a student can share a lesson; a K-12 and a Professional treatment of the
+ * same hazard cannot.
+ */
+export const EDUCATIONAL_LEVELS = [
+  'K-12',
+  'Undergraduate',
+  'Professional',
+  'General Public',
+] as const;
+
+export const educationalLevelSchema = z.enum(EDUCATIONAL_LEVELS);
+
+export type EducationalLevel = z.infer<typeof educationalLevelSchema>;
+
+/**
+ * How far a cited source was actually checked.
+ *
+ * This vocabulary exists because of clause P1 of the Maha Provenance Standard
+ * ("every citation carries a provenance tag"): a citation must state the basis
+ * on which it is cited, not merely that it exists. The tag describes what was
+ * checked, never whether the source is correct or authoritative.
+ */
+export const SOURCE_VERIFICATION = [
+  /** Resolved against the live URL on `checkedOn`. */
+  'url-resolved',
+  /**
+   * The issuing authority and the document are named from general knowledge,
+   * and the canonical URL has NOT been re-resolved for this artifact. This is
+   * the honest default for the seed curriculum. It is weaker than
+   * `url-resolved` and must not be presented as verification.
+   */
+  'authority-named-not-resolved',
+] as const;
+
+export const sourceVerificationSchema = z.enum(SOURCE_VERIFICATION);
+
+export type SourceVerification = z.infer<typeof sourceVerificationSchema>;
+
+/**
+ * A source a lesson stands on.
+ *
+ * DELIBERATELY NO `doi` FIELD. Clause P3 of the Maha Provenance Standard exists
+ * to prevent exactly the failure this field would invite: a derived work adding
+ * a plausible, famous, entirely real-looking identifier that nobody in the
+ * chain ever resolved. A DOI belongs here only once it has been resolved and
+ * tagged `url-resolved`, at which point the field can be added deliberately.
+ */
+export const verifiedSourceSchema = z.object({
+  /** The document or standard being cited, as its issuer titles it. */
+  label: nonEmptyString,
+  /** The authority that issues it. */
+  publisher: nonEmptyString,
+  url: z.url(),
+  verification: sourceVerificationSchema,
+  /** ISO date the URL was resolved. Required iff `verification` is resolved. */
+  checkedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+}).refine(
+  (s) => s.verification !== 'url-resolved' || Boolean(s.checkedOn),
+  { message: 'a url-resolved source must record the date it was checked', path: ['checkedOn'] },
+);
+
+export type VerifiedSource = z.infer<typeof verifiedSourceSchema>;
+
 export const learningLessonSchema = z.object({
   /** Stable identifier, unique across the whole library. Used in URLs. */
   id: slug,
@@ -175,6 +241,14 @@ export const learningLessonSchema = z.object({
    * terms rather than borrowed standard ones.
    */
   learningResourceType: z.array(nonEmptyString).min(1).optional(),
+  /** The depth the material is written to. Emitted as `educationalLevel`. */
+  educationalLevel: educationalLevelSchema,
+  /**
+   * The authorities this lesson stands on. At least one — a hazard lesson that
+   * cites nothing is asserting safety guidance on its own authority, which this
+   * library does not have. Emitted as `citation`.
+   */
+  verifiedSources: z.array(verifiedSourceSchema).min(1),
 });
 
 export type LearningLesson = z.infer<typeof learningLessonSchema>;
@@ -300,8 +374,20 @@ export type LessonSchemaNode = {
   description: string;
   inLanguage: 'en';
   learningResourceType: string[];
+  educationalLevel: string;
   isPartOf: { '@type': 'Course'; '@id': string; name?: string };
   teaches: string[];
+  /**
+   * The lesson's sources, as `CreativeWork` nodes. `url` is the issuer's
+   * canonical page. No `@id` is minted for them: this library does not own
+   * those entities and must not appear to define them.
+   */
+  citation: {
+    '@type': 'CreativeWork';
+    name: string;
+    url: string;
+    publisher: { '@type': 'Organization'; name: string };
+  }[];
   /**
    * The ordered field procedure, plus the interactive lab when the lesson
    * declares one. Mixed-type by design; entries are distinguished by `@type`,
@@ -426,12 +512,19 @@ export function generateLessonSchema(
     description: validated.description,
     inLanguage: 'en',
     learningResourceType: resourceTypes,
+    educationalLevel: validated.educationalLevel,
     isPartOf: {
       '@type': 'Course',
       '@id': `${moduleUrl(validated.moduleSlug)}#module`,
       ...(moduleTitle ? { name: moduleTitle } : {}),
     },
     teaches: validated.learningObjectives,
+    citation: validated.verifiedSources.map((source) => ({
+      '@type': 'CreativeWork' as const,
+      name: source.label,
+      url: source.url,
+      publisher: { '@type': 'Organization' as const, name: source.publisher },
+    })),
     hasPart: [...steps, ...labParts],
     audience: validated.audience.map((role) => ({
       '@type': 'EducationalAudience' as const,
