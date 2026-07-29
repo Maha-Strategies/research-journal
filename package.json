@@ -16,6 +16,7 @@
     "atlas:export": "node scripts/atlas-export-published.mjs",
     "atlas:check-links": "node scripts/atlas-check-links.mjs",
     "atlas:import-file-drafts": "node scripts/atlas-import-file-drafts.mjs",
+    "db:integrate-atlas-builder": "bash scripts/apply-atlas-builder-integration.sh",
     "db:start": "supabase start",
     "db:reset": "supabase db reset",
     "db:status": "supabase status"

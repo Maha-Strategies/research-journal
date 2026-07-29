@@ -100,9 +100,50 @@ npm run test:all
 
 ## Deployment gate
 
+### Shared database integration
+
+The Atlas Builder may be added to an existing Supabase project that has its own
+migration history, such as Agentic Publisher. Do **not** use `supabase migration
+repair`, `supabase db reset`, or `supabase db push` from this repository against
+that project: those commands assume this repository owns the complete remote
+migration ledger.
+
+After checking that the target contains no `atlas_*` or `operator_profiles`
+tables, run this repository's transactional integration command once:
+
+```bash
+npm run db:integrate-atlas-builder
+```
+
+It concatenates the seven reviewed Builder migrations and executes them in one
+transaction through the linked project. The existing application's tables and
+migration records are neither modified nor repaired. Keep the source
+migrations in this repository as the authoritative record of the Builder
+schema; future Builder changes for a shared project must use a reviewed,
+append-only integration migration rather than modifying the host application's
+history.
+
+The `auth.users` trigger provisions a Builder profile for **new** accounts.
+Existing accounts predate that trigger, so choose the intended first owner and
+bootstrap only that account out of band:
+
+```sql
+insert into public.operator_profiles (id, email, display_name, role)
+select id, email, split_part(email, '@', 1), 'owner'
+from auth.users
+where email = 'approved-owner@example.com'
+on conflict (id) do update set role = excluded.role;
+```
+
+Replace the email only after confirming the account is intended to administer
+the Builder. Do not bulk-create profiles for unrelated application users; a
+profile is an explicit decision to make an account a Builder operator.
+
 Deploy a writable Builder only when **all** of these hold:
 
-- [ ] Migrations applied to the target project (`supabase db push`)
+- [ ] Migrations applied to the target project (`supabase db push` for a
+  Builder-owned project, or `npm run db:integrate-atlas-builder` for an
+  established shared project)
 - [ ] `npm run test:rls` passes against that project's schema
 - [ ] `npm test` passes
 - [ ] Production build succeeds and the public route list is unchanged

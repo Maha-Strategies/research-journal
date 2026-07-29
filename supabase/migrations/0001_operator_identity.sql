@@ -96,7 +96,11 @@ begin
 end;
 $$;
 
-create trigger on_auth_user_created
+-- This name intentionally differs from the common `on_auth_user_created`
+-- trigger used by other applications sharing the same Supabase project. A
+-- database permits multiple AFTER INSERT triggers on auth.users, but their
+-- names must be unique; each application keeps its own provisioning function.
+create trigger on_auth_operator_created
   after insert on auth.users
   for each row
   execute function handle_new_operator();
