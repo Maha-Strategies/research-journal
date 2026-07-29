@@ -1,6 +1,8 @@
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PAPER_SLUG, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
 import { QC_ATLAS_PATH, QC_CLAIMS, QC_CONCEPTS, QC_META, QC_SOURCES } from '@/lib/atlas/quantum-computing';
+import { PUBLISHED_RELEASES } from '@/lib/atlas/builder/releases';
+import { buildCatalogEntry } from '@/lib/atlas/builder/public-output';
 
 export const ATLAS_CATALOG_PATH = '/atlas';
 
@@ -36,7 +38,15 @@ export type AtlasCatalogEntry = {
   relatedPaperSlug?: string;
 };
 
-export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
+/**
+ * The three hand-authored atlases.
+ *
+ * Each is a TypeScript module with its own route tree under app/atlas/<slug>/.
+ * They are listed here explicitly and are not produced by the Atlas Builder;
+ * nothing in the builder may modify them, and their slugs are in
+ * RESERVED_ATLAS_SLUGS so a builder release cannot take one.
+ */
+const HAND_AUTHORED_ATLASES: AtlasCatalogEntry[] = [
   {
     id: 'quantum-computing',
     title: QC_META.title,
@@ -144,6 +154,25 @@ export const ATLAS_CATALOG: AtlasCatalogEntry[] = [
     ],
   },
 ];
+
+/**
+ * Atlases published through the Private Atlas Builder.
+ *
+ * Derived from content/atlas-releases/published.json, which is empty until a
+ * release is explicitly approved. While it is empty this is `[]` and the
+ * catalog is exactly the three hand-authored entries above — the gateway, the
+ * manifest, the aggregate indexes, and the sitemap are all unchanged.
+ *
+ * A released entry goes through the same validateAtlasCatalog() gate as a
+ * hand-authored one. If a release were malformed, the throw at the bottom of
+ * this module would fail the build rather than publish it.
+ */
+const RELEASED_ATLASES: AtlasCatalogEntry[] = PUBLISHED_RELEASES.flatMap((release) => {
+  const entry = buildCatalogEntry(release);
+  return entry ? [entry] : [];
+});
+
+export const ATLAS_CATALOG: AtlasCatalogEntry[] = [...HAND_AUTHORED_ATLASES, ...RELEASED_ATLASES];
 
 export type AtlasCatalogValidation = { valid: boolean; errors: string[]; checkedAt: string };
 

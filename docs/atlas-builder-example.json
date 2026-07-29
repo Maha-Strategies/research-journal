@@ -1,0 +1,155 @@
+{
+  "format": "maha-atlas-portable",
+  "formatVersion": "1.0.0",
+  "exportedAt": "2026-07-28T00:00:00.000Z",
+  "contains": "public-records-only",
+  "note": "Public records only. Operator private notes, change log, and workflow state are not included. Safe to share.",
+  "atlas": {
+    "slug": "example-provenance-practice",
+    "title": "Example Atlas — Provenance Practice on This Site",
+    "shortTitle": "Example Atlas",
+    "description": "A worked example for the Private Atlas Builder, used to exercise the authoring workflow end to end without touching real research material. Its subject is this site's own provenance machinery, so every source is a page on this site that a reader can open and check. It is a demonstration artifact and asserts nothing about any external field.",
+    "scope": "How claim-level provenance is recorded and published on research.mahastrategies.com: the standard, the gateway that indexes atlases, and the registry of artifacts.",
+    "intendedReader": "Someone evaluating the Atlas Builder itself, who needs a complete atlas to look at without that atlas making substantive claims about any research field.",
+    "editorialBoundary": "This atlas describes the publishing practice of one small self-published research site. It is not a survey of provenance or metadata standards, it does not compare this practice to any other, and it makes no claim that this practice is good or widely used.",
+    "exclusions": [
+      "Not a survey of provenance, citation, or research-metadata standards.",
+      "Makes no claim that the practice it describes is correct, adopted elsewhere, or better than any alternative.",
+      "Contains no research claims about any scientific or technical field. It is a demonstration record.",
+      "Its sources are pages on this site. Nothing here is independently verified by a third party."
+    ],
+    "methodology": "Every source is a public URL on research.mahastrategies.com that was confirmed to exist in the site's build output before being recorded here. No external bibliographic identifier is asserted. Claims describe only what those pages state about themselves, which is why each one is tagged 'verified' — the identifier resolves and the page says what the claim reports it says. That is the whole of the verification performed, and it is not a judgement about whether the described practice is sound.",
+    "updatePolicy": "This is a fixture for exercising the builder. It is updated when the builder's record shape changes, and its version tracks the portable format version rather than any editorial review cycle. It is not intended for publication.",
+    "version": "0.1.0",
+    "lastReviewed": "2026-07-28",
+    "evidenceCutoff": "2026-07-28",
+    "license": "CC BY 4.0",
+    "statusBadge": "Example fixture · 3 source-bounded claims",
+    "sources": [
+      {
+        "id": "mps-standard",
+        "title": "The Maha Provenance Standard",
+        "authors": "Maha Strategies Research",
+        "year": 2026,
+        "yearBasis": "datePublished recorded on the standard's own page (2026-07-27).",
+        "publisher": "Maha Strategies Research",
+        "identifier": "maha-provenance-standard",
+        "url": "https://research.mahastrategies.com/standards/maha-provenance-standard",
+        "sourceType": "standard-or-specification",
+        "verification": "verified",
+        "verifiedOn": "2026-07-28",
+        "whyHere": "The document that specifies how claims on this site are identified, labelled, sourced, bounded, versioned, and corrected. It is the direct subject of two of the three claims below.",
+        "limitations": "Self-assessed and not issued by a standards body. It describes one project's practice and is not adopted anywhere else."
+      },
+      {
+        "id": "atlas-gateway",
+        "title": "Research Atlas Gateway",
+        "authors": "Maha Strategies Research",
+        "year": 2026,
+        "yearBasis": "Gateway version 1.0.0, last updated 2026-07-28 as stated on the page.",
+        "publisher": "Maha Strategies Research",
+        "identifier": "atlas-gateway",
+        "url": "https://research.mahastrategies.com/atlas",
+        "sourceType": "educational",
+        "verification": "verified",
+        "verifiedOn": "2026-07-28",
+        "whyHere": "The public directory of atlases and the aggregate discovery endpoints. Supports the claim about machine-readable indexing.",
+        "limitations": "A directory, not a record of authority. Each atlas's own endpoints remain authoritative for its contents."
+      },
+      {
+        "id": "artifact-registry",
+        "title": "Artifact Registry",
+        "authors": "Maha Strategies Research",
+        "year": 2026,
+        "yearBasis": "Registry lastUpdated field, read from the published registry record.",
+        "publisher": "Maha Strategies Research",
+        "identifier": "artifact-registry",
+        "url": "https://research.mahastrategies.com/registry",
+        "sourceType": "educational",
+        "verification": "verified",
+        "verifiedOn": "2026-07-28",
+        "whyHere": "Lists the site's artifacts with their versions and machine-readable endpoints. Supports the claim about versioned artifacts.",
+        "limitations": "Lists artifacts published by this project only."
+      }
+    ],
+    "concepts": [
+      {
+        "id": "claim-record",
+        "label": "Claim record",
+        "definition": "A single assertion stored with a permanent identifier, an epistemic status, the sources it rests on, and an explicit statement of what it does not establish.",
+        "scopeNote": "Describes the record structure used on this site. It is not a general definition of the word 'claim'.",
+        "sourceIds": ["mps-standard"],
+        "related": ["epistemic-status", "machine-readable-parity"]
+      },
+      {
+        "id": "epistemic-status",
+        "label": "Epistemic status",
+        "definition": "A label stating how settled an assertion is — established result, active research, conjecture, or speculative interpretation — carried as part of the claim rather than as commentary on it.",
+        "scopeNote": "The label describes the state of the literature, not the curator's confidence, and not how contested the question is. Those are recorded separately.",
+        "sourceIds": ["mps-standard"],
+        "related": ["claim-record"]
+      },
+      {
+        "id": "machine-readable-parity",
+        "label": "Machine-readable parity",
+        "definition": "The practice of publishing everything a human reader is shown — claims, statuses, sources, limitations, versions — in structured form carrying the same labels.",
+        "scopeNote": "Concerns whether the structured record is as complete as the page. It says nothing about the quality of either.",
+        "sourceIds": ["atlas-gateway", "mps-standard"],
+        "related": ["claim-record"]
+      }
+    ],
+    "claims": [
+      {
+        "id": "ex-001",
+        "slug": "claims-carry-stable-identifiers",
+        "claim": "The Maha Provenance Standard specifies that each claim receives a permanent identifier that is never reassigned to a different assertion.",
+        "explanation": "Clause C2 of the standard states the rule and gives the reason: an external citation to a claim is worthless if the target can silently change underneath it.",
+        "status": "established",
+        "confidence": "high",
+        "controversy": "uncontested",
+        "sourceIds": ["mps-standard"],
+        "qualifyingSourceIds": [],
+        "conceptIds": ["claim-record"],
+        "limitations": "This reports what the standard specifies. It is not evidence that the rule is followed without exception, and the standard is self-assessed rather than externally audited.",
+        "exclusions": [
+          "Does not claim that identifier stability is a widely adopted practice elsewhere."
+        ],
+        "reviewDate": "2026-07-28"
+      },
+      {
+        "id": "ex-002",
+        "slug": "status-labels-travel-with-claims",
+        "claim": "The standard requires an epistemic status label to travel with a claim's wording wherever the claim goes, rather than being attached as separate commentary.",
+        "explanation": "Clause C1 treats the label as part of the claim. The stated reason is that prose flattens: a sentence about a conjecture and a sentence about a measurement read identically once quoted out of context.",
+        "status": "established",
+        "confidence": "high",
+        "controversy": "uncontested",
+        "sourceIds": ["mps-standard"],
+        "qualifyingSourceIds": ["atlas-gateway"],
+        "conceptIds": ["epistemic-status", "claim-record"],
+        "limitations": "Describes a documented requirement, not a measured outcome. Whether downstream consumers actually preserve the labels is not established here.",
+        "exclusions": [
+          "Does not establish that status labels survive reuse by third-party systems."
+        ],
+        "reviewDate": "2026-07-28"
+      },
+      {
+        "id": "ex-003",
+        "slug": "atlases-publish-aggregate-indexes",
+        "claim": "The Research Atlas Gateway publishes aggregate discovery endpoints that index claims, concepts, and sources across every public atlas on the site.",
+        "explanation": "The gateway lists manifest, claims, concepts, sources, and registry endpoints, each carrying identifying fields and canonical URLs and pointing back at the owning atlas for the full record.",
+        "status": "established",
+        "confidence": "high",
+        "controversy": "uncontested",
+        "sourceIds": ["atlas-gateway"],
+        "qualifyingSourceIds": ["artifact-registry"],
+        "conceptIds": ["machine-readable-parity"],
+        "limitations": "The aggregate indexes carry identification only. They deliberately omit explanations, limitations, and source lists, so they are not a substitute for an atlas's own endpoints and must not be read as one.",
+        "exclusions": [
+          "Does not claim the indexes are complete with respect to any atlas outside this site."
+        ],
+        "reviewDate": "2026-07-28"
+      }
+    ]
+  }
+}

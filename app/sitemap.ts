@@ -7,6 +7,8 @@ import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 import { LEARNING_MODULES, getAllLessons } from '@/lib/library/registry';
 import { AUDIENCE_ROLES, LIBRARY_PATH, audiencePath, lessonPath, modulePath } from '@/lib/library/schema';
+import { PUBLISHED_RELEASES } from '@/lib/atlas/builder/releases';
+import { buildSitemapEntries } from '@/lib/atlas/builder/public-output';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 
@@ -82,6 +84,11 @@ const atlases: { path: string; lastModified: string }[] = [
     path: `/atlas/synthetic-intelligence/claims/${claim.id}`,
     lastModified: claim.reviewDate,
   })),
+  // Atlases published through the Private Atlas Builder. Every URL is derived
+  // from the release record by the same function the route tree uses, so a
+  // sitemap entry cannot point at a page that was not generated. Empty until a
+  // release is approved.
+  ...PUBLISHED_RELEASES.flatMap((release) => buildSitemapEntries(release)),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

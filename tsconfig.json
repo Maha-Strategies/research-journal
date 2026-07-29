@@ -10,6 +10,12 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    // Lets a module import a sibling as "./x.ts". Required by lib/atlas/builder/,
+    // whose modules are executed directly by `node --test` (Node 26 strips types
+    // natively) and so must carry the extension Node's resolver expects. Safe
+    // with noEmit: true, and permissive rather than mandatory — no existing
+    // import needs to change.
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,

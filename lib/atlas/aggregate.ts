@@ -44,8 +44,25 @@ import {
   QC_SOURCES,
 } from '@/lib/atlas/quantum-computing';
 import { ATLAS_CATALOG, ATLAS_CATALOG_PATH } from '@/lib/atlas/catalog';
+import { PUBLISHED_RELEASES } from '@/lib/atlas/builder/releases';
 
 const SI_PATH = '/atlas/synthetic-intelligence';
+
+/**
+ * Builder-published atlases.
+ *
+ * These DO share a record shape — the builder's schema is uniform — so unlike
+ * the three hand-authored adapters above, one mapper covers all of them safely.
+ * The hazard the header warns about does not apply here precisely because these
+ * records were produced by a single schema rather than authored by hand.
+ *
+ * Empty until a release is approved, so every index below is unchanged today.
+ */
+const releasedAtlases = () =>
+  PUBLISHED_RELEASES.map((release) => ({
+    release,
+    path: `/atlas/${release.slug}`,
+  }));
 
 /** Shared preamble so every endpoint states its own status in-band. */
 export function indexEnvelope(siteUrl: string, kind: string, canonicalPath: string) {
@@ -112,6 +129,18 @@ export function buildClaimIndex(siteUrl: string): ClaimIndexEntry[] {
       canonicalUrl: `${siteUrl}${SI_PATH}/claims/${claim.id}`,
       atlasClaimsEndpoint: `${siteUrl}${SI_PATH}/claims.json`,
     })),
+    ...releasedAtlases().flatMap(({ release, path }) =>
+      release.atlas.claims.map((claim) => ({
+        atlasId: release.slug,
+        atlasUrl: `${siteUrl}${path}`,
+        id: claim.id,
+        status: claim.status,
+        claim: claim.claim,
+        reviewDate: claim.reviewDate,
+        canonicalUrl: `${siteUrl}${path}/claims/${claim.id}`,
+        atlasClaimsEndpoint: `${siteUrl}${path}/claims.json`,
+      })),
+    ),
   ];
 }
 
@@ -146,6 +175,15 @@ export function buildConceptIndex(siteUrl: string): ConceptIndexEntry[] {
       label: concept.label,
       canonicalUrl: `${siteUrl}${SI_PATH}/concepts/${concept.id}`,
     })),
+    ...releasedAtlases().flatMap(({ release, path }) =>
+      release.atlas.concepts.map((concept) => ({
+        atlasId: release.slug,
+        atlasUrl: `${siteUrl}${path}`,
+        id: concept.id,
+        label: concept.label,
+        canonicalUrl: `${siteUrl}${path}/concepts/${concept.id}`,
+      })),
+    ),
   ];
 }
 
@@ -202,6 +240,20 @@ export function buildSourceIndex(siteUrl: string): SourceIndexEntry[] {
       canonicalUrl: `${siteUrl}${SI_PATH}/sources/${source.id}`,
       atlasSourcesEndpoint: `${siteUrl}${SI_PATH}/sources.json`,
     })),
+    ...releasedAtlases().flatMap(({ release, path }) =>
+      release.atlas.sources.map((source) => ({
+        atlasId: release.slug,
+        atlasUrl: `${siteUrl}${path}`,
+        id: source.id,
+        title: source.title,
+        year: source.year ?? undefined,
+        identifier: source.identifier,
+        externalUrl: source.url,
+        verification: source.verification,
+        canonicalUrl: `${siteUrl}${path}/sources/${source.id}`,
+        atlasSourcesEndpoint: `${siteUrl}${path}/sources.json`,
+      })),
+    ),
   ];
 }
 

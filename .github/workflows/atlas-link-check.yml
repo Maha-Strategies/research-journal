@@ -1,0 +1,43 @@
+# Scheduled advisory check on published Atlas source links.
+#
+# ADVISORY. This workflow reports link rot; it does not gate anything. There is
+# no `--strict`, and `continue-on-error` is set so a red X here never blocks a
+# merge or a deploy.
+#
+# The reasoning is in scripts/atlas-check-links.mjs: a link check that can fail
+# a build will eventually be skipped, because publishers rate-limit, reject HEAD
+# requests, and go down for reasons that have nothing to do with whether a
+# citation is correct. A check that reports honestly gets read; one that cries
+# wolf gets disabled.
+#
+# A failing link is a prompt for a human to decide whether the source moved, the
+# source is gone, or the record is wrong — a distinction no status code makes.
+
+name: Atlas link check
+
+on:
+  schedule:
+    # Weekly, Monday 08:00 UTC. Link rot is a slow process; checking more often
+    # would mostly measure publisher uptime.
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # No install step: the script uses only built-in fetch and node:fs, so
+      # there is nothing to install and nothing that can break from a dependency
+      # update.
+      - name: Check published source links
+        run: node scripts/atlas-check-links.mjs

@@ -32,9 +32,23 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the template, which contains no secrets and is how a new operator
+# learns which variables exist. Without this exception the Builder's whole
+# configuration contract would be undiscoverable from the repository.
+!.env.example
 
 # vercel
 .vercel
+
+# Atlas Builder private workspace.
+#
+# Unpublished drafts, private source annotations, and operator notes. This
+# directory is the private tier of the builder and must never be committed:
+# keeping it out of the repository is what guarantees draft material cannot
+# reach production, since Vercel deploys from the repo and its filesystem is
+# read-only. Published releases live in content/atlas-releases/ and ARE
+# committed. See docs/atlas-builder.md.
+/.atlas-builder/
 
 # typescript
 *.tsbuildinfo

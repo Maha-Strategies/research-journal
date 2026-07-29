@@ -1,7 +1,14 @@
 # robots.txt for https://research.mahastrategies.com
 
-# Default: allow all crawlers full access
+# Default: allow all crawlers full access, except the private operator area.
+#
+# /operator is the Atlas Builder: an internal authoring tool holding unpublished
+# drafts. This directive is advisory only and is NOT what protects it — the
+# route is gated server-side in proxy.ts and again in app/operator/layout.tsx,
+# and every operator response carries X-Robots-Tag: noindex. The line is here so
+# a well-behaved crawler does not waste requests discovering a 404.
 User-agent: *
+Disallow: /operator
 Allow: /
 
 # --- AI / LLM crawlers ---
