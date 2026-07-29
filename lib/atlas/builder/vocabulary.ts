@@ -129,6 +129,7 @@ export const RESERVED_ATLAS_SLUGS: readonly string[] = [
   'de-sitter-swampland',
   'quantum-computing',
   'synthetic-intelligence',
+  'tensor-networks',
   'manifest.json',
   'claims.json',
   'concepts.json',

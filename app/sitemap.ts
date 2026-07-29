@@ -3,6 +3,7 @@ import type { MetadataRoute } from 'next';
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
 import { QC_ATLAS_PATH, QC_CLAIMS, QC_CONCEPTS, QC_META, QC_SOURCES } from '@/lib/atlas/quantum-computing';
+import { TN_ATLAS_PATH, TN_CLAIMS, TN_CONCEPTS, TN_META, TN_SOURCES } from '@/lib/atlas/tensor-networks';
 import { REGISTRY_META, REGISTRY_PATH } from '@/lib/registry';
 import { STANDARD_META, STANDARD_PATH } from '@/lib/standards/maha-provenance';
 import { LEARNING_MODULES, getAllLessons } from '@/lib/library/registry';
@@ -47,6 +48,17 @@ const atlases: { path: string; lastModified: string }[] = [
   ...QC_CONCEPTS.map((concept) => ({ path: `${QC_ATLAS_PATH}/concepts/${concept.id}`, lastModified: QC_META.lastReviewed })),
   ...QC_SOURCES.map((source) => ({ path: `${QC_ATLAS_PATH}/sources/${source.id}`, lastModified: source.verifiedOn })),
   ...QC_CLAIMS.map((claim) => ({ path: `${QC_ATLAS_PATH}/claims/${claim.id}`, lastModified: claim.reviewDate })),
+  // Tensor Networks. Concept, source, and claim URLs are derived from the data
+  // module for the same reason as every other atlas here: a hand-listed URL can
+  // outlive the record it points at, and the sitemap is where that failure is
+  // least visible.
+  { path: TN_ATLAS_PATH, lastModified: TN_META.dateModified },
+  { path: `${TN_ATLAS_PATH}/concepts`, lastModified: TN_META.dateModified },
+  { path: `${TN_ATLAS_PATH}/sources`, lastModified: TN_META.dateModified },
+  { path: `${TN_ATLAS_PATH}/methodology`, lastModified: TN_META.dateModified },
+  ...TN_CONCEPTS.map((concept) => ({ path: `${TN_ATLAS_PATH}/concepts/${concept.id}`, lastModified: TN_META.lastReviewed })),
+  ...TN_SOURCES.map((source) => ({ path: `${TN_ATLAS_PATH}/sources/${source.id}`, lastModified: source.verifiedOn })),
+  ...TN_CLAIMS.map((claim) => ({ path: `${TN_ATLAS_PATH}/claims/${claim.id}`, lastModified: claim.reviewDate })),
   { path: ATLAS_PATH, lastModified: ATLAS_META.dateModified },
   { path: '/atlas', lastModified: '2026-07-27' },
   { path: `${ATLAS_PATH}/context-pack`, lastModified: ATLAS_META.dateModified },

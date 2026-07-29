@@ -16,10 +16,15 @@
 // claim's limitations, updated at different times, is precisely how a caveat
 // gets lost — the failure the provenance standard exists to prevent.
 //
-// NORMALISATION HAZARD: the three atlases do not share a record shape.
-//   - de Sitter claims are addressed by `ref` ("ds-001"); SI and QC use `id`.
-//   - de Sitter sources carry `label`; SI and QC carry `title`.
+// NORMALISATION HAZARD: the hand-authored atlases do not share a record shape.
+//   - de Sitter claims are addressed by `ref` ("ds-001"); SI, QC and TN use `id`.
+//   - de Sitter sources carry `label`; SI, QC and TN carry `title`.
 //   - Quantum Computing sources have no `verification` field at all.
+//   - Tensor Network sources carry `verification: 'identifier-verified'`, which
+//     is a WEAKER assertion than SI's content verification — it says the
+//     identifier resolves to the named paper, not that the text was re-read.
+//     The value is surfaced verbatim rather than mapped onto SI's vocabulary,
+//     because collapsing the two would silently upgrade the weaker claim.
 // The adapters below are written per atlas for that reason. A generic mapper
 // would have silently produced wrong URLs for de Sitter claims.
 
@@ -43,6 +48,13 @@ import {
   QC_META,
   QC_SOURCES,
 } from '@/lib/atlas/quantum-computing';
+import {
+  TN_ATLAS_PATH,
+  TN_CLAIMS,
+  TN_CONCEPTS,
+  TN_META,
+  TN_SOURCES,
+} from '@/lib/atlas/tensor-networks';
 import { ATLAS_CATALOG, ATLAS_CATALOG_PATH } from '@/lib/atlas/catalog';
 import { PUBLISHED_RELEASES } from '@/lib/atlas/builder/releases';
 
@@ -119,6 +131,16 @@ export function buildClaimIndex(siteUrl: string): ClaimIndexEntry[] {
       canonicalUrl: `${siteUrl}${QC_ATLAS_PATH}/claims/${claim.id}`,
       atlasClaimsEndpoint: `${siteUrl}${QC_ATLAS_PATH}/claims.json`,
     })),
+    ...TN_CLAIMS.map((claim) => ({
+      atlasId: 'tensor-networks',
+      atlasUrl: `${siteUrl}${TN_ATLAS_PATH}`,
+      id: claim.id,
+      status: claim.status,
+      claim: claim.claim,
+      reviewDate: claim.reviewDate,
+      canonicalUrl: `${siteUrl}${TN_ATLAS_PATH}/claims/${claim.id}`,
+      atlasClaimsEndpoint: `${siteUrl}${TN_ATLAS_PATH}/claims.json`,
+    })),
     ...SI_PUBLIC_CLAIMS.map((claim) => ({
       atlasId: 'synthetic-intelligence',
       atlasUrl: `${siteUrl}${SI_PATH}`,
@@ -167,6 +189,13 @@ export function buildConceptIndex(siteUrl: string): ConceptIndexEntry[] {
       id: concept.id,
       label: concept.label,
       canonicalUrl: `${siteUrl}${QC_ATLAS_PATH}/concepts/${concept.id}`,
+    })),
+    ...TN_CONCEPTS.map((concept) => ({
+      atlasId: 'tensor-networks',
+      atlasUrl: `${siteUrl}${TN_ATLAS_PATH}`,
+      id: concept.id,
+      label: concept.label,
+      canonicalUrl: `${siteUrl}${TN_ATLAS_PATH}/concepts/${concept.id}`,
     })),
     ...SI_PUBLIC_CONCEPTS.map((concept) => ({
       atlasId: 'synthetic-intelligence',
@@ -228,6 +257,18 @@ export function buildSourceIndex(siteUrl: string): SourceIndexEntry[] {
       canonicalUrl: `${siteUrl}${QC_ATLAS_PATH}/sources/${source.id}`,
       atlasSourcesEndpoint: `${siteUrl}${QC_ATLAS_PATH}/sources.json`,
     })),
+    ...TN_SOURCES.map((source) => ({
+      atlasId: 'tensor-networks',
+      atlasUrl: `${siteUrl}${TN_ATLAS_PATH}`,
+      id: source.id,
+      title: source.title,
+      year: source.year,
+      identifier: source.identifier,
+      externalUrl: source.url,
+      verification: source.verification,
+      canonicalUrl: `${siteUrl}${TN_ATLAS_PATH}/sources/${source.id}`,
+      atlasSourcesEndpoint: `${siteUrl}${TN_ATLAS_PATH}/sources.json`,
+    })),
     ...SI_PUBLIC_SOURCES.map((source) => ({
       atlasId: 'synthetic-intelligence',
       atlasUrl: `${siteUrl}${SI_PATH}`,
@@ -262,6 +303,7 @@ export function buildAtlasSummaries(siteUrl: string) {
   const reviewDates: Record<string, string> = {
     'de-sitter-swampland': ATLAS_META.lastReviewed,
     'quantum-computing': QC_META.lastReviewed,
+    'tensor-networks': TN_META.lastReviewed,
     'synthetic-intelligence': SI_PUBLIC_META.lastReviewed,
   };
 

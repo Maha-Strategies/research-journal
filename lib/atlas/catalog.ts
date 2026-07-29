@@ -1,6 +1,7 @@
 import { ATLAS_CLAIMS, ATLAS_META, ATLAS_NODES, ATLAS_PAPER_SLUG, ATLAS_PATH, getSourceCards } from '@/lib/atlas/de-sitter';
 import { SI_PUBLIC_CLAIMS, SI_PUBLIC_CONCEPTS, SI_PUBLIC_META, SI_PUBLIC_SOURCES } from '@/lib/atlas/synthetic-intelligence';
 import { QC_ATLAS_PATH, QC_CLAIMS, QC_CONCEPTS, QC_META, QC_SOURCES } from '@/lib/atlas/quantum-computing';
+import { TN_ATLAS_PATH, TN_CLAIMS, TN_CONCEPTS, TN_META, TN_SOURCES } from '@/lib/atlas/tensor-networks';
 import { PUBLISHED_RELEASES } from '@/lib/atlas/builder/releases';
 import { buildCatalogEntry } from '@/lib/atlas/builder/public-output';
 
@@ -26,9 +27,10 @@ export type AtlasCatalogEntry = {
   /**
    * The human HTML entry points that ACTUALLY EXIST for this atlas.
    *
-   * The three atlases are deliberately not uniform — de Sitter has no
-   * methodology page and no claims index, Quantum Computing has no context
-   * pack, and only Synthetic Intelligence has a comparisons layer. This list is
+   * The atlases are deliberately not uniform — de Sitter has no methodology
+   * page and no claims index, Quantum Computing and Tensor Networks have no
+   * context pack, and only Synthetic Intelligence has a comparisons layer.
+   * This list is
    * written per atlas rather than generated from a template, so the gateway
    * cannot advertise a page that was never built. Adding a route here without
    * building it produces a 404, which the post-build crawl audit catches.
@@ -39,7 +41,7 @@ export type AtlasCatalogEntry = {
 };
 
 /**
- * The three hand-authored atlases.
+ * The four hand-authored atlases.
  *
  * Each is a TypeScript module with its own route tree under app/atlas/<slug>/.
  * They are listed here explicitly and are not produced by the Atlas Builder;
@@ -74,6 +76,44 @@ const HAND_AUTHORED_ATLASES: AtlasCatalogEntry[] = [
       { label: 'Concepts', path: `${QC_ATLAS_PATH}/concepts` },
       { label: 'Sources', path: `${QC_ATLAS_PATH}/sources` },
       { label: 'Methodology', path: `${QC_ATLAS_PATH}/methodology` },
+    ],
+  },
+  {
+    id: 'tensor-networks',
+    title: TN_META.title,
+    shortTitle: TN_META.shortTitle,
+    canonicalPath: TN_ATLAS_PATH,
+    description: TN_META.description,
+    scope: TN_META.scope,
+    exclusions: [
+      'No performance figure without a resolvable cited source — the benchmark schema has no throughput, speedup, or runtime field, so an unattributed number cannot be recorded at all.',
+      'No claim that classical tensor-network contraction generally outperforms quantum hardware on industrial optimization workloads; the absence of such a result is recorded as claim tn-014.',
+      'Does not adjudicate the AdS/MERA correspondence, which is carried as a conjecture alongside its published objection.',
+      'No vendor rankings, roadmaps treated as evidence, or investment guidance.',
+    ],
+    status: TN_META.statusBadge,
+    version: TN_META.version,
+    lastReviewed: TN_META.lastReviewed,
+    evidenceCutoff: TN_META.evidenceCutoff,
+    counts: { claims: TN_CLAIMS.length, concepts: TN_CONCEPTS.length, sources: TN_SOURCES.length },
+    endpoints: [
+      { label: 'Metadata', path: `${TN_ATLAS_PATH}/metadata.json`, format: 'application/json' },
+      { label: 'Claim ledger', path: `${TN_ATLAS_PATH}/claims.json`, format: 'application/json' },
+      { label: 'Source trail', path: `${TN_ATLAS_PATH}/sources.json`, format: 'application/json' },
+      { label: 'Plain-text context', path: `${TN_ATLAS_PATH}/context.txt`, format: 'text/plain' },
+    ],
+    expansionCandidates: [
+      'Add a benchmark record only when a resolvable source states the task, the classical method, and the comparison; a figure without one is not an editorial candidate.',
+      'Extend the QUBO mapping layer only alongside the hardness result that governs the corresponding contraction, so an exact encoding is never published as though it implied a tractable instance.',
+      'Do not convert quantum-inspired vendor claims or conference benchmarks into pages without independently resolvable primary evidence.',
+    ],
+    intendedReader:
+      'Someone evaluating "quantum-inspired" optimization claims — a practitioner, technical buyer, or research reader — who needs the tensor-network cost model and the evidence for classical-versus-quantum comparisons stated with their limits attached.',
+    // No context pack for this atlas.
+    pages: [
+      { label: 'Concepts', path: `${TN_ATLAS_PATH}/concepts` },
+      { label: 'Sources', path: `${TN_ATLAS_PATH}/sources` },
+      { label: 'Methodology', path: `${TN_ATLAS_PATH}/methodology` },
     ],
   },
   {
