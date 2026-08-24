@@ -1,8 +1,182 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography"; /* THIS IS THE MAGIC LINE */
+@plugin "@tailwindcss/typography";
 
 @layer base {
+  /* Dark remains the original research reading surface when a visitor selects it. */
   body {
     @apply bg-[#0a0a0c] text-zinc-300;
+  }
+}
+
+:root {
+  --research-light-paper: #eef4f1;
+  --research-light-raised: #f9fcfa;
+  --research-light-panel: #ffffff;
+  --research-light-ink: #10211c;
+  --research-light-copy: #314840;
+  --research-light-muted: #4c6259;
+  --research-light-border: #b9cbc2;
+  --research-light-grid: rgba(47, 94, 78, 0.1);
+  --research-light-indigo: #285eaf;
+  --research-light-cyan: #00677a;
+  --research-light-violet: #6c4aae;
+  --research-light-amber: #795000;
+  --research-light-emerald: #16714e;
+}
+
+/*
+ * The public research archive predates the shared cyber-light design system and
+ * intentionally uses direct Tailwind colour classes in hundreds of scholarly
+ * pages. This narrow layer translates those existing semantic classes rather
+ * than rewriting every paper, atlas, claim, and source page. Every light-mode
+ * text tone is deliberately dark enough for ordinary copy and small mono labels
+ * on the paper surface; colour communicates category, never legibility alone.
+ */
+html[data-research-theme='light'] {
+  background: var(--research-light-paper);
+  color: var(--research-light-ink);
+}
+
+html[data-research-theme='light'] body.research-site {
+  background-color: var(--research-light-paper);
+  background-image:
+    linear-gradient(var(--research-light-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--research-light-grid) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  color: var(--research-light-ink);
+}
+
+.research-theme-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid var(--research-light-border);
+  border-radius: 0.125rem;
+  background: color-mix(in srgb, var(--research-light-raised) 94%, transparent);
+  padding: 0.55rem 0.75rem;
+  color: var(--research-light-ink);
+  box-shadow: 0 0.75rem 2rem rgba(16, 33, 28, 0.13);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.research-theme-toggle:hover { border-color: var(--research-light-cyan); }
+.research-theme-toggle:focus-visible { outline: 2px solid var(--research-light-indigo); outline-offset: 3px; }
+
+html[data-research-theme='dark'] .research-theme-toggle {
+  border-color: #3c4b47;
+  background: rgba(13, 22, 20, 0.94);
+  color: #e7f2ed;
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.32);
+}
+
+/* Keep authenticated research operations on their existing dark workspace. */
+html[data-research-theme='light'] .research-operator {
+  color-scheme: dark;
+  background: #0a0a0c;
+  color: #d4d4d8;
+}
+
+/* Public route root surfaces. Operator routes carry .research-operator instead. */
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) {
+  color: var(--research-light-copy);
+}
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-[#0a0a0c]'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-[#0d0d10]'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-[#121214]'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-black'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator)[class*='bg-[#0a0a0c]'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator)[class*='bg-[#0d0d10]'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator)[class*='bg-[#121214]'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator)[class*='bg-black'] {
+  background-color: var(--research-light-paper) !important;
+}
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-zinc-900'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-zinc-700'] {
+  background-color: var(--research-light-raised) !important;
+}
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-indigo-'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-[#818cf8]'] {
+  background-color: #dce8fa !important;
+}
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-cyan-'] { background-color: #d8edf0 !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-violet-'] { background-color: #e8e0f5 !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-amber-'] { background-color: #f3e8c9 !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-emerald-'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='bg-[#34d399]'] { background-color: #d8eee3 !important; }
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-zinc-'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-gray-'] { border-color: var(--research-light-border) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-indigo-'] { border-color: #8eafe1 !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-cyan-'] { border-color: #7eb9c1 !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-violet-'] { border-color: #b39add !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-amber-'] { border-color: #c8a95b !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='border-emerald-'] { border-color: #75b99a !important; }
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-white'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-100'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-200'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-300'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-950'] { color: var(--research-light-ink) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-400'] { color: var(--research-light-copy) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-500'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-zinc-600'] { color: var(--research-light-muted) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-indigo-'] { color: var(--research-light-indigo) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-cyan-'],
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-sky-'] { color: var(--research-light-cyan) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-violet-'] { color: var(--research-light-violet) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-amber-'] { color: var(--research-light-amber) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='text-emerald-'] { color: var(--research-light-emerald) !important; }
+
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='from-zinc-'] {
+  --tw-gradient-from: var(--research-light-muted) var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgba(76, 98, 89, 0) var(--tw-gradient-to-position) !important;
+}
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) [class*='to-indigo-'] { --tw-gradient-to: #8eafe1 var(--tw-gradient-to-position) !important; }
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) ::selection { background: var(--research-light-ink); color: var(--research-light-panel); }
+
+/* Typography's prose-invert utilities generate their own colour variables. */
+html[data-research-theme='light'] .research-public-shell > :not(.research-operator) .prose {
+  --tw-prose-body: var(--research-light-copy);
+  --tw-prose-headings: var(--research-light-ink);
+  --tw-prose-lead: var(--research-light-copy);
+  --tw-prose-links: var(--research-light-indigo);
+  --tw-prose-bold: var(--research-light-ink);
+  --tw-prose-counters: var(--research-light-muted);
+  --tw-prose-bullets: var(--research-light-border);
+  --tw-prose-hr: var(--research-light-border);
+  --tw-prose-quotes: var(--research-light-ink);
+  --tw-prose-quote-borders: var(--research-light-indigo);
+  --tw-prose-captions: var(--research-light-muted);
+  --tw-prose-code: var(--research-light-ink);
+  --tw-prose-pre-code: var(--research-light-copy);
+  --tw-prose-pre-bg: var(--research-light-raised);
+  --tw-prose-th-borders: var(--research-light-border);
+  --tw-prose-td-borders: var(--research-light-border);
+}
+
+@media (max-width: 40rem) {
+  .research-theme-toggle { right: 0.75rem; bottom: 0.75rem; min-height: 2.25rem; padding: 0.5rem 0.65rem; font-size: 0.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

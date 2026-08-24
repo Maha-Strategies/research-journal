@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ResearchThemeToggle from "@/components/ResearchThemeToggle";
 
 import { MAYON_RAJAN, PERSON_SITE_URL, SITE_URL } from "@/lib/entity";
 
@@ -95,12 +96,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-research-theme="light"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => { try { const theme = localStorage.getItem('maha-research-theme') === 'dark' ? 'dark' : 'light'; document.documentElement.dataset.researchTheme = theme; document.documentElement.style.colorScheme = theme; } catch { document.documentElement.dataset.researchTheme = 'light'; } })()`,
+          }}
+        />
         <link rel="alternate" type="text/plain" title="Maha Strategies Research machine-readable site guide" href="/llms.txt" />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="research-site min-h-full flex flex-col">
+        <div className="research-public-shell flex min-h-full flex-1 flex-col">{children}</div>
+        <ResearchThemeToggle />
+      </body>
     </html>
   );
 }
