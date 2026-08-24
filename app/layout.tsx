@@ -96,13 +96,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-research-theme="light"
+      data-research-theme="dark"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(() => { try { const theme = localStorage.getItem('maha-research-theme') === 'dark' ? 'dark' : 'light'; document.documentElement.dataset.researchTheme = theme; document.documentElement.style.colorScheme = theme; } catch { document.documentElement.dataset.researchTheme = 'light'; } })()`,
+            __html: `(() => { try { const theme = localStorage.getItem('maha-research-theme') === 'light' ? 'light' : 'dark'; document.documentElement.dataset.researchTheme = theme; document.documentElement.style.colorScheme = theme; } catch { document.documentElement.dataset.researchTheme = 'dark'; document.documentElement.style.colorScheme = 'dark'; } })()`,
           }}
         />
         <link rel="alternate" type="text/plain" title="Maha Strategies Research machine-readable site guide" href="/llms.txt" />
