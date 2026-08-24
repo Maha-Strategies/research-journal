@@ -30,5 +30,5 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default function OperatorRootLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div className="research-operator">{children}</div>;
 }
