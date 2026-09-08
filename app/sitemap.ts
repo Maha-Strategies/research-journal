@@ -10,6 +10,7 @@ import { LEARNING_MODULES, getAllLessons } from '@/lib/library/registry';
 import { AUDIENCE_ROLES, LIBRARY_PATH, audiencePath, lessonPath, modulePath } from '@/lib/library/schema';
 import { PUBLISHED_RELEASES } from '@/lib/atlas/builder/releases';
 import { buildSitemapEntries } from '@/lib/atlas/builder/public-output';
+import { federationSitemapRows } from '@/lib/federation-adapter';
 
 const SITE_URL = 'https://research.mahastrategies.com';
 
@@ -179,5 +180,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...atlasEntries,
     ...gatewayEndpoints,
     ...libraryEntries,
+    ...federationSitemapRows(),
   ];
 }

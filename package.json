@@ -12,6 +12,7 @@
     "test:builder": "node --test \"lib/atlas/builder/*.test.ts\"",
     "test:rls": "node --test \"lib/atlas/builder/*.rls-test.ts\"",
     "test": "npm run validate:atlas && npm run test:builder",
+    "verify:federation-adapter": "node scripts/verify-federation-adapter.mjs",
     "test:all": "npm run test && npm run test:rls",
     "atlas:export": "node scripts/atlas-export-published.mjs",
     "atlas:check-links": "node scripts/atlas-check-links.mjs",

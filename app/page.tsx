@@ -69,7 +69,7 @@ export const metadata: Metadata = {
 
 // JSON-LD: Full valid graph for Google + LLM entity resolution
 // Dates are full ISO 8601. About fields use sameAs for AIO disambiguation.
-export const researchHomeLd = {
+const researchHomeLd = {
   '@context': 'https://schema.org',
   '@graph': [
     // This page is where the Organization and Person nodes are DEFINED. Every
